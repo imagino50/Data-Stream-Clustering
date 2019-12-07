@@ -1,48 +1,50 @@
 <template>
-  <b-container-fluid id="app" class="bv-example-row">
+  <b-container fluid id="app" class="bv-example-row">
     <b-row class="text-center">
-      <b-col-md-2>
-        <h1 class="mb-5 text-info">
+      <b-col class="bg-dark">
+        <h1 class="text-white navbar-brand">
           Signals diffusion and intensity accumulation.
         </h1>
-      </b-col-md-2>
-    </b-row>
-    <b-row class="text-left">
-      <b-col>
-        <div v-for="item in settings" v-bind:key="item.id">
-          <div class="form-group border border-info p-2 rounded bg-light">
-            <label for="formControlRange"
-              >{{ item.label }} : {{ item.value }} ({{
-                item.defaultValue
-              }})</label
-            >
-            <input
-              v-bind:name="item.id"
-              type="range"
-              class="form-control-range"
-              v-model="item.value"
-              min="0"
-              v-bind:max="item.range"
-              v-bind:step="item.step"
-              @change="onChange($event)"
-            />
-          </div>
-        </div>
-        <input
-          class="btn btn-primary"
-          type="reset"
-          value="Reset"
-          v-on:click="onReset"
-        />
       </b-col>
-      <b-col>
+    </b-row>
+    <b-row class="text-left mt-3">
+      <b-col md="2">
+        <b-list-group>
+          <b-list-group-item v-for="item in settings" v-bind:key="item.id">
+            <div class="form-group">
+              <label for="formControlRange"
+                >{{ item.label }} : {{ item.value }} ({{
+                  item.defaultValue
+                }})</label
+              >
+              <input
+                v-bind:name="item.id"
+                type="range"
+                class="form-control-range"
+                v-model="item.value"
+                min="0"
+                v-bind:max="item.range"
+                v-bind:step="item.step"
+                @change="onChange($event)"
+              />
+            </div>
+          </b-list-group-item>
+            <input
+            class="btn btn-primary"
+            type="reset"
+            value="Reset"
+            v-on:click="onReset"
+            />
+        </b-list-group>
+      </b-col>
+      <b-col md="2">
         <canvas id="canvas1" width="300" height="300"></canvas>
         <p>
           Energy diffusion of events.<br />
           Click on the square to add events !
         </p>
       </b-col>
-      <b-col>
+      <b-col md="2">
         <canvas id="canvas2" width="300" height="300"></canvas>
         <p>
           Events filtered by 'Intensity threshold filter' =
@@ -50,7 +52,7 @@
         </p>
       </b-col>
     </b-row>
-  </b-container-fluid>
+  </b-container>
 </template>
 
 <script>

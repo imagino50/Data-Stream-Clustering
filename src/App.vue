@@ -3,12 +3,12 @@
     <b-row class="text-center">
       <b-col class="bg-dark">
         <h1 class="text-white navbar-brand">
-          Signals diffusion and intensity accumulation.
+          Clustering signal events with intensity diffusion and accumulation.
         </h1>
       </b-col>
     </b-row>
     <b-row class="text-left mt-3">
-      <b-col md="2">
+      <b-col md="3">
         <b-list-group>
           <b-list-group-item v-for="item in settings" v-bind:key="item.id">
             <div class="form-group">
@@ -37,14 +37,14 @@
             />
         </b-list-group>
       </b-col>
-      <b-col md="2">
+      <b-col md="3" class="p-1">
         <canvas id="canvas1" width="300" height="300"></canvas>
         <p>
           Energy diffusion of events.<br />
           Click on the square to add events !
         </p>
       </b-col>
-      <b-col md="2">
+      <b-col md="3" class="p-1">
         <canvas id="canvas2" width="300" height="300"></canvas>
         <p>
           Events filtered by 'Intensity threshold filter' =

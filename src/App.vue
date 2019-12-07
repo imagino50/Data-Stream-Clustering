@@ -1,11 +1,11 @@
 <template>
-  <b-container id="app" class="bv-example-row">
+  <b-container-fluid id="app" class="bv-example-row">
     <b-row class="text-center">
-      <b-col>
+      <b-col-md-2>
         <h1 class="mb-5 text-info">
           Signals diffusion and intensity accumulation.
         </h1>
-      </b-col>
+      </b-col-md-2>
     </b-row>
     <b-row class="text-left">
       <b-col>
@@ -50,7 +50,7 @@
         </p>
       </b-col>
     </b-row>
-  </b-container>
+  </b-container-fluid>
 </template>
 
 <script>
@@ -128,6 +128,8 @@ export default {
     var ctx2 = canvas2.getContext("2d");
     var particlesFiltered_sav = [];
     var clusterColors_sav = [];
+    var clustering = require("density-clustering");
+    var dbscan = new clustering.DBSCAN();
     this.startDrawing(
       canPart,
       ctx1,
@@ -135,7 +137,8 @@ export default {
       ctx2,
       canvas2,
       particlesFiltered_sav,
-      clusterColors_sav
+      clusterColors_sav,
+      dbscan
     );
   },
   beforeDestroy() {
@@ -164,10 +167,10 @@ export default {
     },
     initDrawing() {
       var canvas1 = document.getElementById("canvas1");
-      Canvas.initCanvas1(canvas1);
+      Canvas.initCanvas(canvas1);
 
       var canvas2 = document.getElementById("canvas2");
-      Canvas.initCanvas2(canvas2);
+      Canvas.initCanvas(canvas2);
 
       var canPart = new CanvasParticles(canvas1, canvas2);
       //canPart.addEventCanvas(canvas1, centerIntensity);
@@ -196,11 +199,10 @@ export default {
       ctx2,
       canvas2,
       particlesFiltered_sav,
-      clusterColors_sav
+      clusterColors_sav,
+      dbscan
     ) {
       var draw = () => {
-        //if (Date.now() < (this.timestamp + 900)) return requestAnimationFrame(draw);
-        //if (Canvas.isCanvasSupported) {
         Canvas.clearCanvas(ctx1, canvas1);
         canPart.removeParticles(intensityMin);
         canPart.createRandomParticle(centerIntensity);
@@ -213,8 +215,6 @@ export default {
 
         var dataset = Cluster.createDataset(particlesFiltered);
 
-        var clustering = require("density-clustering");
-        var dbscan = new clustering.DBSCAN();
         var nbMinPoints = 2; // number of points in neighborhood to form a cluster
         var neighborhoodRadius = 5; // neighborhood radius
         var clusters = dbscan.run(dataset, neighborhoodRadius, nbMinPoints);
@@ -231,7 +231,6 @@ export default {
         /*if (clusters.length > 2) {
           console.log("log", clusters, clusterColors, particlesFiltered);
         }*/
-
         canPart.renderFilteredParticles(clusterColors);
 
         particlesFiltered_sav = [...particlesFiltered];
@@ -239,9 +238,6 @@ export default {
 
         // this function will run endlessly with requestAnimationFrame
         requestAnimationFrame(draw);
-        //}
-        //this.timestamp = Date.now();
-        //requestAnimationFrame(draw);
       };
       draw();
     }

@@ -13,9 +13,9 @@ export default class Canvas {
   }
 
   /*=============================================================================*/
-  /* Initialize Canvas2
+  /* Initialize Canvas
   /*=============================================================================*/
-  static initCanvas1(canvas) {
+  static initCanvas(canvas) {
     canvas.style.border = "solid 1px black";
     canvas.style.background = "black";
     canvas.width = 300;
@@ -25,18 +25,6 @@ export default class Canvas {
     ctx.globalCompositeOperation = "lighter";
   }
 
-  /*=============================================================================*/
-  /* Initialize Canvas2
-  /*=============================================================================*/
-  static initCanvas2(canvas) {
-    canvas.style.border = "solid 1px black";
-    canvas.style.background = "black";
-    canvas.width = 300;
-    canvas.height = 300;
-    var ctx = canvas.getContext("2d");
-    // lighter creates bright highlight points as the fireworks overlap each other
-    ctx.globalCompositeOperation = "lighter";
-  }
   /*=============================================================================*/
   /* Filter Canvas
   /*=============================================================================*/

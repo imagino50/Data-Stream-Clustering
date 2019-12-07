@@ -42,7 +42,7 @@ export default class Cluster {
             var colorUsedKey =
               clusterColors_sav[particlesFiltered_sav[idx_sav].clusterId];
 
-              /*console.log(
+            /*console.log(
                 "particlesFiltered_sav[idx_sav].clusterId",
                 particlesFiltered_sav[idx_sav].clusterId
               );

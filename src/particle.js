@@ -1,5 +1,10 @@
+/*=============================================================================*/
+/* Class Particle
+/*=============================================================================*/
 export default class Particle {
-  // create firework
+  /*=============================================================================*/
+  /* Constructor
+  /*=============================================================================*/
   constructor(center_x, center_y, centerIntensity) {
     this.x = center_x;
     this.y = center_y;
@@ -61,7 +66,7 @@ export default class Particle {
   /* clone Particle 
   /*=============================================================================*/
   clone() {
-    var particleCloned = new Particle(this.x, this.y, this.centerIntensity);
+    var particleCloned = new Particle(this.x, this.y, this.intensity);
     particleCloned.radius = this.radius;
     particleCloned.clusterId = this.clusterId;
 

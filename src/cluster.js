@@ -20,27 +20,36 @@ export default class Cluster {
 
   static recoverClusterColors(
     nbClusters,
-    fireworksFiltered,
-    fireworksFiltered_sav,
+    particlesFiltered,
+    particlesFiltered_sav,
     clusterColors_sav
   ) {
     var clusterColors = new Array(nbClusters).fill("null");
 
-    for (let idx = 0; idx < fireworksFiltered.length; idx++) {
-      let clusterId = fireworksFiltered[idx].cluster;
+    for (let idx = 0; idx < particlesFiltered.length; idx++) {
+      let clusterId = particlesFiltered[idx].clusterId;
       if (clusterId != -1) {
         for (
           let idx_sav = 0;
-          idx_sav < fireworksFiltered_sav.length;
+          idx_sav < particlesFiltered_sav.length;
           idx_sav++
         ) {
           if (
-            fireworksFiltered[idx].x == fireworksFiltered_sav[idx_sav].x &&
-            fireworksFiltered[idx].y == fireworksFiltered_sav[idx_sav].y &&
-            fireworksFiltered_sav[idx_sav].cluster != -1
+            particlesFiltered[idx].x == particlesFiltered_sav[idx_sav].x &&
+            particlesFiltered[idx].y == particlesFiltered_sav[idx_sav].y &&
+            particlesFiltered_sav[idx_sav].clusterId != -1
           ) {
             var colorUsedKey =
-              clusterColors_sav[fireworksFiltered_sav[idx_sav].cluster];
+              clusterColors_sav[particlesFiltered_sav[idx_sav].clusterId];
+
+              /*console.log(
+                "particlesFiltered_sav[idx_sav].clusterId",
+                particlesFiltered_sav[idx_sav].clusterId
+              );
+              console.log(
+                "colorUsedKey",
+                colorUsedKey
+              );*/
 
             /*if(fireworksFiltered_sav[idx_sav].cluster >= clusterColors_sav.length)
               {
@@ -67,25 +76,7 @@ export default class Cluster {
     return clusterColors;
   }
 
-  static buildClusterColors(
-    nbClusters,
-    fireworksFiltered,
-    fireworksFiltered_sav,
-    clusterColors_sav
-  ) {
-    /*if (nbClusters > 2) {
-      console.log("fireworksFiltered2", fireworksFiltered);
-    }*/
-    var clusterColors = this.recoverClusterColors(
-      nbClusters,
-      fireworksFiltered,
-      fireworksFiltered_sav,
-      clusterColors_sav
-    );
-    //////////////////////
-    //clusterColors = new Array(nbClusters).fill("null");
-    //////////////////////
-
+  static setClusterColors(clusterColors) {
     var clusterColorsUsed = [...new Set(clusterColors)];
     clusterColorsUsed = clusterColorsUsed.filter(function(el) {
       return el != "null";
@@ -102,6 +93,29 @@ export default class Cluster {
         }
       }
     }
+    return clusterColors;
+  }
+
+  static buildClusterColors(
+    nbClusters,
+    fireworksFiltered,
+    fireworksFiltered_sav,
+    clusterColors_sav
+  ) {
+    var clusterColors = this.recoverClusterColors(
+      nbClusters,
+      fireworksFiltered,
+      fireworksFiltered_sav,
+      clusterColors_sav
+    );
+    /*if (nbClusters > 0) {
+      console.log("recoverClusterColors", clusterColors);
+    }*/
+
+    clusterColors = this.setClusterColors(clusterColors);
+    /*if (nbClusters > 0) {
+      console.log("setClusterColors", clusterColors);
+    }*/
     return clusterColors;
   }
 

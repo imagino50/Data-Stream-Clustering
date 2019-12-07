@@ -1,3 +1,6 @@
+/*=============================================================================*/
+/* Class utils 
+/*=============================================================================*/
 export default class utils {
   // get a random number within a range
   static random(min, max) {
@@ -77,10 +80,16 @@ export default class utils {
     return raw_point_data;
   }
 
+  /*=============================================================================*/
+  /* generate random number
+  /*=============================================================================*/
   static rnd(mean, stdev) {
     return Math.round(this.rnd_snd() * stdev + mean);
   }
 
+  /*=============================================================================*/
+  /* generate random number
+  /*=============================================================================*/
   static rnd_snd() {
     return (
       Math.random() * 2 - 1 + (Math.random() * 2 - 1) + (Math.random() * 2 - 1)

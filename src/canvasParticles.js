@@ -123,7 +123,6 @@ export default class CanvasParticles {
   /* Render Filtered Particles
   /*=============================================================================*/
   renderFilteredParticles(clusterColors) {
-    // loop over each firework to draw it
     var i = this.particlesFiltered.length;
     while (i--) {
       var colorValue = "rgb(255,255,255)";
@@ -131,6 +130,7 @@ export default class CanvasParticles {
         var colorKey = clusterColors[this.particlesFiltered[i].clusterId];
         colorValue = Cluster.ColorsPalette[colorKey];
       }
+      //console.log("colorValue", colorValue);
       this.particlesFiltered[i].drawCenters(
         colorValue,
         this.ctx2,

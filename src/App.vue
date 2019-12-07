@@ -128,9 +128,18 @@ export default {
     var ctx2 = canvas2.getContext("2d");
     var particlesFiltered_sav = [];
     var clusterColors_sav = [];
-    this.startDrawing(canPart, ctx1, canvas1, ctx2, canvas2, particlesFiltered_sav, clusterColors_sav);
+    this.startDrawing(
+      canPart,
+      ctx1,
+      canvas1,
+      ctx2,
+      canvas2,
+      particlesFiltered_sav,
+      clusterColors_sav
+    );
   },
   beforeDestroy() {
+    console.log("beforeDestroy");
     var canvas1 = document.getElementById("canvas1");
     canvas1.removeEventListener("click");
   },
@@ -155,10 +164,10 @@ export default {
     },
     initDrawing() {
       var canvas1 = document.getElementById("canvas1");
-      Canvas.initCanvas(canvas1);
+      Canvas.initCanvas1(canvas1);
 
       var canvas2 = document.getElementById("canvas2");
-      Canvas.initCanvas(canvas2);
+      Canvas.initCanvas2(canvas2);
 
       var canPart = new CanvasParticles(canvas1, canvas2);
       //canPart.addEventCanvas(canvas1, centerIntensity);
@@ -177,10 +186,18 @@ export default {
       );
 
       //Utils.setupRAF();
-      console.log("initDrawing", canPart);
+      //console.log("initDrawing", canPart);
       return canPart;
     },
-    startDrawing(canPart, ctx1, canvas1, ctx2, canvas2, particlesFiltered_sav, clusterColors_sav) {
+    startDrawing(
+      canPart,
+      ctx1,
+      canvas1,
+      ctx2,
+      canvas2,
+      particlesFiltered_sav,
+      clusterColors_sav
+    ) {
       var draw = () => {
         //if (Date.now() < (this.timestamp + 900)) return requestAnimationFrame(draw);
         //if (Canvas.isCanvasSupported) {
@@ -191,7 +208,7 @@ export default {
         canPart.renderParticles();
 
         Canvas.clearCanvas(ctx2, canvas2);
-        Canvas.updateFilteredCanvas(ctx1, ctx2, canvas2, filterThreshold);
+        Canvas.filterCanvas(ctx1, ctx2, canvas2, filterThreshold);
         var particlesFiltered = canPart.filterParticles(filterThreshold);
 
         var dataset = Cluster.createDataset(particlesFiltered);
@@ -210,6 +227,10 @@ export default {
           particlesFiltered_sav,
           clusterColors_sav
         );
+
+        /*if (clusters.length > 2) {
+          console.log("log", clusters, clusterColors, particlesFiltered);
+        }*/
 
         canPart.renderFilteredParticles(clusterColors);
 

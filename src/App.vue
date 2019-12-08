@@ -29,12 +29,12 @@
               />
             </div>
           </b-list-group-item>
-            <input
+          <input
             class="btn btn-primary"
             type="reset"
             value="Reset"
             v-on:click="onReset"
-            />
+          />
         </b-list-group>
       </b-col>
       <b-col md="3" class="p-1">
@@ -51,6 +51,12 @@
           {{ this.settings[4].value }}
         </p>
       </b-col>
+      <b-col md="3" class="p-1">
+        <canvas id="canvas3" width="300" height="300"></canvas>
+        <p>
+          ConvexHullGrahamScan of clusters.
+        </p>
+      </b-col>
     </b-row>
   </b-container>
 </template>
@@ -58,7 +64,7 @@
 <script>
 import CanvasParticles from "./canvasParticles.js";
 import Canvas from "./canvas.js";
-//import Utils from "./utils.js";
+import ConvexHullGrahamScanWrapper from "./convexHullGrahamScanWrapper.js";
 import Cluster from "./cluster.js";
 import PixelLocation from "./pixelLocation.js";
 
@@ -67,12 +73,12 @@ var intensityMin;
 var incRadius;
 var incIntensity;
 var filterThreshold;
+var nbMinPoints;
+var neighborhoodRadius;
 
 export default {
   name: "app",
-  components: {
-    //SettingsTable
-  },
+  components: {},
   data() {
     return {
       settings: [
@@ -115,6 +121,22 @@ export default {
           defaultValue: 200,
           range: 250,
           step: 1
+        },
+        {
+          id: 6,
+          label: "Number of points in neighborhood to form a cluster",
+          value: 2,
+          defaultValue: 2,
+          range: 50,
+          step: 1
+        },
+        {
+          id: 7,
+          label: "Cluster neighborhood radius",
+          value: 10,
+          defaultValue: 10,
+          range: 100,
+          step: 1
         }
       ]
     };
@@ -128,6 +150,8 @@ export default {
     var ctx1 = canvas1.getContext("2d");
     var canvas2 = document.getElementById("canvas2");
     var ctx2 = canvas2.getContext("2d");
+    var canvas3 = document.getElementById("canvas3");
+    var ctx3 = canvas3.getContext("2d");
     var particlesFiltered_sav = [];
     var clusterColors_sav = [];
     var clustering = require("density-clustering");
@@ -138,6 +162,8 @@ export default {
       canvas1,
       ctx2,
       canvas2,
+      ctx3,
+      canvas3,
       particlesFiltered_sav,
       clusterColors_sav,
       dbscan
@@ -158,6 +184,8 @@ export default {
       this.settings[2].value = this.settings[2].defaultValue;
       this.settings[3].value = this.settings[3].defaultValue;
       this.settings[4].value = this.settings[4].defaultValue;
+      this.settings[5].value = this.settings[5].defaultValue;
+      this.settings[6].value = this.settings[6].defaultValue;
       this.readSettings();
     },
     readSettings() {
@@ -166,6 +194,8 @@ export default {
       incRadius = parseFloat(this.settings[2].value);
       incIntensity = this.settings[3].value;
       filterThreshold = this.settings[4].value;
+      nbMinPoints = this.settings[5].value;
+      neighborhoodRadius = this.settings[6].value;
     },
     initDrawing() {
       var canvas1 = document.getElementById("canvas1");
@@ -174,7 +204,10 @@ export default {
       var canvas2 = document.getElementById("canvas2");
       Canvas.initCanvas(canvas2);
 
-      var canPart = new CanvasParticles(canvas1, canvas2);
+      var canvas3 = document.getElementById("canvas3");
+      Canvas.initCanvas(canvas3);
+
+      var canPart = new CanvasParticles(canvas1, canvas2, canvas3);
       //canPart.addEventCanvas(canvas1, centerIntensity);
 
       canvas1.addEventListener(
@@ -200,29 +233,29 @@ export default {
       canvas1,
       ctx2,
       canvas2,
+      ctx3,
+      canvas3,
       particlesFiltered_sav,
       clusterColors_sav,
       dbscan
     ) {
       var draw = () => {
+
+        // Canvas 1
         Canvas.clearCanvas(ctx1, canvas1);
         canPart.removeParticles(intensityMin);
         canPart.createRandomParticle(centerIntensity);
         canPart.updateParticlesShape(incRadius, incIntensity);
         canPart.renderParticles();
 
+        // Canvas 2
         Canvas.clearCanvas(ctx2, canvas2);
         Canvas.filterCanvas(ctx1, ctx2, canvas2, filterThreshold);
         var particlesFiltered = canPart.filterParticles(filterThreshold);
 
         var dataset = Cluster.createDataset(particlesFiltered);
-
-        var nbMinPoints = 2; // number of points in neighborhood to form a cluster
-        var neighborhoodRadius = 5; // neighborhood radius
         var clusters = dbscan.run(dataset, neighborhoodRadius, nbMinPoints);
-
         particlesFiltered = canPart.updateParticlesCluster(clusters);
-
         var clusterColors = Cluster.buildClusterColors(
           clusters.length,
           particlesFiltered,
@@ -234,6 +267,13 @@ export default {
           console.log("log", clusters, clusterColors, particlesFiltered);
         }*/
         canPart.renderFilteredParticles(clusterColors);
+
+        // Canvas 3
+        ConvexHullGrahamScanWrapper.drawConvexHullClusters(
+          ctx3,
+          particlesFiltered,
+          clusters.length
+        );
 
         particlesFiltered_sav = [...particlesFiltered];
         clusterColors_sav = [...clusterColors];

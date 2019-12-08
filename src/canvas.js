@@ -28,8 +28,8 @@ export default class Canvas {
   /*=============================================================================*/
   /* Filter Canvas
   /*=============================================================================*/
-  static filterCanvas(ctx1, ctx2, canvas2, filterThreshold) {
-    var imgData = ctx1.getImageData(0, 0, canvas2.width, canvas2.height);
+  static filterCanvas(ctx1, ctx2, canvas1, filterThreshold) {
+    var imgData = ctx1.getImageData(0, 0, canvas1.width, canvas1.height);
     var imgDataFiltered = Filter.redFilter(imgData, filterThreshold);
     ctx2.putImageData(imgDataFiltered, 0, 0);
   }

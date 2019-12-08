@@ -2,10 +2,13 @@
 /* Class Cluster
 /*=============================================================================*/
 export default class Cluster {
-  static createDataset(particlesFiltered) {
+  /*=============================================================================*/
+  /* create dataset from particles to detect Clusters
+  /*=============================================================================*/
+  static createDataset(particles) {
     var dataset = [];
-    for (let i = 0; i < particlesFiltered.length; i++) {
-      dataset.push([particlesFiltered[i].x, particlesFiltered[i].y]);
+    for (let i = 0; i < particles.length; i++) {
+      dataset.push([particles[i].x, particles[i].y]);
       //fireworksFiltered[i].cluster = -1;
     }
     //console.log("dataset", dataset);
@@ -18,6 +21,54 @@ export default class Cluster {
     return clusters;
   }*/
 
+  /*static getUnClusteredParticles(particles, clusters) {
+    var particlesRemained = [];
+    var particlesClustered = particles.filter(
+      particle => particle.clusterId != -1
+    );
+    if (particlesClustered.length > this.calculateNbClusters(clusters)) {
+      for (let index = 0; index < particlesClustered.length; index++) {
+        if (!this.isParticleInClusters(particlesClustered[index], clusters)) {
+          this.particlesRemained.push(particlesClustered[index].clone());
+        }
+      }
+    }
+    return particlesRemained;
+  }
+
+  static isParticleInClusters(particle, particules, clusters) {
+    for (let i = 0; i < clusters.length; i++) {
+      let cluster = clusters[i];
+      for (let j = 0; j < cluster.length; j++) {
+        let index = cluster[j];
+        if (
+          particle.x == particules[index].x &&
+          particle.y == particules[index].y
+        ) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }*/
+
+  /*=============================================================================*/
+  /* Count the total number of particles in clusters 
+  /*=============================================================================*/
+  static getNumberParticlesClustered(clusters) {
+    var count = 0;
+    for (let i = 0; i < clusters.length; i++) {
+      let cluster = clusters[i];
+      for (let j = 0; j < cluster.length; j++) {
+        count = count + 1;
+      }
+    }
+    return count;
+  }
+
+  /*=============================================================================*/
+  /* Reuse the colors already set to clustered particles 
+  /*=============================================================================*/
   static recoverClusterColors(
     nbClusters,
     particlesFiltered,
@@ -76,6 +127,9 @@ export default class Cluster {
     return clusterColors;
   }
 
+  /*=============================================================================*/
+  /* set available colors to particles newly clustered
+  /*=============================================================================*/
   static setClusterColors(clusterColors) {
     var clusterColorsUsed = [...new Set(clusterColors)];
     clusterColorsUsed = clusterColorsUsed.filter(function(el) {
@@ -96,6 +150,9 @@ export default class Cluster {
     return clusterColors;
   }
 
+  /*=============================================================================*/
+  /* set colors to clustered particles 
+  /*=============================================================================*/
   static buildClusterColors(
     nbClusters,
     fireworksFiltered,
@@ -119,14 +176,17 @@ export default class Cluster {
     return clusterColors;
   }
 
+  /*=============================================================================*/
+  /* colors of clustered particles 
+  /*=============================================================================*/
   static ColorsPalette = Object.freeze({
     //Red: "rgb(255,0,0)",
     Green: "rgb(0,255,0)",
     Blue: "rgb(0,0,255)",
-    RadiandOrchid: "rgb(181,101,167)",
     Emerald: "rgb(0,155,119)",
     TangerineTango: "rgb(221,65,36)",
     Honeysucle: "rgb(214,80,118)",
+    RadiandOrchid: "rgb(181,101,167)",
     Turquoise: "rgb(68,184,172)",
     Mimosa: "rgb(239,192,80)",
     BlueIzis: "rgb(91,94,166)"

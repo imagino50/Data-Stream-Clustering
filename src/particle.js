@@ -69,7 +69,6 @@ export default class Particle {
     var particleCloned = new Particle(this.x, this.y, this.intensity);
     particleCloned.radius = this.radius;
     particleCloned.clusterId = this.clusterId;
-
     return particleCloned;
   }
 }

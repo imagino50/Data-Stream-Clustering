@@ -10,11 +10,12 @@ export default class CanvasParticles {
   /*=============================================================================*/
   /* Constructor
   /*=============================================================================*/
-  constructor(canvas1, canvas2) {
+  constructor(canvas1, canvas2, canvas3) {
     this.particles = [];
     this.particlesFiltered = [];
     this.ctx1 = canvas1.getContext("2d");
     this.ctx2 = canvas2.getContext("2d");
+    this.ctx3 = canvas3.getContext("2d");
     this.canvasHeight = canvas1.height;
     this.canvasWidth = canvas1.width;
   }

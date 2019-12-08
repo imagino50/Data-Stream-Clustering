@@ -2,9 +2,27 @@
 /* Class utils 
 /*=============================================================================*/
 export default class utils {
-  // get a random number within a range
+  /*=============================================================================*/
+  /* generate random number within a range
+  /*=============================================================================*/
   static random(min, max) {
     return Math.round(Math.random() * (max - min) + min);
+  }
+
+  /*=============================================================================*/
+  /* generate random number
+  /*=============================================================================*/
+  static rnd(mean, stdev) {
+    return Math.round(this.rnd_snd() * stdev + mean);
+  }
+
+  /*=============================================================================*/
+  /* generate random number
+  /*=============================================================================*/
+  static rnd_snd() {
+    return (
+      Math.random() * 2 - 1 + (Math.random() * 2 - 1) + (Math.random() * 2 - 1)
+    );
   }
 
   /*=============================================================================*/
@@ -40,22 +58,6 @@ export default class utils {
     }
   }
 
-  /**
-   * clusterColors
-   * @desc Generate a random colors for clusters.
-   * @return random colors
-   */
-  /*static clusterColors(nbClusters) {
-    var colors = [];
-
-    // Generate point color for each cluster.
-    for (var i = 0; i < nbClusters; i++) {
-      colors.push("#" + ((Math.random() * (1 << 24)) | 0).toString(16));
-    }
-
-    return colors;
-  }*/
-
   static generate_cluster_data(width, height) {
     var num_clusters = 3;
     var max_x_stdev = 10;
@@ -80,19 +82,19 @@ export default class utils {
     return raw_point_data;
   }
 
-  /*=============================================================================*/
-  /* generate random number
-  /*=============================================================================*/
-  static rnd(mean, stdev) {
-    return Math.round(this.rnd_snd() * stdev + mean);
-  }
+  /**
+   * clusterColors
+   * @desc Generate a random colors for clusters.
+   * @return random colors
+   */
+  /*static clusterColors(nbClusters) {
+    var colors = [];
 
-  /*=============================================================================*/
-  /* generate random number
-  /*=============================================================================*/
-  static rnd_snd() {
-    return (
-      Math.random() * 2 - 1 + (Math.random() * 2 - 1) + (Math.random() * 2 - 1)
-    );
-  }
+    // Generate point color for each cluster.
+    for (var i = 0; i < nbClusters; i++) {
+      colors.push("#" + ((Math.random() * (1 << 24)) | 0).toString(16));
+    }
+
+    return colors;
+  }*/
 }

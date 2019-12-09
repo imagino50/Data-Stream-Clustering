@@ -63,6 +63,22 @@ export default class Particle {
   }
 
   /*=============================================================================*/
+  /* Return True if the particle is included in a cluster
+  /*=============================================================================*/
+  static isInCluster(particules, clusters) {
+    for (let i = 0; i < clusters.length; i++) {
+      let cluster = clusters[i];
+      for (let j = 0; j < cluster.length; j++) {
+        let index = cluster[j];
+        if (this.x == particules[index].x && this.y == particules[index].y) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  /*=============================================================================*/
   /* clone Particle 
   /*=============================================================================*/
   clone() {

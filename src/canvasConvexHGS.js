@@ -1,39 +1,13 @@
 import ConvexHGS from "./convexHGS.js";
 
 /*=============================================================================*/
-/* Class ConvexHullGrahamScan from http://psychedelicdevelopment.com/grahamscan/
+/* Class ConvexHullGrahamScan
 /*=============================================================================*/
-export default class ConvexHullGrahamScan {
-  static drawConvexHullClusters(ctx, particles, nbClusters) {
-    for (let i = 0; i < nbClusters; i++) {
-      var hullPoints = this.getConvexHullPoints(
-        particles.filter(particle => particle.clusterId == i)
-      );
-
-      //console.log("hullPoints", hullPoints);
-      this.drawConvexHullPoints(ctx, hullPoints);
-    }
-  }
-
-  /*if (clusters.length > 0) {
-      let groupbyClusterId = particles.reduce((r, a) => {
-        //console.log("a", a);
-        //console.log('r', r);
-        r[a.clusterId] = [...(r[a.clusterId] || []), a];
-        return r;
-      }, {});*/
-
-  /*const groupBy = key => array =>
-  array.reduce((objectsByKeyValue, obj) => {
-    const value = obj[key];
-    objectsByKeyValue[value] = (objectsByKeyValue[value] || []).concat(obj);
-    return objectsByKeyValue;
-  }, {});*/
-
+export default class CanvasConvexHGS {
   /*=============================================================================*/
-  /* Get point array from convex hull
+  /* Compyte convex hull point array 
   /*=============================================================================*/
-  static getConvexHullPoints(particles) {
+  static computeConvexHullPoints(particles) {
     // Create a new instance of ConvexHullGrahamScan.
     var convexHGS = new ConvexHGS();
 
@@ -49,7 +23,21 @@ export default class ConvexHullGrahamScan {
   }
 
   /*=============================================================================*/
-  /* Draw point array from convex hull
+  /* Draw convex hull areas
+  /*=============================================================================*/
+  static drawConvexHullClusters(ctx, particles, nbClusters) {
+    for (let i = 0; i < nbClusters; i++) {
+      var hullPoints = this.computeConvexHullPoints(
+        particles.filter(particle => particle.clusterId == i)
+      );
+
+      //console.log("hullPoints", hullPoints);
+      this.drawConvexHullPoints(ctx, hullPoints);
+    }
+  }
+
+  /*=============================================================================*/
+  /* Draw a convex hull area
   /*=============================================================================*/
   static drawConvexHullPoints(ctx, hullPoints) {
     if (hullPoints && hullPoints.length > 0) {
@@ -70,7 +58,7 @@ export default class ConvexHullGrahamScan {
   }
 
   /*=============================================================================*/
-  /* Draw 
+  /* Draw dot used for the border
   /*=============================================================================*/
   static dot(ctx, point, style) {
     ctx.save();

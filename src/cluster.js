@@ -9,53 +9,14 @@ export default class Cluster {
     var dataset = [];
     for (let i = 0; i < particles.length; i++) {
       dataset.push([particles[i].x, particles[i].y]);
-      //fireworksFiltered[i].cluster = -1;
     }
-    //console.log("dataset", dataset);
     return dataset;
   }
-
-  /*static runDbscan(dbscan, dataset, neighborhoodRadius, nbMinPoints) {
-    // parameters: 5 - neighborhood radius - number of points in neighborhood to form a cluster
-    var clusters = dbscan.run(dataset, neighborhoodRadius, nbMinPoints);
-    return clusters;
-  }*/
-
-  /*static getUnClusteredParticles(particles, clusters) {
-    var particlesRemained = [];
-    var particlesClustered = particles.filter(
-      particle => particle.clusterId != -1
-    );
-    if (particlesClustered.length > this.calculateNbClusters(clusters)) {
-      for (let index = 0; index < particlesClustered.length; index++) {
-        if (!this.isParticleInClusters(particlesClustered[index], clusters)) {
-          this.particlesRemained.push(particlesClustered[index].clone());
-        }
-      }
-    }
-    return particlesRemained;
-  }
-
-  static isParticleInClusters(particle, particules, clusters) {
-    for (let i = 0; i < clusters.length; i++) {
-      let cluster = clusters[i];
-      for (let j = 0; j < cluster.length; j++) {
-        let index = cluster[j];
-        if (
-          particle.x == particules[index].x &&
-          particle.y == particules[index].y
-        ) {
-          return true;
-        }
-      }
-    }
-    return false;
-  }*/
 
   /*=============================================================================*/
   /* Count the total number of particles in clusters 
   /*=============================================================================*/
-  static getNumberParticlesClustered(clusters) {
+  static getNbItemsClustered(clusters) {
     var count = 0;
     for (let i = 0; i < clusters.length; i++) {
       let cluster = clusters[i];
@@ -69,7 +30,7 @@ export default class Cluster {
   /*=============================================================================*/
   /* Reuse the colors already set to clustered particles 
   /*=============================================================================*/
-  static recoverClusterColors(
+  static reusePreviousClusterColors(
     nbClusters,
     particlesFiltered,
     particlesFiltered_sav,
@@ -130,7 +91,7 @@ export default class Cluster {
   /*=============================================================================*/
   /* set available colors to particles newly clustered
   /*=============================================================================*/
-  static setClusterColors(clusterColors) {
+  static setColorsNewCluster(clusterColors) {
     var clusterColorsUsed = [...new Set(clusterColors)];
     clusterColorsUsed = clusterColorsUsed.filter(function(el) {
       return el != "null";
@@ -159,7 +120,7 @@ export default class Cluster {
     fireworksFiltered_sav,
     clusterColors_sav
   ) {
-    var clusterColors = this.recoverClusterColors(
+    var clusterColors = this.reusePreviousClusterColors(
       nbClusters,
       fireworksFiltered,
       fireworksFiltered_sav,
@@ -169,7 +130,7 @@ export default class Cluster {
       console.log("recoverClusterColors", clusterColors);
     }*/
 
-    clusterColors = this.setClusterColors(clusterColors);
+    clusterColors = this.setColorsNewCluster(clusterColors);
     /*if (nbClusters > 0) {
       console.log("setClusterColors", clusterColors);
     }*/
@@ -192,3 +153,54 @@ export default class Cluster {
     BlueIzis: "rgb(91,94,166)"
   });
 }
+
+/*static runDbscan(dbscan, dataset, neighborhoodRadius, nbMinPoints) {
+    // parameters: 5 - neighborhood radius - number of points in neighborhood to form a cluster
+    var clusters = dbscan.run(dataset, neighborhoodRadius, nbMinPoints);
+    return clusters;
+  }*/
+
+/*static setClusterToRemainedParticles(particles, clusters) {
+    var particlesRemained = this.getUnClusteredParticles(particles, clusters);
+
+    var groupbyClusterId = particlesRemained.reduce((r, a) => {
+      //console.log("a", a);
+      //console.log('r', r);
+      r[a.clusterId] = [...(r[a.clusterId] || []), a];
+      return r;
+    }, {});
+
+    var colorUsedKey =
+      clusterColors[particles[idx_sav].clusterId];
+    clusterColors[clusterId] = colorUsedKey;
+  }*/
+
+/*const groupBy = key => array =>
+  array.reduce((objectsByKeyValue, obj) => {
+    const value = obj[key];
+    objectsByKeyValue[value] = (objectsByKeyValue[value] || []).concat(obj);
+    return objectsByKeyValue;
+  }, {});*/
+
+/*static getUnClusteredParticles(particles, clusters) {
+    var particlesRemained = [];
+    var particlesClustered = particles.filter(
+      particle => particle.clusterId != -1
+    );
+    if (
+      particlesClustered.length >
+      this.getNbItemsClustered(clusters)
+    ) {
+      for (let index = 0; index < particlesClustered.length; index++) {
+        if (
+          !this.isParticleInDetectedClusters(
+            particlesClustered[index],
+            clusters
+          )
+        ) {
+          this.particlesRemained.push(particlesClustered[index].clone());
+        }
+      }
+    }
+    return particlesRemained;
+  }*/

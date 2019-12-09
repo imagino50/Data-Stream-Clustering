@@ -2,6 +2,7 @@ import Particle from "./particle.js";
 import Utils from "./utils.js";
 import PixelLocation from "./pixelLocation.js";
 import Cluster from "./cluster.js";
+import Canvas from "./canvas.js";
 
 /*=============================================================================*/
 /* Class Canvas Particles
@@ -18,6 +19,24 @@ export default class CanvasParticles {
     this.ctx3 = canvas3.getContext("2d");
     this.canvasHeight = canvas1.height;
     this.canvasWidth = canvas1.width;
+  }
+
+  /*=============================================================================*/
+  /* Draw Particles on canvas1
+  /*=============================================================================*/
+  refreshCanvas1(
+    ctx1,
+    canvas1,
+    intensityMin,
+    centerIntensity,
+    incRadius,
+    incIntensity
+  ) {
+    Canvas.clearCanvas(ctx1, canvas1);
+    this.removeParticles(intensityMin);
+    this.createRandomParticle(centerIntensity);
+    this.updateParticlesShape(incRadius, incIntensity);
+    this.renderParticles();
   }
 
   /*=============================================================================*/
@@ -45,7 +64,7 @@ export default class CanvasParticles {
   }
 
   /*=============================================================================*/
-  /* Create Particles at a position (x,y)
+  /* Create Particles at position (x,y)
   /*=============================================================================*/
   createParticle(x, y, centerIntensity) {
     // add particle at a position (x,y)
@@ -105,6 +124,9 @@ export default class CanvasParticles {
   /* Update cluster of Filtered Particles 
   /*=============================================================================*/
   updateParticlesCluster(clusters) {
+    //reset clusters of all particles
+    this.particlesFiltered.map(particule => (particule.clusterId = -1));
+
     for (let i = 0; i < clusters.length; i++) {
       let cluster = clusters[i];
       for (let j = 0; j < cluster.length; j++) {

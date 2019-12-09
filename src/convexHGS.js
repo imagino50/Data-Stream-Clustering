@@ -1,5 +1,5 @@
 /*=============================================================================*/
-/* Class ConvexHullGrahamScan
+/* Class ConvexHullGrahamScan from http://psychedelicdevelopment.com/grahamscan/
 /*=============================================================================*/
 export default class ConvexHullGrahamScan {
   /*=============================================================================*/

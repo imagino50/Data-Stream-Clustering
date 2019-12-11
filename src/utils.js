@@ -58,8 +58,8 @@ export default class utils {
     }
   }
 
-  static generate_cluster_data(width, height) {
-    var num_clusters = 3;
+  static generate_cluster_data(num_clusters, width, height) {
+    //var num_clusters = 3;
     var max_x_stdev = 10;
     var max_y_stdev = 15;
     var cluster_size = 30;
@@ -82,19 +82,5 @@ export default class utils {
     return raw_point_data;
   }
 
-  /**
-   * clusterColors
-   * @desc Generate a random colors for clusters.
-   * @return random colors
-   */
-  /*static clusterColors(nbClusters) {
-    var colors = [];
 
-    // Generate point color for each cluster.
-    for (var i = 0; i < nbClusters; i++) {
-      colors.push("#" + ((Math.random() * (1 << 24)) | 0).toString(16));
-    }
-
-    return colors;
-  }*/
 }

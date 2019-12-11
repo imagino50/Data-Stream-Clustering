@@ -39,7 +39,6 @@ export default class CanvasParticles {
     this.renderParticles();
   }
 
-
   /*=============================================================================*/
   /* Remove Particles with intensity lower than intensityMin
   /*=============================================================================*/
@@ -56,10 +55,10 @@ export default class CanvasParticles {
   createRandomParticle(centerIntensity) {
     // add particle at ramdom position
     this.createParticle(
-        Utils.random(0, this.canvasWidth),
-        Utils.random(0, this.canvasHeight),
-        centerIntensity
-      );
+      Utils.random(0, this.canvasWidth),
+      Utils.random(0, this.canvasHeight),
+      centerIntensity
+    );
   }
 
   /*=============================================================================*/

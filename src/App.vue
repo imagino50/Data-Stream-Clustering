@@ -66,7 +66,7 @@ import CanvasParticles from "./canvasParticles.js";
 import Canvas from "./canvas.js";
 import CanvasConvexHGS from "./canvasConvexHGS.js";
 import Cluster from "./cluster.js";
-import json from './json/settings.json'
+import json from "./json/settings.json";
 
 var centerIntensity;
 var intensityMin;
@@ -124,13 +124,9 @@ export default {
       this.readSettings();
     },
     onReset() {
-      this.settings[0].value = this.settings[0].defaultValue;
-      this.settings[1].value = this.settings[1].defaultValue;
-      this.settings[2].value = this.settings[2].defaultValue;
-      this.settings[3].value = this.settings[3].defaultValue;
-      this.settings[4].value = this.settings[4].defaultValue;
-      this.settings[5].value = this.settings[5].defaultValue;
-      this.settings[6].value = this.settings[6].defaultValue;
+      for (let i = 0; i < this.settings.length; i++) {
+        this.settings[i].value = this.settings[i].defaultValue;
+      }
       this.readSettings();
     },
     readSettings() {

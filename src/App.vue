@@ -66,7 +66,7 @@ import CanvasParticles from "./canvasParticles.js";
 import Canvas from "./canvas.js";
 import CanvasConvexHGS from "./canvasConvexHGS.js";
 import Cluster from "./cluster.js";
-import PixelLocation from "./pixelLocation.js";
+import json from './json/settings.json'
 
 var centerIntensity;
 var intensityMin;
@@ -81,64 +81,7 @@ export default {
   components: {},
   data() {
     return {
-      settings: [
-        {
-          id: 1,
-          label: "Event initial intensity",
-          value: 150,
-          defaultValue: 150,
-          range: 250,
-          step: 1
-        },
-        {
-          id: 2,
-          label: "Intensity threshold for the display",
-          value: 5,
-          defaultValue: 5,
-          range: 250,
-          step: 1
-        },
-        {
-          id: 3,
-          label: "Radius increasing speed",
-          value: 0.2,
-          defaultValue: 0.2,
-          range: 1,
-          step: 0.05
-        },
-        {
-          id: 4,
-          label: "Intensity decreasing speed",
-          value: 1,
-          defaultValue: 1,
-          range: 10,
-          step: 0.1
-        },
-        {
-          id: 5,
-          label: "Intensity threshold filter",
-          value: 200,
-          defaultValue: 200,
-          range: 250,
-          step: 1
-        },
-        {
-          id: 6,
-          label: "Number of points in neighborhood to form a cluster",
-          value: 2,
-          defaultValue: 2,
-          range: 50,
-          step: 1
-        },
-        {
-          id: 7,
-          label: "Cluster neighborhood radius",
-          value: 10,
-          defaultValue: 10,
-          range: 100,
-          step: 1
-        }
-      ]
+      settings: json
     };
   },
   mounted() {
@@ -204,17 +147,10 @@ export default {
       Canvas.initCanvas(canvas2);
       Canvas.initCanvas(canvas3);
       var canPart = new CanvasParticles(canvas1, canvas2, canvas3);
-      //canPart.addEventCanvas(canvas1, centerIntensity);
-
       canvas1.addEventListener(
         "click",
         function(e) {
-          var eventLocation = PixelLocation.getPosition(e);
-          canPart.createParticle(
-            eventLocation.x,
-            eventLocation.y,
-            centerIntensity
-          );
+          canPart.createParticleFromEvent(e, centerIntensity);
         },
         false
       );

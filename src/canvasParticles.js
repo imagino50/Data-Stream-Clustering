@@ -24,17 +24,9 @@ export default class CanvasParticles {
   /*=============================================================================*/
   /* Draw Particles on canvas1
   /*=============================================================================*/
-  refreshCanvas1(
-    ctx1,
-    canvas1,
-    intensityMin,
-    centerIntensity,
-    incRadius,
-    incIntensity
-  ) {
+  refreshCanvas1(ctx1, canvas1, intensityMin, incRadius, incIntensity) {
     Canvas.clearCanvas(ctx1, canvas1);
-    this.removeParticles(intensityMin);
-    this.createRandomParticle(centerIntensity);
+    this.removeWeakParticles(intensityMin);
     this.updateParticlesShape(incRadius, incIntensity);
     this.renderParticles();
   }
@@ -42,18 +34,23 @@ export default class CanvasParticles {
   /*=============================================================================*/
   /* Remove Particles with intensity lower than intensityMin
   /*=============================================================================*/
-  removeParticles(intensityMin) {
-    // remove particles with intensity lower than intensityMin
+  removeWeakParticles(intensityMin) {
     this.particles = this.particles.filter(function(item) {
       return item.intensity > intensityMin;
     });
   }
 
   /*=============================================================================*/
+  /* Remove all Particles
+  /*=============================================================================*/
+  removeAllParticles() {
+    this.particles = [];
+  }
+
+  /*=============================================================================*/
   /* Create Particles at ramdom position
   /*=============================================================================*/
   createRandomParticle(centerIntensity) {
-    // add particle at ramdom position
     this.createParticle(
       Utils.random(0, this.canvasWidth),
       Utils.random(0, this.canvasHeight),
@@ -70,10 +67,16 @@ export default class CanvasParticles {
   }
 
   /*=============================================================================*/
+  /* Create Particles from dataset
+  /*=============================================================================*/
+  createParticleFromDataset(particle) {
+    this.particles.push(particle);
+  }
+
+  /*=============================================================================*/
   /* Create Particles at position (x,y)
   /*=============================================================================*/
   createParticle(x, y, centerIntensity) {
-    // add particle at a position (x,y)
     this.particles.push(
       new Particle(Math.round(x), Math.round(y), centerIntensity)
     );
@@ -95,7 +98,7 @@ export default class CanvasParticles {
   /* Render Particles
   /*=============================================================================*/
   renderParticles() {
-    // loop over each firework to draw it
+    // loop over each particle to draw it
     for (let i = 0; i < this.particles.length; i++) {
       this.particles[i].draw(this.ctx1, this.canvasWidth, this.canvasHeight);
     }
@@ -130,7 +133,7 @@ export default class CanvasParticles {
   /* Update cluster of Filtered Particles 
   /*=============================================================================*/
   updateParticlesCluster(clusters) {
-    //reset clusters of all particles
+    // reset clusterId of all particles
     this.particlesFiltered.map(particule => (particule.clusterId = -1));
 
     for (let i = 0; i < clusters.length; i++) {
@@ -173,7 +176,6 @@ export default class CanvasParticles {
   /* Add Click Event Listener Canvas
   /*=============================================================================*/
   addEventCanvas(canvas, centerIntensity) {
-    // add a firework on click event
     canvas.addEventListener(
       "click",
       function(e) {

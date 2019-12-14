@@ -10,7 +10,10 @@
     <b-row class="text-left mt-3">
       <b-col md="3">
         <b-list-group>
-          <b-list-group-item v-for="item in settings" v-bind:key="item.id">
+          <b-list-group-item
+            v-for="item in particleParams"
+            v-bind:key="item.id"
+          >
             <div class="form-group p-0">
               <label for="formControlRange"
                 >{{ item.label }} : {{ item.value }} ({{
@@ -25,7 +28,7 @@
                 min="0"
                 v-bind:max="item.range"
                 v-bind:step="item.step"
-                @change="onChange($event)"
+                @change="onParticleParamsChange($event)"
               />
             </div>
           </b-list-group-item>
@@ -33,40 +36,102 @@
             class="btn btn-primary"
             type="reset"
             value="Reset"
-            v-on:click="onReset"
+            v-on:click="onResetParticleParams"
           />
         </b-list-group>
       </b-col>
-      <b-col md="3" class="p-1">
-        <canvas id="canvas1" width="300" height="300"></canvas>
-        <p>
-          Energy diffusion of events.<br />
-          Click on the square to add events !
-        </p>
-      </b-col>
-      <b-col md="3" class="p-1">
-        <canvas id="canvas2" width="300" height="300"></canvas>
-        <p>
-          Events filtered by 'Intensity threshold filter' =
-          {{ this.settings[4].value }}
-        </p>
-      </b-col>
-      <b-col md="3" class="p-1">
-        <canvas id="canvas3" width="300" height="300"></canvas>
-        <p>
-          ConvexHullGrahamScan of clusters.
-        </p>
+      <b-col md="9">
+        <b-row>
+          <b-col md="4" class="p-1">
+            <canvas id="canvas1" width="300" height="300"></canvas>
+            <p>
+              Energy diffusion of events.<br />
+              Click on the square to add events !
+            </p>
+          </b-col>
+          <b-col md="4" class="p-1">
+            <canvas id="canvas2" width="300" height="300"></canvas>
+            <p>
+              Events filtered by 'Intensity threshold filter' =
+              {{ this.particleParams[4].value }}
+            </p>
+          </b-col>
+          <b-col md="4" class="p-1">
+            <canvas id="canvas3" width="300" height="300"></canvas>
+            <p>
+              ConvexHullGrahamScan of clusters.
+            </p>
+          </b-col>
+        </b-row>
+        <b-row class="text-left">
+          <b-col md="3">
+            <b-form-group label="Particles generation :">
+              <b-form-radio-group
+                id="radio-group-2"
+                v-model="generationMode"
+                @change.native="onGenerateModeChange($event)"
+                name="radio-sub-component"
+                stacked
+              >
+                <b-form-radio
+                  v-model="generationMode"
+                  name="some-radios"
+                  value="R"
+                  >Random</b-form-radio
+                >
+                <b-form-radio
+                  v-model="generationMode"
+                  name="some-radios"
+                  value="C"
+                  >Cluster</b-form-radio
+                >
+              </b-form-radio-group>
+            </b-form-group>
+            <b-list-group>
+              <b-list-group-item
+                v-for="item in clusterGenParams"
+                v-bind:key="item.id"
+              >
+                <div class="form-group p-0">
+                  <label for="formControlRange"
+                    >{{ item.label }} : {{ item.value }} ({{
+                      item.defaultValue
+                    }})</label
+                  >
+                  <input
+                    v-bind:name="item.id"
+                    type="range"
+                    class="form-control-range"
+                    v-model="item.value"
+                    min="0"
+                    v-bind:max="item.range"
+                    v-bind:step="item.step"
+                    @change="onClusterGenParamsChange($event)"
+                  />
+                </div>
+              </b-list-group-item>
+              <input
+                class="btn btn-primary"
+                type="reset"
+                value="Reset"
+                v-on:click="onResetClusterGenParams"
+              />
+            </b-list-group>
+          </b-col>
+        </b-row>
       </b-col>
     </b-row>
   </b-container>
 </template>
-
 <script>
 import CanvasParticles from "./canvasParticles.js";
 import Canvas from "./canvas.js";
 import CanvasConvexHGS from "./canvasConvexHGS.js";
 import Cluster from "./cluster.js";
-import json from "./json/settings.json";
+import Utils from "./utils";
+
+import particlesSettings from "./json/particlesSettings.json";
+import clusterGenSettings from "./json/clusterGenSettings.json";
 
 var centerIntensity;
 var intensityMin;
@@ -76,23 +141,36 @@ var filterThreshold;
 var nbMinPoints;
 var neighborhoodRadius;
 
+var num_clusters;
+var max_x_stdev;
+var max_y_stdev;
+var cluster_size;
+
+var canPart;
+var particlesGenerated = [];
+var particleID = 0;
+
 export default {
   name: "app",
   components: {},
   data() {
     return {
-      settings: json
+      particleParams: particlesSettings,
+      clusterGenParams: clusterGenSettings,
+      generationMode: "R",
+      nbClusterInput: 1
     };
   },
   mounted() {
     console.log("mounted");
     // init global variables
-    this.readSettings();
+    this.readParticleParams();
+    this.readClusterGenParams();
 
     var canvas1 = document.getElementById("canvas1");
     var canvas2 = document.getElementById("canvas2");
     var canvas3 = document.getElementById("canvas3");
-    var canPart = this.initDrawing(canvas1, canvas2, canvas3);
+    canPart = this.initDrawing(canvas1, canvas2, canvas3);
 
     var ctx1 = canvas1.getContext("2d");
     var ctx2 = canvas2.getContext("2d");
@@ -120,29 +198,84 @@ export default {
     canvas1.removeEventListener("click");
   },
   methods: {
-    onChange() {
-      this.readSettings();
-    },
-    onReset() {
-      for (let i = 0; i < this.settings.length; i++) {
-        this.settings[i].value = this.settings[i].defaultValue;
+    onResetParticleParams() {
+      console.log("onResetParticleParams");
+      for (let i = 0; i < this.particleParams.length; i++) {
+        this.particleParams[i].value = this.particleParams[i].defaultValue;
       }
-      this.readSettings();
+      this.readParticleParams();
     },
-    readSettings() {
-      centerIntensity = this.settings[0].value;
-      intensityMin = this.settings[1].value;
-      incRadius = parseFloat(this.settings[2].value);
-      incIntensity = this.settings[3].value;
-      filterThreshold = this.settings[4].value;
-      nbMinPoints = this.settings[5].value;
-      neighborhoodRadius = this.settings[6].value;
+    onResetClusterGenParams() {
+      console.log("onResetClusterGenParams");
+      for (let i = 0; i < this.clusterGenParams.length; i++) {
+        this.clusterGenParams[i].value = this.clusterGenParams[i].defaultValue;
+      }
+      this.readClusterGenParams();
+    },
+    onGenerateModeChange(event) {
+      canPart.removeAllParticles();
+      console.log("onGenerateChange::this.generationMode", this.generationMode);
+      console.log("onGenerateChange::event.target.value", event.target.value);
+
+      if (this.generationMode == "C") {
+        particleID = 0;
+        var width = 300;
+        var height = 300;
+        particlesGenerated = Utils.generateParticlesClustered(
+          num_clusters,
+          width,
+          height,
+          max_x_stdev,
+          max_y_stdev,
+          cluster_size,
+          centerIntensity
+        );
+      }
+    },
+    onParticleParamsChange() {
+      this.readParticleParams();
+    },
+    readParticleParams() {
+      console.log("readParticleParams");
+      centerIntensity = this.particleParams[0].value;
+      intensityMin = this.particleParams[1].value;
+      incRadius = parseFloat(this.particleParams[2].value);
+      incIntensity = this.particleParams[3].value;
+      filterThreshold = this.particleParams[4].value;
+      nbMinPoints = this.particleParams[5].value;
+      neighborhoodRadius = this.particleParams[6].value;
+    },
+    onClusterGenParamsChange() {
+      this.readClusterGenParams();
+
+      if (this.generationMode == "C") {
+        particleID = 0;
+        var width = 300;
+        var height = 300;
+        particlesGenerated = Utils.generateParticlesClustered(
+          num_clusters,
+          width,
+          height,
+          max_x_stdev,
+          max_y_stdev,
+          cluster_size,
+          centerIntensity
+        );
+      }
+    },
+    readClusterGenParams() {
+      console.log("readClusterGenParams");
+      num_clusters = this.clusterGenParams[0].value;
+      max_x_stdev = this.clusterGenParams[1].value;
+      max_y_stdev = this.clusterGenParams[2].value;
+      cluster_size = this.clusterGenParams[3].value;
     },
     initDrawing(canvas1, canvas2, canvas3) {
+      console.log("initDrawing");
       Canvas.initCanvas(canvas1);
       Canvas.initCanvas(canvas2);
       Canvas.initCanvas(canvas3);
-      var canPart = new CanvasParticles(canvas1, canvas2, canvas3);
+      canPart = new CanvasParticles(canvas1, canvas2, canvas3);
       canvas1.addEventListener(
         "click",
         function(e) {
@@ -150,9 +283,6 @@ export default {
         },
         false
       );
-
-      //Utils.setupRAF();
-      //console.log("initDrawing", canPart);
       return canPart;
     },
     startDrawing(
@@ -168,12 +298,22 @@ export default {
       dbscan
     ) {
       var draw = () => {
+        //console.log("draw::this.generationMode", this.generationMode);
+        if (this.generationMode == "R") {
+          canPart.createRandomParticle(centerIntensity);
+        } else if (
+          this.generationMode == "C" &&
+          particleID < particlesGenerated.length
+        ) {
+          canPart.createParticleFromDataset(particlesGenerated[particleID]);
+          particleID = particleID + 1;
+        }
+
         // Canvas 1
         canPart.refreshCanvas1(
           ctx1,
           canvas1,
           intensityMin,
-          centerIntensity,
           incRadius,
           incIntensity
         );

@@ -1,6 +1,8 @@
 /*=============================================================================*/
 /* Class utils 
 /*=============================================================================*/
+import Particle from "./particle.js";
+
 export default class utils {
   /*=============================================================================*/
   /* generate random number within a range
@@ -58,11 +60,19 @@ export default class utils {
     }
   }
 
-  static generate_cluster_data(num_clusters, width, height) {
+  static generateParticlesClustered(
+    num_clusters,
+    width,
+    height,
+    max_x_stdev,
+    max_y_stdev,
+    cluster_size,
+    centerIntensity
+  ) {
     //var num_clusters = 3;
-    var max_x_stdev = 10;
-    var max_y_stdev = 15;
-    var cluster_size = 30;
+    //var max_x_stdev = 10;
+    //var max_y_stdev = 15;
+    //var cluster_size = 30;
     var raw_point_data = [];
     var cluster_centers = [];
     for (let i = 0; i < num_clusters; i++) {
@@ -73,14 +83,35 @@ export default class utils {
     }
     cluster_centers.forEach(function(d) {
       for (let i = 0; i < cluster_size; i++) {
-        raw_point_data.push({
-          x: this.rnd(d.x, max_x_stdev),
-          y: this.rnd(d.y, max_y_stdev)
-        });
+        raw_point_data.push(
+          new Particle(
+            utils.rnd(d.x, max_x_stdev),
+            utils.rnd(d.y, max_y_stdev),
+            centerIntensity
+          )
+        );
       }
     });
-    return raw_point_data;
+    return utils.shuffle(raw_point_data);
   }
 
+  static shuffle(array) {
+    var currentIndex = array.length,
+      temporaryValue,
+      randomIndex;
 
+    // While there remain elements to shuffle...
+    while (0 !== currentIndex) {
+      // Pick a remaining element...
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1;
+
+      // And swap it with the current element.
+      temporaryValue = array[currentIndex];
+      array[currentIndex] = array[randomIndex];
+      array[randomIndex] = temporaryValue;
+    }
+
+    return array;
+  }
 }

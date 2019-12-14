@@ -85,6 +85,12 @@
                   value="C"
                   >Cluster</b-form-radio
                 >
+                <input
+                  class="btn btn-primary"
+                  type="restart"
+                  value="re-generate dataset"
+                  v-on:click="onReGenerateDataset"
+                />
               </b-form-radio-group>
             </b-form-group>
             <b-list-group>
@@ -198,41 +204,11 @@ export default {
     canvas1.removeEventListener("click");
   },
   methods: {
-    onResetParticleParams() {
-      console.log("onResetParticleParams");
-      for (let i = 0; i < this.particleParams.length; i++) {
-        this.particleParams[i].value = this.particleParams[i].defaultValue;
-      }
-      this.readParticleParams();
-    },
-    onResetClusterGenParams() {
-      console.log("onResetClusterGenParams");
-      for (let i = 0; i < this.clusterGenParams.length; i++) {
-        this.clusterGenParams[i].value = this.clusterGenParams[i].defaultValue;
-      }
-      this.readClusterGenParams();
-    },
-    onGenerateModeChange(event) {
-      canPart.removeAllParticles();
-      console.log("onGenerateChange::this.generationMode", this.generationMode);
-      console.log("onGenerateChange::event.target.value", event.target.value);
-
-      if (this.generationMode == "C") {
-        particleID = 0;
-        var width = 300;
-        var height = 300;
-        particlesGenerated = Utils.generateParticlesClustered(
-          num_clusters,
-          width,
-          height,
-          max_x_stdev,
-          max_y_stdev,
-          cluster_size,
-          centerIntensity
-        );
-      }
-    },
+    /*=============================================================================*/
+    /* Particles Parameters
+    /*=============================================================================*/
     onParticleParamsChange() {
+      console.log("onParticleParamsChange");
       this.readParticleParams();
     },
     readParticleParams() {
@@ -245,22 +221,31 @@ export default {
       nbMinPoints = this.particleParams[5].value;
       neighborhoodRadius = this.particleParams[6].value;
     },
+    onResetParticleParams() {
+      console.log("onResetParticleParams");
+      for (let i = 0; i < this.particleParams.length; i++) {
+        this.particleParams[i].value = this.particleParams[i].defaultValue;
+      }
+      this.readParticleParams();
+    },
+
+    /*=============================================================================*/
+    /* Parameters for generating the dataset of clustered particles
+    /*=============================================================================*/
+    onReGenerateDataset() {
+      console.log("onReGenerateDataset");
+      if (this.generationMode == "C") {
+        particleID = 0;
+        this.createParticlesClustered();
+      }
+    },
     onClusterGenParamsChange() {
+      console.log("onClusterGenParamsChange");
       this.readClusterGenParams();
 
       if (this.generationMode == "C") {
         particleID = 0;
-        var width = 300;
-        var height = 300;
-        particlesGenerated = Utils.generateParticlesClustered(
-          num_clusters,
-          width,
-          height,
-          max_x_stdev,
-          max_y_stdev,
-          cluster_size,
-          centerIntensity
-        );
+        this.createParticlesClustered();
       }
     },
     readClusterGenParams() {
@@ -270,6 +255,42 @@ export default {
       max_y_stdev = this.clusterGenParams[2].value;
       cluster_size = this.clusterGenParams[3].value;
     },
+    onResetClusterGenParams() {
+      console.log("onResetClusterGenParams");
+      for (let i = 0; i < this.clusterGenParams.length; i++) {
+        this.clusterGenParams[i].value = this.clusterGenParams[i].defaultValue;
+      }
+      this.readClusterGenParams();
+    },
+    createParticlesClustered() {
+      var canvas1 = document.getElementById("canvas1");
+      var width = canvas1.width;
+      var height = canvas1.height;
+
+      particlesGenerated = Utils.generateParticlesClustered(
+        num_clusters,
+        width,
+        height,
+        max_x_stdev,
+        max_y_stdev,
+        cluster_size,
+        centerIntensity
+      );
+    },
+    onGenerateModeChange(event) {
+      canPart.removeAllParticles();
+      console.log("onGenerateChange::this.generationMode", this.generationMode);
+      console.log("onGenerateChange::event.target.value", event.target.value);
+
+      if (this.generationMode == "C") {
+        particleID = 0;
+        this.createParticlesClustered();
+      }
+    },
+
+    /*=============================================================================*/
+    /* Draw particles
+    /*=============================================================================*/
     initDrawing(canvas1, canvas2, canvas3) {
       console.log("initDrawing");
       Canvas.initCanvas(canvas1);

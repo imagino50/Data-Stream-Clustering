@@ -36,7 +36,7 @@
             class="btn btn-primary"
             type="reset"
             value="Reset"
-            v-on:click="onResetParticleParams()"
+            @click="onResetParticleParams()"
           />
         </b-list-group>
       </b-col>
@@ -47,7 +47,7 @@
               id="canvas1"
               width="300"
               height="300"
-              v-on:click="onClickCanvas1($event)"
+              @click="onClickCanvas1($event)"
             ></canvas>
             <p>
               Energy diffusion of events.<br />
@@ -94,7 +94,7 @@
                   class="btn btn-primary"
                   type="restart"
                   value="re-generate dataset"
-                  v-on:click="onReGenerateDataset()"
+                  @click="onReGenerateDataset()"
                 />
               </b-form-radio-group>
             </b-form-group>
@@ -125,7 +125,7 @@
                 class="btn btn-primary"
                 type="reset"
                 value="Reset"
-                v-on:click="onResetClusterGenParams()"
+                @click="onResetClusterGenParams()"
               />
             </b-list-group>
           </b-col>
@@ -241,7 +241,6 @@ export default {
       this.readParticleParams();
     },
     readParticleParams() {
-      console.log("readParticleParams");
       this.centerIntensity = this.particlesParams[0].value;
       this.intensityMin = this.particlesParams[1].value;
       this.incRadius = parseFloat(this.particlesParams[2].value);
@@ -278,7 +277,6 @@ export default {
       }
     },
     readClusterGenParams() {
-      console.log("readClusterGenParams");
       this.num_clusters = this.particlesGenParams[0].value;
       this.max_x_stdev = this.particlesGenParams[1].value;
       this.max_y_stdev = this.particlesGenParams[2].value;
@@ -319,7 +317,6 @@ export default {
     /* Draw particles
     /*=============================================================================*/
     initDrawing(canvas1, canvas2, canvas3) {
-      console.log("initDrawing");
       Canvas.initCanvas(canvas1);
       Canvas.initCanvas(canvas2);
       Canvas.initCanvas(canvas3);

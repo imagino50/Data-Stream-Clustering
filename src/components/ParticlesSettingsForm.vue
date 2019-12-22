@@ -30,14 +30,14 @@
   </div>
 </template>
 <script>
+import particlesJson from "@/json/particleSettings.json";
+import { particleMutations, particleActions } from "@/particleSettingsStore.js";
+
 export default {
   name: "particlesSettings-form",
   components: {},
-  props: {
-    particlesParams: Array
-  },
   data() {
-    return {};
+    return { particlesParams: particlesJson };
   },
   methods: {
     /*=============================================================================*/
@@ -45,11 +45,20 @@ export default {
     /*=============================================================================*/
     onParticleParamsChange() {
       console.log("onParticleParamsChange");
-      this.$emit("change:particlesParams", this.particlesParams);
+      particleMutations.setCenterIntensity(this.particlesParams[0].value);
+      particleMutations.setIntensityMin(this.particlesParams[1].value);
+      particleMutations.setIncRadius(parseFloat(this.particlesParams[2].value));
+      particleMutations.setIncIntensity(this.particlesParams[3].value);
+      particleMutations.setFilterThreshold(this.particlesParams[4].value);
+      particleMutations.setNbMinPoints(this.particlesParams[5].value);
+      particleMutations.setNeighborhoodRadius(this.particlesParams[6].value);
     },
     onResetParticleParams() {
       console.log("onResetParticleParams");
-      this.$emit("reset:particlesParams");
+      for (let i = 0; i < this.particlesParams.length; i++) {
+        this.particlesParams[i].value = this.particlesParams[i].defaultValue;
+      }
+      particleActions.setDefaultValues();
     }
   }
 };

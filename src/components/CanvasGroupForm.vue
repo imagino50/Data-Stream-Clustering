@@ -4,8 +4,8 @@
       <b-col md="4" class="p-1">
         <canvas
           id="canvas1"
-          width="300"
-          height="300"
+          width="canvasWidth"
+          height="canvasHeight"
           @click="onClickCanvas1($event)"
         ></canvas>
         <p>
@@ -14,14 +14,14 @@
         </p>
       </b-col>
       <b-col md="4" class="p-1">
-        <canvas id="canvas2" width="300" height="300"></canvas>
-         <p>
-          Events filtered by 'Intensity threshold filter' =
-          {{ filterThreshold }}
-        </p> 
+        <canvas id="canvas2" width="canvasWidth" height="canvasHeight"></canvas>
+        <p>
+          Events filtered by 'Intensity threshold filter':
+          {{ getFilterThreshold }}
+        </p>
       </b-col>
       <b-col md="4" class="p-1">
-        <canvas id="canvas3" width="300" height="300"></canvas>
+        <canvas id="canvas3" width="canvasWidth" height="canvasHeight"></canvas>
         <p>
           ConvexHullGrahamScan of clusters.
         </p>
@@ -30,6 +30,8 @@
   </div>
 </template>
 <script>
+import { particleGetters } from "@/particleSettingsStore.js";
+import { inputGetters, inputMutations } from "@/inputDataStore.js";
 import CanvasParticles from "@/canvasParticles.js";
 import Canvas from "@/canvas.js";
 import CanvasConvexHGS from "@/canvasConvexHGS.js";
@@ -38,56 +40,27 @@ import Cluster from "@/cluster.js";
 export default {
   name: "canvasGroup-form",
   components: {},
-  props: {
-    particlesParams: Array,
-    particlesGenMode: String,
-    particlesGenerated: Array
-  },
   data() {
     return {
       canPart: null,
-      particleID: 0,
-      centerIntensity: {
-        type: Number
-      },
-      intensityMin: {
-        type: Number
-      },
-      incRadius: {
-        type: Number
-      },
-      incIntensity: {
-        type: Number
-      },
-      filterThreshold: {
-        type: Number
-      },
-      nbMinPoints: {
-        type: Number
-      },
-      neighborhoodRadius: {
-        type: Number
-      }
+      canvasWidth: 300,
+      canvasHeight: 300
     };
   },
-  watch: {
-    particlesGenMode: function() {
-      console.log("watch:particlesGenMode");
-      this.particleID = 0;
-      this.canPart.removeAllParticles();
-    },
-    particlesGenerated: function() {
-      console.log("watch:particlesGenerated");
-      this.particleID = 0;
-    },
-    particlesParams:function() {
-      console.log("watch:canvasGroup-form:particlesParams");
-      this.readParticleParams();
+  computed: {
+    getFilterThreshold() {
+      return particleGetters.filterThreshold();
     }
   },
+  /*watch: {
+    particlesGenMode: function() {
+      console.log("watch:particlesGenMode");
+      particleMutations.setParticleID(0);
+      this.canPart.removeAllParticles();
+    }
+  },*/
   mounted() {
     console.log("mounted");
-    this.readParticleParams();
 
     var canvas1 = document.getElementById("canvas1");
     var canvas2 = document.getElementById("canvas2");
@@ -115,16 +88,10 @@ export default {
   },
   methods: {
     onClickCanvas1(e) {
-      this.canPart.createParticleFromEvent(e, this.centerIntensity);
-    },
-    readParticleParams() {
-      this.centerIntensity = this.particlesParams[0].value;
-      this.intensityMin = this.particlesParams[1].value;
-      this.incRadius = parseFloat(this.particlesParams[2].value);
-      this.incIntensity = this.particlesParams[3].value;
-      this.filterThreshold = this.particlesParams[4].value;
-      this.nbMinPoints = this.particlesParams[5].value;
-      this.neighborhoodRadius = this.particlesParams[6].value;
+      this.canPart.createParticleFromEvent(
+        e,
+        particleGetters.centerIntensity()
+      );
     },
     /*=============================================================================*/
     /* Draw particles
@@ -147,39 +114,44 @@ export default {
       dbscan
     ) {
       var draw = () => {
-        if (this.particlesGenMode == "Random") {
-          this.canPart.createRandomParticle(this.centerIntensity);
+        if (inputGetters.generationMode() == "Random") {
+          this.canPart.createRandomParticle(particleGetters.centerIntensity());
         } else if (
-          this.particlesGenMode == "Cluster" &&
-          this.particleID < this.particlesGenerated.length
+          inputGetters.generationMode() == "Cluster" &&
+          inputGetters.particleID() < inputGetters.particlesGenerated().length
         ) {
           this.canPart.createParticleFromDataset(
-            this.particlesGenerated[this.particleID]
+            inputGetters.particlesGenerated()[inputGetters.particleID()]
           );
-          this.particleID = this.particleID + 1;
+          inputMutations.incParticleID();
         }
 
         // Canvas 1
         this.canPart.refreshCanvas1(
           ctx1,
           canvas1,
-          this.intensityMin,
-          this.incRadius,
-          this.incIntensity
+          particleGetters.intensityMin(),
+          particleGetters.incRadius(),
+          particleGetters.incIntensity()
         );
 
         // Canvas 2
         Canvas.clearCanvas(ctx2, canvas2);
-        Canvas.filterCanvas(ctx1, ctx2, canvas2, this.filterThreshold);
+        Canvas.filterCanvas(
+          ctx1,
+          ctx2,
+          canvas2,
+          particleGetters.filterThreshold()
+        );
         var particlesFiltered = this.canPart.filterParticles(
-          this.filterThreshold
+          particleGetters.filterThreshold()
         );
 
         var dataset = Cluster.createDataset(particlesFiltered);
         var clusters = dbscan.run(
           dataset,
-          this.neighborhoodRadius,
-          this.nbMinPoints
+          particleGetters.neighborhoodRadius(),
+          particleGetters.nbMinPoints()
         );
         particlesFiltered = this.canPart.updateParticlesCluster(clusters);
         var clusterColors = Cluster.buildClusterColors(

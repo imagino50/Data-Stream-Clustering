@@ -1,6 +1,6 @@
 [
     {
-      "id": 1,
+      "id": "num_clusters",
       "label": "Nb clusters",
       "value": 3,
       "defaultValue": 3,
@@ -8,7 +8,7 @@
       "step": 1
     },
     {
-      "id": 2,
+      "id": "max_x_stdev",
       "label": "Max x standard deviation",
       "value": 10,
       "defaultValue": 10,
@@ -16,7 +16,7 @@
       "step": 1
     },
     {
-      "id": 3,
+      "id": "max_y_stdev",
       "label": "Max y standard deviation",
       "value": 10,
       "defaultValue": 10,
@@ -24,7 +24,7 @@
       "step": 1
     },	
     {
-      "id": 4,
+      "id": "cluster_size",
       "label": "Nb particles per Cluster",
       "value": 30,
       "defaultValue": 30,

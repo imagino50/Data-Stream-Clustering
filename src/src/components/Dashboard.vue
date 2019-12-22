@@ -1,0 +1,47 @@
+<template>
+  <b-container fluid id="app" class="bv-example-row">
+    <b-row class="text-center">
+      <b-col class="bg-dark">
+        <h1 class="text-white navbar-brand">
+          Clustering signal events with intensity diffusion and accumulation.
+        </h1>
+      </b-col>
+    </b-row>
+    <b-row class="text-left mt-3">
+      <b-col md="3">
+        <particlesSettings />
+      </b-col>
+      <b-col md="9">
+        <CanvasGroup />
+        <b-row class="text-left">
+          <dataGenSettings />
+        </b-row>
+      </b-col>
+    </b-row>
+  </b-container>
+</template>
+<script>
+import ParticlesSettings from "@/components/ParticlesSettingsForm.vue";
+import DataGenSettings from "@/components/DataGenSettingsForm.vue";
+import CanvasGroup from "@/components/CanvasGroupForm.vue";
+
+export default {
+  name: "app",
+  components: { ParticlesSettings, DataGenSettings, CanvasGroup },
+  data() {
+    return {};
+  },
+  methods: {}
+};
+</script>
+
+<style>
+button {
+  background: #009435;
+  border: 1px solid #009435;
+}
+
+.small-container {
+  max-width: 200px;
+}
+</style>

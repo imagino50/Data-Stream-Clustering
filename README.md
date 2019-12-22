@@ -1,4 +1,4 @@
-# Clustering particules diffusion
+# Clustering events diffusion
 
 Generate (random or clustered) events as input (First Canvas).   
 Each intensity decreases while the radius increases.    

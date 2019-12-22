@@ -1,6 +1,6 @@
 [
     {
-      "id": 1,
+      "id": "centerIntensity",
       "label": "Event initial intensity",
       "value": 150,
       "defaultValue": 150,
@@ -8,7 +8,7 @@
       "step": 1
     },
     {
-      "id": 2,
+      "id": "intensityMin",
       "label": "Intensity threshold for the display",
       "value": 5,
       "defaultValue": 5,
@@ -16,7 +16,7 @@
       "step": 1
     },
     {
-      "id": 3,
+      "id": "incRadius",
       "label": "Radius increasing speed",
       "value": 0.2,
       "defaultValue": 0.2,
@@ -24,7 +24,7 @@
       "step": 0.05
     },
     {
-      "id": 4,
+      "id": "incIntensity",
       "label": "Intensity decreasing speed",
       "value": 1,
       "defaultValue": 1,
@@ -32,7 +32,7 @@
       "step": 0.1
     },
     {
-      "id": 5,
+      "id": "filterThreshold",
       "label": "Intensity threshold filter",
       "value": 200,
       "defaultValue": 200,
@@ -40,7 +40,7 @@
       "step": 1
     },
     {
-      "id": 6,
+      "id": "nbMinPoints",
       "label": "Number of points in neighborhood to form a cluster",
       "value": 2,
       "defaultValue": 2,
@@ -48,7 +48,7 @@
       "step": 1
     },
     {
-      "id": 7,
+      "id": "neighborhoodRadius",
       "label": "Cluster neighborhood radius",
       "value": 10,
       "defaultValue": 10,

@@ -1,8 +1,10 @@
-# particulesproject
+# Clustering particules diffusion
 
-Generate events (random or clustered) with intensity diffusion and accumulation.  
-Its intensity decreases while its radius increases.  
-Hdbscan is applied to detect clusters and then ConvexHullGrahamScan is used to draw clusters shapes.  
+Generate (random or clustered) events as input (First Canvas). 
+Each intensity decreases while the radius increases.  
+For events close enough, intensities overlappe.
+Hdbscan is applied to detect clusters (Second Canvas).  
+Then ConvexHullGrahamScan is used to draw clusters shapes (Third Canvas).  
 
 ## Built With
 

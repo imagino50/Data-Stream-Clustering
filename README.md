@@ -1,13 +1,13 @@
-# Clustering events (intensity spreading and cumulating)
+# Clustering of streaming events which intensity spreads and decreases over time. 
 
 - **First Canvas** :   
 Generate (random or clustered) events as input .   
-Each event intensity decreases while its radius increases.    
-For events which overlap, theirs intensities cumulate.   
+Each event intensity decreases while its radius increases over time.    
+For events which overlap, theirs intensities cumulate each others.   
 - **Second Canvas** :  
-Hdbscan is applied to detect clusters. 
+Hdbscan is applied to detect clusters on real time.
 - **Third Canvas** :  
-Then ConvexHullGrahamScan is used to draw clusters shapes.    
+Then ConvexHullGrahamScan draw clusters polygons on real time.    
 
 ## Built With
 

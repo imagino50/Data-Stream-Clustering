@@ -7,7 +7,6 @@
           v-model="generationMode"
           @change.native="onGenerateModeChange()"
           name="radio-sub-component"
-          stacked
         >
           <b-form-radio
             v-model="generationMode"
@@ -31,6 +30,7 @@
       </b-form-group>
       <b-list-group>
         <b-list-group-item
+          style="padding: 0rem 0rem;"
           v-for="item in particlesGenParams"
           v-bind:key="item.id"
         >

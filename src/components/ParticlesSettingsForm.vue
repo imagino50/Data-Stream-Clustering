@@ -1,7 +1,7 @@
 <template>
   <div id="particlesSettings-form">
     <b-list-group>
-      <b-list-group-item v-for="item in particlesParams" v-bind:key="item.id">
+      <b-list-group-item style="padding: 0rem 0rem;" v-for="item in particlesParams" v-bind:key="item.id">
         <div class="form-group p-0">
           <label for="formControlRange"
             >{{ item.label }} : {{ item.value }} ({{
@@ -11,7 +11,7 @@
           <input
             v-bind:name="item.id"
             type="range"
-            class="form-control-range"
+            class="form-control-range form-control-sm"
             v-model="item.value"
             min="0"
             v-bind:max="item.range"
@@ -57,6 +57,11 @@ export default {
   }
 };
 </script>
-
-<style>
-</style>
+.list-group-item {
+  position: relative;
+  display: block;
+  padding: 0rem 1.15rem;
+  background-color: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+}
+<style></style>

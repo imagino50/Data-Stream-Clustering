@@ -41,7 +41,7 @@
     },
     {
       "id": "nbMinPoints",
-      "label": "Number of points in neighborhood to form a cluster",
+      "label": "Nb points in neighborhood to form a cluster",
       "value": 2,
       "defaultValue": 2,
       "range": 50,

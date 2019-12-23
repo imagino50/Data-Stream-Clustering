@@ -9,7 +9,7 @@ Hdbscan is applied to detect clusters on real time.
 - **Third Canvas** :  
 Then ConvexHullGrahamScan draw clusters polygons on real time.    
 
-[Home page :](./public/image.png)
+[Home page]: https://github.com/imagino50/ParticlesProject/blob/master/public/image.png "Home page"
 
 ## Built With
 

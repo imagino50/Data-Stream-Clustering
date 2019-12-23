@@ -1,6 +1,6 @@
 # Clustering events diffusion
 
-- First Canvas : 
+- First Canvas :   
 Generate (random or clustered) events as input .   
 Each event intensity decreases while its radius increases.    
 For events which overlap, theirs intensities cumulate.   

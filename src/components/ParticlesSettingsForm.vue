@@ -1,7 +1,7 @@
 <template>
   <div id="particlesSettings-form">
     <b-list-group>
-      <b-list-group-item style="padding: 0rem 0rem;" v-for="item in particlesParams" v-bind:key="item.id">
+      <b-list-group-item style="padding: 0rem 0.2rem;" v-for="item in particlesParams" v-bind:key="item.id">
         <div class="form-group p-0">
           <label for="formControlRange"
             >{{ item.label }} : {{ item.value }} ({{

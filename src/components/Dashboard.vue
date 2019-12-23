@@ -3,7 +3,7 @@
     <b-row class="text-center">
       <b-col class="bg-dark">
         <h1 class="text-white navbar-brand">
-          Clustering signal events with intensity diffusion and accumulation.
+          Clustering signal events (intensity diffusion and overlapping).
         </h1>
       </b-col>
     </b-row>

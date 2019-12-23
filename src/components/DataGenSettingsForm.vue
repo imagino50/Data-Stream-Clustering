@@ -30,7 +30,7 @@
       </b-form-group>
       <b-list-group>
         <b-list-group-item
-          style="padding: 0rem 0rem;"
+          style="padding: 0rem 0.2rem;"
           v-for="item in particlesGenParams"
           v-bind:key="item.id"
         >

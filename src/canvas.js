@@ -1,4 +1,4 @@
-import Filter from "./filter.js";
+import Utils from "@/utils.js";
 
 /*=============================================================================*/
 /* Class Canvas 
@@ -30,7 +30,7 @@ export default class Canvas {
   /*=============================================================================*/
   static filterCanvas(ctx1, ctx2, canvas1, filterThreshold) {
     var imgData = ctx1.getImageData(0, 0, canvas1.width, canvas1.height);
-    var imgDataFiltered = Filter.redFilter(imgData, filterThreshold);
+    var imgDataFiltered = Utils.redFilter(imgData, filterThreshold);
     ctx2.putImageData(imgDataFiltered, 0, 0);
   }
 

@@ -1,4 +1,4 @@
-import ConvexHGS from "./convexHGS.js";
+import ConvexHGS from "@/convexHGS.js";
 
 /*=============================================================================*/
 /* Class ConvexHullGrahamScan

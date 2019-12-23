@@ -1,8 +1,7 @@
-import Particle from "./particle.js";
-import Utils from "./utils.js";
-import PixelLocation from "./pixelLocation.js";
-import Cluster from "./cluster.js";
-import Canvas from "./canvas.js";
+import Particle from "@/particle.js";
+import Utils from "@/utils.js";
+import Cluster from "@/cluster.js";
+import Canvas from "@/canvas.js";
 
 /*=============================================================================*/
 /* Class Canvas Particles
@@ -62,7 +61,7 @@ export default class CanvasParticles {
   /* Create Particles from click mouse event
   /*=============================================================================*/
   createParticleFromEvent(e, centerIntensity) {
-    var eventLocation = PixelLocation.getPosition(e);
+    var eventLocation = Utils.getPosition(e);
     this.createParticle(eventLocation.x, eventLocation.y, centerIntensity);
   }
 
@@ -179,7 +178,7 @@ export default class CanvasParticles {
     canvas.addEventListener(
       "click",
       function(e) {
-        var eventLocation = PixelLocation.getPosition(e);
+        var eventLocation = Utils.getPosition(e);
         this.createParticle(eventLocation.x, eventLocation.y, centerIntensity);
       },
       false

@@ -30,8 +30,8 @@
   </div>
 </template>
 <script>
-import { particleGetters } from "@/particleSettingsStore.js";
-import { inputGetters, inputMutations } from "@/inputDataStore.js";
+import { particleGetters } from "@/store/particleSettingsStore.js";
+import { inputGetters, inputMutations } from "@/store/inputDataStore.js";
 import CanvasParticles from "@/canvasParticles.js";
 import Canvas from "@/canvas.js";
 import CanvasConvexHGS from "@/canvasConvexHGS.js";

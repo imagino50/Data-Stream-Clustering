@@ -31,7 +31,7 @@
 </template>
 <script>
 import particlesJson from "@/json/particleSettings.json";
-import { particleMutations, particleActions } from "@/particleSettingsStore.js";
+import { particleActions } from "@/store/particleSettingsStore.js";
 
 export default {
   name: "particlesSettings-form",
@@ -45,13 +45,7 @@ export default {
     /*=============================================================================*/
     onParticleParamsChange() {
       console.log("onParticleParamsChange");
-      particleMutations.setCenterIntensity(this.particlesParams[0].value);
-      particleMutations.setIntensityMin(this.particlesParams[1].value);
-      particleMutations.setIncRadius(parseFloat(this.particlesParams[2].value));
-      particleMutations.setIncIntensity(this.particlesParams[3].value);
-      particleMutations.setFilterThreshold(this.particlesParams[4].value);
-      particleMutations.setNbMinPoints(this.particlesParams[5].value);
-      particleMutations.setNeighborhoodRadius(this.particlesParams[6].value);
+      particleActions.setValues(this.particlesParams);
     },
     onResetParticleParams() {
       console.log("onResetParticleParams");

@@ -69,5 +69,14 @@ export const particleActions = {
     particleMutations.setFilterThreshold(particleJson[4].defaultValue);
     particleMutations.setNbMinPoints(particleJson[5].defaultValue);
     particleMutations.setNeighborhoodRadius(particleJson[6].defaultValue);
+  },
+  setValues(particlesParams) {
+    particleMutations.setCenterIntensity(particlesParams[0].value);
+    particleMutations.setIntensityMin(particlesParams[1].value);
+    particleMutations.setIncRadius(parseFloat(particlesParams[2].value));
+    particleMutations.setIncIntensity(particlesParams[3].value);
+    particleMutations.setFilterThreshold(particlesParams[4].value);
+    particleMutations.setNbMinPoints(particlesParams[5].value);
+    particleMutations.setNeighborhoodRadius(particlesParams[6].value);
   }
 };

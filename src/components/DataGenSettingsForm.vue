@@ -65,8 +65,8 @@
 <script>
 import Utils from "@/utils";
 import clusterGenJson from "@/json/inputSettings.json";
-import { inputGetters, inputMutations } from "@/inputDataStore.js";
-import { particleGetters } from "@/particleSettingsStore.js";
+import { inputGetters, inputMutations } from "@/store/inputDataStore.js";
+import { particleGetters } from "@/store/particleSettingsStore.js";
 
 export default {
   name: "dataGenSettings-form",

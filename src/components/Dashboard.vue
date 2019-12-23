@@ -9,25 +9,25 @@
     </b-row>
     <b-row class="text-left mt-3">
       <b-col md="3">
-        <particlesSettings />
+        <eventSettings />
       </b-col>
       <b-col md="9">
         <CanvasGroup />
         <b-row class="text-left">
-          <dataGenSettings />
+          <inputSettings />
         </b-row>
       </b-col>
     </b-row>
   </b-container>
 </template>
 <script>
-import ParticlesSettings from "@/components/ParticlesSettingsForm.vue";
-import DataGenSettings from "@/components/DataGenSettingsForm.vue";
+import EventSettings from "@/components/EventSettingsForm.vue";
+import InputSettings from "@/components/InputSettingsForm.vue";
 import CanvasGroup from "@/components/CanvasGroupForm.vue";
 
 export default {
   name: "app",
-  components: { ParticlesSettings, DataGenSettings, CanvasGroup },
+  components: { EventSettings, InputSettings, CanvasGroup },
   data() {
     return {};
   },

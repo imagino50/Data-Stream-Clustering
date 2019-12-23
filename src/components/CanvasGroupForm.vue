@@ -30,9 +30,9 @@
   </div>
 </template>
 <script>
-import { particleGetters } from "@/store/particleSettingsStore.js";
-import { inputGetters, inputMutations } from "@/store/inputDataStore.js";
-import CanvasParticles from "@/canvasParticles.js";
+import { eventGetters } from "@/store/eventSettingsStore.js";
+import { inputGetters, inputMutations } from "@/store/inputSettingsStore.js";
+import CanvasEvents from "@/canvasEvents.js";
 import Canvas from "@/canvas.js";
 import CanvasConvexHGS from "@/canvasConvexHGS.js";
 import Cluster from "@/cluster.js";
@@ -49,16 +49,9 @@ export default {
   },
   computed: {
     getFilterThreshold() {
-      return particleGetters.filterThreshold();
+      return eventGetters.filterThreshold();
     }
   },
-  /*watch: {
-    particlesGenMode: function() {
-      console.log("watch:particlesGenMode");
-      particleMutations.setParticleID(0);
-      this.canPart.removeAllParticles();
-    }
-  },*/
   mounted() {
     console.log("mounted");
 
@@ -70,7 +63,7 @@ export default {
     var ctx1 = canvas1.getContext("2d");
     var ctx2 = canvas2.getContext("2d");
     var ctx3 = canvas3.getContext("2d");
-    var particlesFiltered_sav = [];
+    var eventsFiltered_sav = [];
     var clusterColors_sav = [];
     var clustering = require("density-clustering");
     var dbscan = new clustering.DBSCAN();
@@ -81,26 +74,26 @@ export default {
       canvas2,
       ctx3,
       canvas3,
-      particlesFiltered_sav,
+      eventsFiltered_sav,
       clusterColors_sav,
       dbscan
     );
   },
   methods: {
     onClickCanvas1(e) {
-      this.canPart.createParticleFromEvent(
+      this.canPart.createEventFromClick(
         e,
-        particleGetters.centerIntensity()
+        eventGetters.centerIntensity()
       );
     },
     /*=============================================================================*/
-    /* Draw particles
+    /* Draw Events
     /*=============================================================================*/
     initDrawing(canvas1, canvas2, canvas3) {
       Canvas.initCanvas(canvas1);
       Canvas.initCanvas(canvas2);
       Canvas.initCanvas(canvas3);
-      this.canPart = new CanvasParticles(canvas1, canvas2, canvas3);
+      this.canPart = new CanvasEvents(canvas1, canvas2, canvas3);
     },
     startDrawing(
       ctx1,
@@ -109,30 +102,30 @@ export default {
       canvas2,
       ctx3,
       canvas3,
-      particlesFiltered_sav,
+      eventsFiltered_sav,
       clusterColors_sav,
       dbscan
     ) {
       var draw = () => {
         if (inputGetters.generationMode() == "Random") {
-          this.canPart.createRandomParticle(particleGetters.centerIntensity());
+          this.canPart.createRandomEvent(eventGetters.centerIntensity());
         } else if (
           inputGetters.generationMode() == "Cluster" &&
-          inputGetters.particleID() < inputGetters.particlesGenerated().length
+          inputGetters.eventID() < inputGetters.eventsGenerated().length
         ) {
-          this.canPart.createParticleFromDataset(
-            inputGetters.particlesGenerated()[inputGetters.particleID()]
+          this.canPart.addEvent(
+            inputGetters.eventsGenerated()[inputGetters.eventID()]
           );
-          inputMutations.incParticleID();
+          inputMutations.incEventID();
         }
 
         // Canvas 1
         this.canPart.refreshCanvas1(
           ctx1,
           canvas1,
-          particleGetters.intensityMin(),
-          particleGetters.incRadius(),
-          particleGetters.incIntensity()
+          eventGetters.intensityMin(),
+          eventGetters.incRadius(),
+          eventGetters.incIntensity()
         );
 
         // Canvas 2
@@ -141,36 +134,36 @@ export default {
           ctx1,
           ctx2,
           canvas2,
-          particleGetters.filterThreshold()
+          eventGetters.filterThreshold()
         );
-        var particlesFiltered = this.canPart.filterParticles(
-          particleGetters.filterThreshold()
+        var eventsFiltered = this.canPart.filterEvents(
+          eventGetters.filterThreshold()
         );
 
-        var dataset = Cluster.createDataset(particlesFiltered);
+        var dataset = Cluster.createDataset(eventsFiltered);
         var clusters = dbscan.run(
           dataset,
-          particleGetters.neighborhoodRadius(),
-          particleGetters.nbMinPoints()
+          eventGetters.neighborhoodRadius(),
+          eventGetters.nbMinPoints()
         );
-        particlesFiltered = this.canPart.updateParticlesCluster(clusters);
+        eventsFiltered = this.canPart.setClustersEvents(clusters);
         var clusterColors = Cluster.buildClusterColors(
           clusters.length,
-          particlesFiltered,
-          particlesFiltered_sav,
+          eventsFiltered,
+          eventsFiltered_sav,
           clusterColors_sav
         );
-        this.canPart.renderFilteredParticles(clusterColors);
+        this.canPart.renderFilteredEvents(clusterColors);
 
         // Canvas 3
         CanvasConvexHGS.drawConvexHullClusters(
           ctx3,
-          particlesFiltered,
+          eventsFiltered,
           clusters.length
         );
 
-        // Save the n-1 data particles
-        particlesFiltered_sav = [...particlesFiltered];
+        // Save the n-1 data events
+        eventsFiltered_sav = [...eventsFiltered];
         clusterColors_sav = [...clusterColors];
 
         // this function will run endlessly with requestAnimationFrame

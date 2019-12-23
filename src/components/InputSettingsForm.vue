@@ -1,7 +1,7 @@
 <template>
-  <div id="dataGenSettings-form">
-    <b-col md="13">
-      <b-form-group label="Particles generation :">
+  <div id="inputSettings-form">
+    <b-col md="10">
+      <b-form-group label="Events generation :">
         <b-form-radio-group
           id="radio-group-2"
           v-model="generationMode"
@@ -23,7 +23,7 @@
           <input
             class="btn btn-primary"
             type="restart"
-            value="re-generate dataset"
+            value="re-generate"
             @click="onReGenerateDataset()"
           />
         </b-form-radio-group>
@@ -31,7 +31,7 @@
       <b-list-group>
         <b-list-group-item
           style="padding: 0rem 0.2rem;"
-          v-for="item in particlesGenParams"
+          v-for="item in eventsGenParams"
           v-bind:key="item.id"
         >
           <div class="form-group p-0">
@@ -65,52 +65,52 @@
 <script>
 import clusterGenJson from "@/json/inputSettings.json";
 import Utils from "@/utils";
-import { inputGetters, inputMutations } from "@/store/inputDataStore.js";
-import { particleGetters } from "@/store/particleSettingsStore.js";
+import { inputGetters, inputMutations } from "@/store/inputSettingsStore.js";
+import { eventGetters } from "@/store/eventSettingsStore.js";
 
 export default {
-  name: "dataGenSettings-form",
+  name: "inputSettings-form",
   components: {},
   data() {
-    return { particlesGenParams: clusterGenJson, generationMode: "Random" };
+    return { eventsGenParams: clusterGenJson, generationMode: "Random" };
   },
   methods: {
     onResetClusterGenParams() {
       console.log("onResetClusterGenParams");
-      for (let i = 0; i < this.particlesGenParams.length; i++) {
-        this.particlesGenParams[i].value = this.particlesGenParams[
+      for (let i = 0; i < this.eventsGenParams.length; i++) {
+        this.eventsGenParams[i].value = this.eventsGenParams[
           i
         ].defaultValue;
       }
-      this.createParticlesClustered();
+      this.createClusteredEvents();
     },
     onReGenerateDataset() {
       console.log("onReGenerateDataset");
-      this.createParticlesClustered();
+      this.createClusteredEvents();
     },
     onClusterGenParamsChange() {
       console.log("onClusterGenParamsChange");
-      this.createParticlesClustered();
+      this.createClusteredEvents();
     },
     onGenerateModeChange() {
       console.log("onGenerateModeChange");
       inputMutations.setGenerationMode(this.generationMode);
       if (inputGetters.generationMode() == "Cluster") {
-        this.createParticlesClustered();
+        this.createClusteredEvents();
       }
     },
-    createParticlesClustered() {
-      inputMutations.setParticleID(0);
+    createClusteredEvents() {
+      inputMutations.setEventID(0);
       var canvas1 = document.getElementById("canvas1");
-      inputMutations.setParticlesGenerated(
-        Utils.generateParticlesClustered(
-          this.particlesGenParams[0].value,
+      inputMutations.seteventsGenerated(
+        Utils.generateClusteredEvents(
+          this.eventsGenParams[0].value,
           canvas1.width,
           canvas1.height,
-          this.particlesGenParams[1].value,
-          this.particlesGenParams[2].value,
-          this.particlesGenParams[3].value,
-          particleGetters.centerIntensity()
+          this.eventsGenParams[1].value,
+          this.eventsGenParams[2].value,
+          this.eventsGenParams[3].value,
+          eventGetters.centerIntensity()
         )
       );
     }

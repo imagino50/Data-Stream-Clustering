@@ -3,18 +3,18 @@
 /*=============================================================================*/
 export default class Cluster {
   /*=============================================================================*/
-  /* create dataset from particles to detect Clusters
+  /* create dataset from events to detect Clusters
   /*=============================================================================*/
-  static createDataset(particles) {
+  static createDataset(eventList) {
     var dataset = [];
-    for (let i = 0; i < particles.length; i++) {
-      dataset.push([particles[i].x, particles[i].y]);
+    for (let i = 0; i < eventList.length; i++) {
+      dataset.push([eventList[i].x, eventList[i].y]);
     }
     return dataset;
   }
 
   /*=============================================================================*/
-  /* Count the total number of particles in clusters 
+  /* Count the total number of events in clusters 
   /*=============================================================================*/
   static getNbItemsClustered(clusters) {
     var count = 0;
@@ -28,35 +28,35 @@ export default class Cluster {
   }
 
   /*=============================================================================*/
-  /* Reuse the colors already set to clustered particles 
+  /* Reuse the colors already set to clustered events 
   /*=============================================================================*/
   static reusePreviousClusterColors(
     nbClusters,
-    particlesFiltered,
-    particlesFiltered_sav,
+    eventsFiltered,
+    eventsFiltered_sav,
     clusterColors_sav
   ) {
     var clusterColors = new Array(nbClusters).fill("null");
 
-    for (let idx = 0; idx < particlesFiltered.length; idx++) {
-      let clusterId = particlesFiltered[idx].clusterId;
+    for (let idx = 0; idx < eventsFiltered.length; idx++) {
+      let clusterId = eventsFiltered[idx].clusterId;
       if (clusterId != -1) {
         for (
           let idx_sav = 0;
-          idx_sav < particlesFiltered_sav.length;
+          idx_sav < eventsFiltered_sav.length;
           idx_sav++
         ) {
           if (
-            particlesFiltered[idx].x == particlesFiltered_sav[idx_sav].x &&
-            particlesFiltered[idx].y == particlesFiltered_sav[idx_sav].y &&
-            particlesFiltered_sav[idx_sav].clusterId != -1
+            eventsFiltered[idx].x == eventsFiltered_sav[idx_sav].x &&
+            eventsFiltered[idx].y == eventsFiltered_sav[idx_sav].y &&
+            eventsFiltered_sav[idx_sav].clusterId != -1
           ) {
             var colorUsedKey =
-              clusterColors_sav[particlesFiltered_sav[idx_sav].clusterId];
+              clusterColors_sav[eventsFiltered_sav[idx_sav].clusterId];
 
             /*console.log(
-                "particlesFiltered_sav[idx_sav].clusterId",
-                particlesFiltered_sav[idx_sav].clusterId
+                "eventsFiltered_sav[idx_sav].clusterId",
+                eventsFiltered_sav[idx_sav].clusterId
               );
               console.log(
                 "colorUsedKey",
@@ -89,7 +89,7 @@ export default class Cluster {
   }
 
   /*=============================================================================*/
-  /* set available colors to particles newly clustered
+  /* set available colors to events newly clustered
   /*=============================================================================*/
   static setColorsNewCluster(clusterColors) {
     var clusterColorsUsed = [...new Set(clusterColors)];
@@ -112,7 +112,7 @@ export default class Cluster {
   }
 
   /*=============================================================================*/
-  /* set colors to clustered particles 
+  /* set colors to clustered events 
   /*=============================================================================*/
   static buildClusterColors(
     nbClusters,
@@ -138,10 +138,9 @@ export default class Cluster {
   }
 
   /*=============================================================================*/
-  /* colors of clustered particles 
+  /* colors of clustered events 
   /*=============================================================================*/
   static ColorsPalette = Object.freeze({
-    //Red: "rgb(255,0,0)",
     Green: "rgb(0,255,0)",
     Blue: "rgb(0,0,255)",
     Emerald: "rgb(0,155,119)",

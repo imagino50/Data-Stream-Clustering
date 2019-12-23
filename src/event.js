@@ -1,7 +1,7 @@
 /*=============================================================================*/
-/* Class Particle
+/* Class Event
 /*=============================================================================*/
-export default class Particle {
+export default class Event {
   /*=============================================================================*/
   /* Constructor
   /*=============================================================================*/
@@ -14,7 +14,7 @@ export default class Particle {
   }
 
   /*=============================================================================*/
-  /* update Particle shape
+  /* update Event shape
   /*=============================================================================*/
   updateShape(incRadius, incIntensity) {
     // decrease the intensity
@@ -25,16 +25,16 @@ export default class Particle {
   }
 
   /*=============================================================================*/
-  /* update Particle cluster
+  /* set Event's cluster
   /*=============================================================================*/
-  updateCluster(id) {
+  setCluster(id) {
     this.clusterId = id;
   }
 
   /*=============================================================================*/
-  /* draw Particle
+  /* render Event
   /*=============================================================================*/
-  draw(ctx, canvas_w, canvas_h) {
+  render(ctx, canvas_w, canvas_h) {
     var rgr = ctx.createRadialGradient(
       this.x,
       this.y,
@@ -52,9 +52,9 @@ export default class Particle {
   }
 
   /*=============================================================================*/
-  /* draw colored circle around the Particle
+  /* draw colored circle around the Event
   /*=============================================================================*/
-  drawCenters(color, ctx, canvas_w, canvas_h) {
+  drawColoredCircle(color, ctx, canvas_w, canvas_h) {
     ctx.strokeStyle = color;
     ctx.beginPath();
     ctx.arc(this.x, this.y, 5, 0, 2 * Math.PI);
@@ -63,14 +63,14 @@ export default class Particle {
   }
 
   /*=============================================================================*/
-  /* Return True if the particle is included in a cluster
+  /* Return True if the event is included in a cluster
   /*=============================================================================*/
-  static isInCluster(particules, clusters) {
+  static isInCluster(events, clusters) {
     for (let i = 0; i < clusters.length; i++) {
       let cluster = clusters[i];
       for (let j = 0; j < cluster.length; j++) {
         let index = cluster[j];
-        if (this.x == particules[index].x && this.y == particules[index].y) {
+        if (this.x == events[index].x && this.y == events[index].y) {
           return true;
         }
       }
@@ -79,12 +79,12 @@ export default class Particle {
   }
 
   /*=============================================================================*/
-  /* clone Particle 
+  /* clone Event 
   /*=============================================================================*/
   clone() {
-    var particleCloned = new Particle(this.x, this.y, this.intensity);
-    particleCloned.radius = this.radius;
-    particleCloned.clusterId = this.clusterId;
-    return particleCloned;
+    var eventCloned = new Event(this.x, this.y, this.intensity);
+    eventCloned.radius = this.radius;
+    eventCloned.clusterId = this.clusterId;
+    return eventCloned;
   }
 }

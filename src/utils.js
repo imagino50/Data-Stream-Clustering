@@ -1,7 +1,7 @@
 /*=============================================================================*/
 /* Class utils 
 /*=============================================================================*/
-import Particle from "@/particle.js";
+import Event from "@/event.js";
 
 export default class utils {
   /*=============================================================================*/
@@ -57,9 +57,9 @@ export default class utils {
   }
 
   /*=============================================================================*/
-  /* generate dataset of clustered particles as input
+  /* generate dataset of clustered events as input
   /*=============================================================================*/
-  static generateParticlesClustered(
+  static generateClusteredEvents(
     num_clusters,
     width,
     height,
@@ -79,7 +79,7 @@ export default class utils {
     cluster_centers.forEach(function(d) {
       for (let i = 0; i < cluster_size; i++) {
         raw_point_data.push(
-          new Particle(
+          new Event(
             utils.rnd(d.x, max_x_stdev),
             utils.rnd(d.y, max_y_stdev),
             centerIntensity

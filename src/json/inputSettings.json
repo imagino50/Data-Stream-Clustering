@@ -25,7 +25,7 @@
     },	
     {
       "id": "cluster_size",
-      "label": "Nb particles per Cluster",
+      "label": "Nb events per Cluster",
       "value": 30,
       "defaultValue": 30,
       "range": 100,

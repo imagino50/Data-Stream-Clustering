@@ -7,13 +7,13 @@ export default class CanvasConvexHGS {
   /*=============================================================================*/
   /* Compyte convex hull point array 
   /*=============================================================================*/
-  static computeConvexHullPoints(particles) {
+  static computeConvexHullPoints(eventList) {
     // Create a new instance of ConvexHullGrahamScan.
     var convexHGS = new ConvexHGS();
 
     // Add points using for loop on your coordinates
-    for (var i = 0; i < particles.length; i++) {
-      convexHGS.addPoint(particles[i].x, particles[i].y);
+    for (var i = 0; i < eventList.length; i++) {
+      convexHGS.addPoint(eventList[i].x, eventList[i].y);
     }
 
     // Get point array from convex hull
@@ -25,10 +25,10 @@ export default class CanvasConvexHGS {
   /*=============================================================================*/
   /* Draw convex hull areas
   /*=============================================================================*/
-  static drawConvexHullClusters(ctx, particles, nbClusters) {
+  static drawConvexHullClusters(ctx, eventList, nbClusters) {
     for (let i = 0; i < nbClusters; i++) {
       var hullPoints = this.computeConvexHullPoints(
-        particles.filter(particle => particle.clusterId == i)
+        eventList.filter(event => event.clusterId == i)
       );
 
       //console.log("hullPoints", hullPoints);

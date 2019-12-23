@@ -1,4 +1,4 @@
-# Clustering events diffusion
+# Clustering events (intensity spreading and cumulating)
 
 - **First Canvas** :   
 Generate (random or clustered) events as input .   

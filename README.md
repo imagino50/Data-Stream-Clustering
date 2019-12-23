@@ -9,6 +9,8 @@ Hdbscan is applied to detect clusters on real time.
 - **Third Canvas** :  
 Then ConvexHullGrahamScan draw clusters polygons on real time.    
 
+[Home page :](./public/image.png)
+
 ## Built With
 
 - Vue js

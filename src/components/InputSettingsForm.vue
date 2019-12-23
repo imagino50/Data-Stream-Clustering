@@ -1,7 +1,7 @@
 <template>
   <div id="inputSettings-form">
     <b-col md="10">
-      <b-form-group label="Events generation :">
+      <b-form-group label="Type of input data :">
         <b-form-radio-group
           id="radio-group-2"
           v-model="generationMode"
@@ -20,15 +20,15 @@
             value="Cluster"
             >Cluster</b-form-radio
           >
-          <input
-            class="btn btn-primary"
-            type="restart"
-            value="re-generate"
-            @click="onReGenerateDataset()"
-          />
         </b-form-radio-group>
       </b-form-group>
       <b-list-group>
+        <input
+          class="btn btn-primary"
+          type="restart"
+          value="generate Cluster(s)"
+          @click="onReGenerateDataset()"
+        />
         <b-list-group-item
           style="padding: 0rem 0.2rem;"
           v-for="item in eventsGenParams"
@@ -78,9 +78,7 @@ export default {
     onResetClusterGenParams() {
       console.log("onResetClusterGenParams");
       for (let i = 0; i < this.eventsGenParams.length; i++) {
-        this.eventsGenParams[i].value = this.eventsGenParams[
-          i
-        ].defaultValue;
+        this.eventsGenParams[i].value = this.eventsGenParams[i].defaultValue;
       }
       this.createClusteredEvents();
     },

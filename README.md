@@ -1,7 +1,7 @@
-# Clustering of streaming events which intensity spreads and decreases over time. 
+# Data stream clustering which intensity spreads and decreases over time. 
 
 - **First Canvas** :   
-Generate (random or clustered) events as input .   
+Generate (random or clustered) events continuously as input.
 Each event intensity decreases while its radius increases over time.    
 For events which overlap, theirs intensities cumulate each others.   
 - **Second Canvas** :  

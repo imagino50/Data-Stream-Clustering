@@ -15,6 +15,7 @@ Then ConvexHullGrahamScan draw clusters polygons on real time.
 
 - Vue js
 - Vue.observable as a State Store
+- density-clustering
 - BootstrapVue
 
 ## Project setup

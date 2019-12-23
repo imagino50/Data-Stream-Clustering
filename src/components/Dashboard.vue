@@ -3,7 +3,8 @@
     <b-row class="text-center">
       <b-col class="bg-dark">
         <h1 class="text-white navbar-brand">
-          Detects clustered events and draws Convex Hull polygon.
+          Data stream clustering which intensity spreads and decreases over
+          time.
         </h1>
       </b-col>
     </b-row>
@@ -35,5 +36,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

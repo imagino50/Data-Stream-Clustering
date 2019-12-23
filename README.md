@@ -6,7 +6,7 @@ Each event intensity decreases while its radius increases.
 For events which overlap, theirs intensities cumulate.   
 - **Second Canvas** :  
 Hdbscan is applied to detect clusters. 
-- **Third Canvas** :
+- **Third Canvas** :  
 Then ConvexHullGrahamScan is used to draw clusters shapes.    
 
 ## Built With

@@ -5,7 +5,7 @@
         <b-form-radio-group
           id="radio-group-2"
           v-model="generationMode"
-          @change.native="onGenerateModeChange($event)"
+          @change.native="onGenerateModeChange()"
           name="radio-sub-component"
           stacked
         >
@@ -48,7 +48,7 @@
               min="0"
               v-bind:max="item.range"
               v-bind:step="item.step"
-              @change="onClusterGenParamsChange($event)"
+              @change="onClusterGenParamsChange()"
             />
           </div>
         </b-list-group-item>
@@ -63,8 +63,8 @@
   </div>
 </template>
 <script>
-import Utils from "@/utils";
 import clusterGenJson from "@/json/inputSettings.json";
+import Utils from "@/utils";
 import { inputGetters, inputMutations } from "@/store/inputDataStore.js";
 import { particleGetters } from "@/store/particleSettingsStore.js";
 
@@ -118,13 +118,4 @@ export default {
 };
 </script>
 
-<style>
-button {
-  background: #009435;
-  border: 1px solid #009435;
-}
-
-.small-container {
-  max-width: 200px;
-}
-</style>
+<style></style>

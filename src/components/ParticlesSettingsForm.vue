@@ -16,7 +16,7 @@
             min="0"
             v-bind:max="item.range"
             v-bind:step="item.step"
-            @change="onParticleParamsChange($event)"
+            @change="onParticleParamsChange()"
           />
         </div>
       </b-list-group-item>
@@ -45,7 +45,7 @@ export default {
     /*=============================================================================*/
     onParticleParamsChange() {
       console.log("onParticleParamsChange");
-      particleActions.setValues(this.particlesParams);
+      particleActions.setValuesFromParams(this.particlesParams);
     },
     onResetParticleParams() {
       console.log("onResetParticleParams");
@@ -59,12 +59,4 @@ export default {
 </script>
 
 <style>
-button {
-  background: #009435;
-  border: 1px solid #009435;
-}
-
-.small-container {
-  max-width: 200px;
-}
 </style>

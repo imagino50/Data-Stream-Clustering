@@ -70,7 +70,7 @@ export const particleActions = {
     particleMutations.setNbMinPoints(particleJson[5].defaultValue);
     particleMutations.setNeighborhoodRadius(particleJson[6].defaultValue);
   },
-  setValues(particlesParams) {
+  setValuesFromParams(particlesParams) {
     particleMutations.setCenterIntensity(particlesParams[0].value);
     particleMutations.setIntensityMin(particlesParams[1].value);
     particleMutations.setIncRadius(parseFloat(particlesParams[2].value));

@@ -13,7 +13,7 @@ export default class Canvas {
     canvas.width = 300;
     canvas.height = 300;
     var ctx = canvas.getContext("2d");
-    // lighter creates bright highlight points as the fireworks overlap each other
+    // lighter creates bright highlight points as the events overlap each other
     ctx.globalCompositeOperation = "lighter";
   }
 

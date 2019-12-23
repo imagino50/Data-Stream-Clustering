@@ -3,7 +3,7 @@
     <b-row class="text-center">
       <b-col class="bg-dark">
         <h1 class="text-white navbar-brand">
-          Clustering signal events (intensity diffusion and overlapping).
+          Detects clustered events and draws Convex Hull polygon.
         </h1>
       </b-col>
     </b-row>

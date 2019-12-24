@@ -1,7 +1,6 @@
 import Event from "@/event.js";
 import Utils from "@/utils.js";
 import Cluster from "@/cluster.js";
-import Canvas from "@/canvas.js";
 
 /*=============================================================================*/
 /* Class Canvas Events
@@ -40,10 +39,17 @@ export default class CanvasEvents {
   /* Render events on canvas1
   /*=============================================================================*/
   refreshCanvas1(ctx1, intensityMin, incRadius, incIntensity) {
-    Canvas.clearCanvas(ctx1, this.canvasWidth, this.canvasHeight);
+    this.clearCanvas(ctx1);
     this.removeWeakEvents(intensityMin);
     this.updateEventsShape(incRadius, incIntensity);
     this.renderEvents();
+  }
+
+  /*=============================================================================*/
+  /* Clear Canvas
+  /*=============================================================================*/
+  clearCanvas(ctx) {
+    ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
   }
 
   /*=============================================================================*/

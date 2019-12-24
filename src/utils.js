@@ -18,6 +18,15 @@ export default class utils {
   }
 
   /*=============================================================================*/
+  /* Filter Canvas
+  /*=============================================================================*/
+  static filterCanvas(ctx1, ctx2, canvasWidth, canvasHeight, filterThreshold) {
+    var imgData = ctx1.getImageData(0, 0, canvasWidth, canvasHeight);
+    var imgDataFiltered = this.redFilter(imgData, filterThreshold);
+    ctx2.putImageData(imgDataFiltered, 0, 0);
+  }
+
+  /*=============================================================================*/
   /* filter image pixels by a thresholh (red color only)
   /*=============================================================================*/
   static redFilter(imgData, redThreshold) {

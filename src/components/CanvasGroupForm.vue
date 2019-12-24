@@ -33,9 +33,9 @@
 import { eventGetters } from "@/store/eventSettingsStore.js";
 import { inputGetters, inputMutations } from "@/store/inputSettingsStore.js";
 import CanvasEvents from "@/canvasEvents.js";
-import Canvas from "@/canvas.js";
 import CanvasConvexHGS from "@/canvasConvexHGS.js";
 import Cluster from "@/cluster.js";
+import Utils from "@/utils.js";
 //import InputGenerator from "@/inputGenerator.js";
 
 export default {
@@ -61,7 +61,7 @@ export default {
     var canvas1 = document.getElementById("canvas1");
     var canvas2 = document.getElementById("canvas2");
     var canvas3 = document.getElementById("canvas3");
-    this.initDrawing(canvas1, canvas2, canvas3);
+    this.setUpCanvas(canvas1, canvas2, canvas3);
 
     var ctx1 = canvas1.getContext("2d");
     var ctx2 = canvas2.getContext("2d");
@@ -89,7 +89,7 @@ export default {
     /*=============================================================================*/
     /* Draw Events
     /*=============================================================================*/
-    initDrawing(canvas1, canvas2, canvas3) {
+    setUpCanvas(canvas1, canvas2, canvas3) {
       this.canPart = new CanvasEvents(
         canvas1,
         canvas2,
@@ -139,11 +139,12 @@ export default {
         );
 
         // Canvas 2
-        Canvas.clearCanvas(ctx2, canvas2);
-        Canvas.filterCanvas(
+        this.canPart.clearCanvas(ctx2);
+        Utils.filterCanvas(
           ctx1,
           ctx2,
-          canvas2,
+          this.canvasWidth,
+          this.canvasHeight,
           eventGetters.filterThreshold()
         );
         var eventsFiltered = this.canPart.filterEvents(

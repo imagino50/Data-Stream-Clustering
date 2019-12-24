@@ -10,21 +10,37 @@ export default class CanvasEvents {
   /*=============================================================================*/
   /* Constructor
   /*=============================================================================*/
-  constructor(canvas1, canvas2, canvas3) {
+  constructor(canvas1, canvas2, canvas3, width, height) {
     this.eventList = [];
     this.eventFilteredList = [];
     this.ctx1 = canvas1.getContext("2d");
     this.ctx2 = canvas2.getContext("2d");
     this.ctx3 = canvas3.getContext("2d");
-    this.canvasHeight = canvas1.height;
-    this.canvasWidth = canvas1.width;
+    this.canvasWidth = width;
+    this.canvasHeight = height;
+    this.initCanvas(canvas1);
+    this.initCanvas(canvas2);
+    this.initCanvas(canvas3);
+  }
+
+  /*=============================================================================*/
+  /* Initialize Canvas
+  /*=============================================================================*/
+  initCanvas(canvas) {
+    canvas.style.border = "solid 1px black";
+    canvas.style.background = "black";
+    canvas.width = this.canvasWidth;
+    canvas.height = this.canvasHeight;
+    var ctx = canvas.getContext("2d");
+    // lighter creates bright highlight points as the events overlap each other
+    ctx.globalCompositeOperation = "lighter";
   }
 
   /*=============================================================================*/
   /* Render events on canvas1
   /*=============================================================================*/
-  refreshCanvas1(ctx1, canvas1, intensityMin, incRadius, incIntensity) {
-    Canvas.clearCanvas(ctx1, canvas1);
+  refreshCanvas1(ctx1, intensityMin, incRadius, incIntensity) {
+    Canvas.clearCanvas(ctx1, this.canvasWidth, this.canvasHeight);
     this.removeWeakEvents(intensityMin);
     this.updateEventsShape(incRadius, incIntensity);
     this.renderEvents();
@@ -141,8 +157,8 @@ export default class CanvasEvents {
   /*=============================================================================*/
   createRandomEvent(centerIntensity) {
     this.createEvent(
-      Utils.random(0, this.canvasWidth),
-      Utils.random(0, this.canvasHeight),
+      Utils.getRandomInt(0, this.canvasWidth),
+      Utils.getRandomInt(0, this.canvasHeight),
       centerIntensity
     );
   }
@@ -170,17 +186,4 @@ export default class CanvasEvents {
       new Event(Math.round(x), Math.round(y), centerIntensity)
     );
   }
-  /*=============================================================================*/
-  /* Add Click Event Listener Canvas
-  /*=============================================================================*/
-  /* addClickListenerCanvas(canvas, centerIntensity) {
-    canvas.addEventListener(
-      "click",
-      function(e) {
-        var eventLocation = Utils.getPosition(e);
-        this.createEvent(eventLocation.x, eventLocation.y, centerIntensity);
-      },
-      false
-    );
-  }*/
 }

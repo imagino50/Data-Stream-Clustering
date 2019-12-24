@@ -10,16 +10,22 @@
         >
           <b-form-radio
             v-model="generationMode"
-            name="some-radios"
+            name="GenerateMode"
             value="Random"
             >Random</b-form-radio
           >
           <b-form-radio
             v-model="generationMode"
-            name="some-radios"
+            name="GenerateMode"
             value="Cluster"
             >Cluster</b-form-radio
           >
+<!--           <b-form-radio
+            v-model="generationMode"
+            name="GenerateMode"
+            value="ClusterMoving"
+            >Cluster moving</b-form-radio
+          > -->
         </b-form-radio-group>
       </b-form-group>
       <b-list-group>

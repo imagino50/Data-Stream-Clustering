@@ -34,10 +34,12 @@ export default class utils {
   }
 
   /*=============================================================================*/
-  /* generate random number within a range
+  /* generate random number within a range (min included and max excluded)
   /*=============================================================================*/
-  static random(min, max) {
-    return Math.round(Math.random() * (max - min) + min);
+  static getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min)) + min;
   }
 
   /*=============================================================================*/

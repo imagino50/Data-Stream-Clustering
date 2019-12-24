@@ -5,19 +5,6 @@ import Utils from "@/utils.js";
 /*=============================================================================*/
 export default class Canvas {
   /*=============================================================================*/
-  /* Initialize Canvas
-  /*=============================================================================*/
-  static initCanvas(canvas) {
-    canvas.style.border = "solid 1px black";
-    canvas.style.background = "black";
-    canvas.width = 300;
-    canvas.height = 300;
-    var ctx = canvas.getContext("2d");
-    // lighter creates bright highlight points as the events overlap each other
-    ctx.globalCompositeOperation = "lighter";
-  }
-
-  /*=============================================================================*/
   /* Filter Canvas
   /*=============================================================================*/
   static filterCanvas(ctx1, ctx2, canvas1, filterThreshold) {
@@ -29,8 +16,7 @@ export default class Canvas {
   /*=============================================================================*/
   /* Clear Canvas
   /*=============================================================================*/
-  static clearCanvas(ctx, canvas) {
-    // clean canvas before redrawing
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  static clearCanvas(ctx, canvasWidth, canvasHeight) {
+    ctx.clearRect(0, 0, canvasWidth, canvasHeight);
   }
 }

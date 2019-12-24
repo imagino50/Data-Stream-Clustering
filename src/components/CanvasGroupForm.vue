@@ -36,6 +36,7 @@ import CanvasEvents from "@/canvasEvents.js";
 import Canvas from "@/canvas.js";
 import CanvasConvexHGS from "@/canvasConvexHGS.js";
 import Cluster from "@/cluster.js";
+//import InputGenerator from "@/inputGenerator.js";
 
 export default {
   name: "canvasGroup-form",
@@ -44,7 +45,9 @@ export default {
     return {
       canPart: null,
       canvasWidth: 300,
-      canvasHeight: 300
+      canvasHeight: 300,
+      marginX: 30,
+      marginY: 30
     };
   },
   computed: {
@@ -81,19 +84,26 @@ export default {
   },
   methods: {
     onClickCanvas1(e) {
-      this.canPart.createEventFromClick(
-        e,
-        eventGetters.centerIntensity()
-      );
+      this.canPart.createEventFromClick(e, eventGetters.centerIntensity());
     },
     /*=============================================================================*/
     /* Draw Events
     /*=============================================================================*/
     initDrawing(canvas1, canvas2, canvas3) {
-      Canvas.initCanvas(canvas1);
-      Canvas.initCanvas(canvas2);
-      Canvas.initCanvas(canvas3);
-      this.canPart = new CanvasEvents(canvas1, canvas2, canvas3);
+      this.canPart = new CanvasEvents(
+        canvas1,
+        canvas2,
+        canvas3,
+        this.canvasWidth,
+        this.canvasHeight
+      );
+      /*this.InputGenerator(
+        initialNbClusters,
+        canvasWidth,
+        canvasHeight,
+        marginX,
+        marginY
+      );*/
     },
     startDrawing(
       ctx1,
@@ -117,12 +127,12 @@ export default {
             inputGetters.eventsGenerated()[inputGetters.eventID()]
           );
           inputMutations.incEventID();
-        }
+        } /*else if (inputGetters.generationMode() == "ClusterMoving") {
+        }*/
 
         // Canvas 1
         this.canPart.refreshCanvas1(
           ctx1,
-          canvas1,
           eventGetters.intensityMin(),
           eventGetters.incRadius(),
           eventGetters.incIntensity()
@@ -175,5 +185,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

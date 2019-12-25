@@ -32,7 +32,7 @@
         <input
           class="btn btn-primary"
           type="restart"
-          value="generate Cluster(s)"
+          value="Generate 'Cluster dataset'"
           @click="onReGenerateDataset()"
         />
         <b-list-group-item

@@ -10,12 +10,12 @@
     </b-row>
     <b-row class="text-left mt-3">
       <b-col md="3">
-        <eventSettings />
+        <inputSettings />
       </b-col>
       <b-col md="9">
         <CanvasGroup />
         <b-row class="text-left">
-          <inputSettings />
+          <eventSettings />
         </b-row>
       </b-col>
     </b-row>

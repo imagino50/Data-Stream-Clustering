@@ -1,5 +1,6 @@
 import Event from "@/event.js";
 import Utils from "@/utils.js";
+import InputGenerator from "@/inputGenerator.js";
 import { inputMutations } from "@/store/inputSettingsStore.js";
 
 /*=============================================================================*/
@@ -16,6 +17,16 @@ export default class CanvasInput {
     this.canvasWidth = width;
     this.canvasHeight = height;
     this.initCanvas(canvas);
+    var initialNbClusters = 3;
+    var marginX = 30;
+    var marginY = 30;
+    this.inputGenerator = new InputGenerator(
+      initialNbClusters,
+      width,
+      height,
+      marginX,
+      marginY
+    );
   }
 
   /*=============================================================================*/
@@ -48,8 +59,22 @@ export default class CanvasInput {
       this.addEvent(eventsGenerated[eventID]);
       inputMutations.incEventID();
       //console.log("addEventsGenerated");
-    } /*else if (inputGetters.generationMode() == "ClusterMoving") {
-  }*/
+    } else if (generationMode == "ClusterMoving") {
+      var noiseRate = 0;
+      var max_x_stdev = 10;
+      var max_y_stdev = 10;
+      var event = this.inputGenerator.generateEvent(
+        noiseRate,
+        centerIntensity,
+        max_x_stdev,
+        max_y_stdev
+      );
+      //console.log("generatedEvent", test);
+      this.addEvent(event);
+      var max_centerX_stdev = 3;
+      var max_centerY_stdev = 3;
+      this.inputGenerator.updateRandomClusterCenter(max_centerX_stdev, max_centerY_stdev);
+    }
   }
 
   /*=============================================================================*/

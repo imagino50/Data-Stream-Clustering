@@ -18,14 +18,14 @@
             v-model="generationMode"
             name="GenerateMode"
             value="Cluster"
-            >Cluster</b-form-radio
+            >Cluster dataset</b-form-radio
           >
-<!--           <b-form-radio
+          <b-form-radio
             v-model="generationMode"
             name="GenerateMode"
             value="ClusterMoving"
             >Cluster moving</b-form-radio
-          > -->
+          >
         </b-form-radio-group>
       </b-form-group>
       <b-list-group>

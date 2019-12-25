@@ -61,20 +61,6 @@ export default class CanvasClustering {
   }
 
   /*=============================================================================*/
-  /* Render filetred and clustered events on canvas2
-  /*=============================================================================*/
-  renderClusters(eventsFiltered_sav, clusterColors_sav) {
-    this.setClustersEvents();
-    this.clusterColorList = Clustering.buildClusterColors(
-      this.clusterList.length,
-      this.eventFilteredList,
-      eventsFiltered_sav,
-      clusterColors_sav
-    );
-    this.renderFilteredEvents();
-  }
-
-  /*=============================================================================*/
   /* Render Image Data Filtered
   /*=============================================================================*/
   renderImageDataFiltered(imgData, filterThreshold) {
@@ -105,6 +91,20 @@ export default class CanvasClustering {
   computeCluster(dbscan, neighborhoodRadius, nbMinPoints) {
     var dataset = Clustering.createDataset(this.eventFilteredList);
     this.clusterList = dbscan.run(dataset, neighborhoodRadius, nbMinPoints);
+  }
+
+  /*=============================================================================*/
+  /* Render filetred and clustered events on canvas2
+  /*=============================================================================*/
+  renderClusters(eventsFiltered_sav, clusterColors_sav) {
+    this.setClustersEvents();
+    this.clusterColorList = Clustering.buildClusterColors(
+      this.clusterList.length,
+      this.eventFilteredList,
+      eventsFiltered_sav,
+      clusterColors_sav
+    );
+    this.renderFilteredEvents();
   }
 
   /*=============================================================================*/
@@ -160,11 +160,9 @@ export default class CanvasClustering {
         this.eventFilteredList[index].setCluster(i);
       }
     }
-
     /*if (clusters.length > 2) {
       console.log("this.eventFilteredList", this.eventFilteredList, clusters);
     }*/
-
     return this.eventFilteredList;
   }
 

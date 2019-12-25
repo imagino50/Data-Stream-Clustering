@@ -50,8 +50,8 @@
     {
       "id": "neighborhoodRadius",
       "label": "Cluster neighborhood radius",
-      "value": 10,
-      "defaultValue": 10,
+      "value": 15,
+      "defaultValue": 15,
       "range": 100,
       "step": 1
     }

@@ -1,4 +1,4 @@
-import Cluster from "@/cluster.js";
+import Clustering from "@/clustering.js";
 
 /*=============================================================================*/
 /* Class Canvas Filtering & Clustering Events
@@ -65,7 +65,7 @@ export default class CanvasClustering {
   /*=============================================================================*/
   renderClusters(eventsFiltered_sav, clusterColors_sav) {
     this.setClustersEvents();
-    this.clusterColorList = Cluster.buildClusterColors(
+    this.clusterColorList = Clustering.buildClusterColors(
       this.clusterList.length,
       this.eventFilteredList,
       eventsFiltered_sav,
@@ -103,7 +103,7 @@ export default class CanvasClustering {
   /* Compute clusters from eventFilteredList
   /*=============================================================================*/
   computeCluster(dbscan, neighborhoodRadius, nbMinPoints) {
-    var dataset = Cluster.createDataset(this.eventFilteredList);
+    var dataset = Clustering.createDataset(this.eventFilteredList);
     this.clusterList = dbscan.run(dataset, neighborhoodRadius, nbMinPoints);
   }
 
@@ -118,7 +118,7 @@ export default class CanvasClustering {
         var colorKey = this.clusterColorList[
           this.eventFilteredList[i].clusterId
         ];
-        colorValue = Cluster.ColorsPalette[colorKey];
+        colorValue = Clustering.ColorsPalette[colorKey];
       }
       //console.log("colorValue", colorValue);
       this.eventFilteredList[i].drawColoredCircle(

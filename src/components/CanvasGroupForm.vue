@@ -16,8 +16,8 @@
       <b-col md="4" class="p-1">
         <canvas id="canvas2" width="canvasWidth" height="canvasHeight"></canvas>
         <p>
-          Clustering of filtered events(1 cluster = 1 color).<br />
-          White circle around events is noise.<br />
+          Clustering of filtered events (1 cluster per color).<br />
+          White circle around event is noise.<br />
           Events filtered by 'Intensity threshold filter':
           {{ getFilterThreshold }}
         </p>
@@ -107,7 +107,7 @@ export default {
       );*/
     },
     /*=============================================================================*/
-    /* Draw Canvas
+    /* Refresh all Canvas
     /*=============================================================================*/
     startDrawing(
       canvas1,
@@ -142,17 +142,6 @@ export default {
         // Canvas 2
         var imgData = this.canvasInput.getImageData();
         var eventList = this.canvasInput.getEventList();
-        /*if (
-          eventList.length > 0 &&
-          inputGetters.generationMode() == "Cluster"
-        ) {
-          console.log("eventList.length", eventList.length);
-          console.log(
-            "inputGetters.eventsGenerated()",
-            inputGetters.eventsGenerated()
-          );
-        }*/
-
         this.canvasCluster.refreshCanvas(
           imgData,
           eventList,

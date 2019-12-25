@@ -18,31 +18,6 @@ export default class utils {
   }
 
   /*=============================================================================*/
-  /* Filter Canvas
-  /*=============================================================================*/
-  static filterCanvas(ctx1, ctx2, canvasWidth, canvasHeight, filterThreshold) {
-    var imgData = ctx1.getImageData(0, 0, canvasWidth, canvasHeight);
-    var imgDataFiltered = this.redFilter(imgData, filterThreshold);
-    ctx2.putImageData(imgDataFiltered, 0, 0);
-  }
-
-  /*=============================================================================*/
-  /* filter image pixels by a thresholh (red color only)
-  /*=============================================================================*/
-  static redFilter(imgData, redThreshold) {
-    var data = imgData.data;
-    for (let i = 0; i < data.length; i += 4) {
-      //var r = d[i];
-      //var g = d[i+1];
-      //var b = d[i+2];
-      if (data[i] < redThreshold) {
-        data[i] = 0;
-      }
-    }
-    return imgData;
-  }
-
-  /*=============================================================================*/
   /* generate random number within a range (min included and max excluded)
   /*=============================================================================*/
   static getRandomInt(min, max) {

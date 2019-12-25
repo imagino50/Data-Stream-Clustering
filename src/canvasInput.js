@@ -1,25 +1,20 @@
 import Event from "@/event.js";
 import Utils from "@/utils.js";
-import Cluster from "@/cluster.js";
 
 /*=============================================================================*/
-/* Class Canvas Events
+/* Class Canvas Input Events
 /*=============================================================================*/
-export default class CanvasEvents {
+export default class CanvasInput {
   /*=============================================================================*/
   /* Constructor
   /*=============================================================================*/
-  constructor(canvas1, canvas2, canvas3, width, height) {
+  constructor(canvas, width, height) {
     this.eventList = [];
     this.eventFilteredList = [];
-    this.ctx1 = canvas1.getContext("2d");
-    this.ctx2 = canvas2.getContext("2d");
-    this.ctx3 = canvas3.getContext("2d");
+    this.ctx = canvas.getContext("2d");
     this.canvasWidth = width;
     this.canvasHeight = height;
-    this.initCanvas(canvas1);
-    this.initCanvas(canvas2);
-    this.initCanvas(canvas3);
+    this.initCanvas(canvas);
   }
 
   /*=============================================================================*/
@@ -30,26 +25,39 @@ export default class CanvasEvents {
     canvas.style.background = "black";
     canvas.width = this.canvasWidth;
     canvas.height = this.canvasHeight;
-    var ctx = canvas.getContext("2d");
     // lighter creates bright highlight points as the events overlap each other
-    ctx.globalCompositeOperation = "lighter";
+    this.ctx.globalCompositeOperation = "lighter";
   }
 
   /*=============================================================================*/
-  /* Render events on canvas1
+  /* Main function : Render events on canvas
   /*=============================================================================*/
-  refreshCanvas1(ctx1, intensityMin, incRadius, incIntensity) {
-    this.clearCanvas(ctx1);
+  refreshCanvas(intensityMin, incRadius, incIntensity) {
+    this.clearCanvas();
     this.removeWeakEvents(intensityMin);
     this.updateEventsShape(incRadius, incIntensity);
     this.renderEvents();
   }
 
   /*=============================================================================*/
+  /* Return EventList
+  /*=============================================================================*/
+  getEventList() {
+    return this.eventList;
+  }
+
+  /*=============================================================================*/
+  /* Return ImageData
+  /*=============================================================================*/
+  getImageData() {
+    return this.ctx.getImageData(0, 0, this.canvasWidth, this.canvasHeight);
+  }
+
+  /*=============================================================================*/
   /* Clear Canvas
   /*=============================================================================*/
-  clearCanvas(ctx) {
-    ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
+  clearCanvas() {
+    this.ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
   }
 
   /*=============================================================================*/
@@ -86,75 +94,7 @@ export default class CanvasEvents {
   renderEvents() {
     // loop over each event to draw it
     for (let i = 0; i < this.eventList.length; i++) {
-      this.eventList[i].render(this.ctx1, this.canvasWidth, this.canvasHeight);
-    }
-  }
-
-  /*=============================================================================*/
-  /* Filter Events using a threshold intensity
-  /*=============================================================================*/
-  filterEvents(redThreshold) {
-    var imgData = this.ctx1.getImageData(
-      0,
-      0,
-      this.canvasWidth,
-      this.canvasHeight
-    );
-
-    this.eventFilteredList = [];
-    for (let i = 0; i < this.eventList.length; i++) {
-      if (
-        imgData.data[
-          this.eventList[i].y * (imgData.width * 4) + this.eventList[i].x * 4
-        ] >= redThreshold
-      ) {
-        this.eventFilteredList.push(this.eventList[i].clone());
-      }
-    }
-
-    return this.eventFilteredList;
-  }
-
-  /*=============================================================================*/
-  /* Set clusters of Filtered Events 
-  /*=============================================================================*/
-  setClustersEvents(clusterList) {
-    // reset clusterId of all events
-    this.eventFilteredList.map(event => (event.clusterId = -1));
-
-    for (let i = 0; i < clusterList.length; i++) {
-      let cluster = clusterList[i];
-      for (let j = 0; j < cluster.length; j++) {
-        let index = cluster[j];
-        this.eventFilteredList[index].setCluster(i);
-      }
-    }
-
-    /*if (clusters.length > 2) {
-      console.log("this.eventFilteredList", this.eventFilteredList, clusters);
-    }*/
-
-    return this.eventFilteredList;
-  }
-
-  /*=============================================================================*/
-  /* Render Filtered Events
-  /*=============================================================================*/
-  renderFilteredEvents(clusterColors) {
-    var i = this.eventFilteredList.length;
-    while (i--) {
-      var colorValue = "rgb(255,255,255)";
-      if (this.eventFilteredList[i].clusterId != -1) {
-        var colorKey = clusterColors[this.eventFilteredList[i].clusterId];
-        colorValue = Cluster.ColorsPalette[colorKey];
-      }
-      //console.log("colorValue", colorValue);
-      this.eventFilteredList[i].drawColoredCircle(
-        colorValue,
-        this.ctx2,
-        this.canvasWidth,
-        this.canvasHeight
-      );
+      this.eventList[i].render(this.ctx, this.canvasWidth, this.canvasHeight);
     }
   }
 

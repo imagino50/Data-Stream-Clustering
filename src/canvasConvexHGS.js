@@ -1,13 +1,49 @@
 import ConvexHGS from "@/convexHGS.js";
 
 /*=============================================================================*/
-/* Class ConvexHullGrahamScan
+/* Class Canvas ConvexHGS
 /*=============================================================================*/
 export default class CanvasConvexHGS {
   /*=============================================================================*/
-  /* Compyte convex hull point array 
+  /* Constructor
   /*=============================================================================*/
-  static computeConvexHullPoints(eventList) {
+  constructor(canvas, width, height) {
+    this.ctx = canvas.getContext("2d");
+    this.canvasWidth = width;
+    this.canvasHeight = height;
+    this.initCanvas(canvas);
+  }
+
+  /*=============================================================================*/
+  /* Initialize Canvas
+  /*=============================================================================*/
+  initCanvas(canvas) {
+    canvas.style.border = "solid 1px black";
+    canvas.style.background = "black";
+    canvas.width = this.canvasWidth;
+    canvas.height = this.canvasHeight;
+    // lighter creates bright highlight points as the events overlap each other
+    this.ctx.globalCompositeOperation = "lighter";
+  }
+
+  /*=============================================================================*/
+  /* Main function : Compute and draw convex hull areas
+  /*=============================================================================*/
+  drawConvexHullClusters(eventList, nbClusters) {
+    for (let i = 0; i < nbClusters; i++) {
+      var hullPoints = this.computeConvexHullPoints(
+        eventList.filter(event => event.clusterId == i)
+      );
+
+      //console.log("hullPoints", hullPoints);
+      this.drawConvexHullPoints(this.ctx, hullPoints);
+    }
+  }
+
+  /*=============================================================================*/
+  /*  Compute convex hull point array 
+  /*=============================================================================*/
+  computeConvexHullPoints(eventList) {
     // Create a new instance of ConvexHullGrahamScan.
     var convexHGS = new ConvexHGS();
 
@@ -23,23 +59,9 @@ export default class CanvasConvexHGS {
   }
 
   /*=============================================================================*/
-  /* Draw convex hull areas
-  /*=============================================================================*/
-  static drawConvexHullClusters(ctx, eventList, nbClusters) {
-    for (let i = 0; i < nbClusters; i++) {
-      var hullPoints = this.computeConvexHullPoints(
-        eventList.filter(event => event.clusterId == i)
-      );
-
-      //console.log("hullPoints", hullPoints);
-      this.drawConvexHullPoints(ctx, hullPoints);
-    }
-  }
-
-  /*=============================================================================*/
   /* Draw a convex hull area
   /*=============================================================================*/
-  static drawConvexHullPoints(ctx, hullPoints) {
+  drawConvexHullPoints(ctx, hullPoints) {
     if (hullPoints && hullPoints.length > 0) {
       ctx.beginPath();
       ctx.moveTo(hullPoints[0].x, hullPoints[0].y);

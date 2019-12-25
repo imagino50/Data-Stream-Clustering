@@ -16,6 +16,8 @@
       <b-col md="4" class="p-1">
         <canvas id="canvas2" width="canvasWidth" height="canvasHeight"></canvas>
         <p>
+          Clustering of filtered events(1 cluster = 1 color).<br />
+          White circle around events is noise.<br />
           Events filtered by 'Intensity threshold filter':
           {{ getFilterThreshold }}
         </p>
@@ -32,18 +34,18 @@
 <script>
 import { eventGetters } from "@/store/eventSettingsStore.js";
 import { inputGetters, inputMutations } from "@/store/inputSettingsStore.js";
-import CanvasEvents from "@/canvasEvents.js";
+import CanvasInput from "@/canvasInput.js";
 import CanvasConvexHGS from "@/canvasConvexHGS.js";
-import Cluster from "@/cluster.js";
-import Utils from "@/utils.js";
-//import InputGenerator from "@/inputGenerator.js";
+import CanvasClustering from "@/canvasClustering.js";
 
 export default {
   name: "canvasGroup-form",
   components: {},
   data() {
     return {
-      canPart: null,
+      canvasInput: null,
+      canvasCluster: null,
+      canvasConvexHGS: null,
       canvasWidth: 300,
       canvasHeight: 300,
       marginX: 30,
@@ -57,46 +59,45 @@ export default {
   },
   mounted() {
     console.log("mounted");
-
     var canvas1 = document.getElementById("canvas1");
     var canvas2 = document.getElementById("canvas2");
     var canvas3 = document.getElementById("canvas3");
     this.setUpCanvas(canvas1, canvas2, canvas3);
 
-    var ctx1 = canvas1.getContext("2d");
-    var ctx2 = canvas2.getContext("2d");
-    var ctx3 = canvas3.getContext("2d");
     var eventsFiltered_sav = [];
     var clusterColors_sav = [];
     var clustering = require("density-clustering");
     var dbscan = new clustering.DBSCAN();
     this.startDrawing(
-      ctx1,
       canvas1,
-      ctx2,
       canvas2,
-      ctx3,
       canvas3,
+      dbscan,
       eventsFiltered_sav,
-      clusterColors_sav,
-      dbscan
+      clusterColors_sav
     );
   },
   methods: {
     onClickCanvas1(e) {
-      this.canPart.createEventFromClick(e, eventGetters.centerIntensity());
+      this.canvasInput.createEventFromClick(e, eventGetters.centerIntensity());
     },
-    /*=============================================================================*/
-    /* Draw Events
-    /*=============================================================================*/
     setUpCanvas(canvas1, canvas2, canvas3) {
-      this.canPart = new CanvasEvents(
+      this.canvasInput = new CanvasInput(
         canvas1,
+        this.canvasWidth,
+        this.canvasHeight
+      );
+      this.canvasCluster = new CanvasClustering(
         canvas2,
+        this.canvasWidth,
+        this.canvasHeight
+      );
+      this.canvasConvexHGS = new CanvasConvexHGS(
         canvas3,
         this.canvasWidth,
         this.canvasHeight
       );
+
       /*this.InputGenerator(
         initialNbClusters,
         canvasWidth,
@@ -105,77 +106,76 @@ export default {
         marginY
       );*/
     },
+    /*=============================================================================*/
+    /* Draw Canvas
+    /*=============================================================================*/
     startDrawing(
-      ctx1,
       canvas1,
-      ctx2,
       canvas2,
-      ctx3,
       canvas3,
+      dbscan,
       eventsFiltered_sav,
-      clusterColors_sav,
-      dbscan
+      clusterColors_sav
     ) {
       var draw = () => {
         if (inputGetters.generationMode() == "Random") {
-          this.canPart.createRandomEvent(eventGetters.centerIntensity());
+          this.canvasInput.createRandomEvent(eventGetters.centerIntensity());
         } else if (
           inputGetters.generationMode() == "Cluster" &&
           inputGetters.eventID() < inputGetters.eventsGenerated().length
         ) {
-          this.canPart.addEvent(
+          this.canvasInput.addEvent(
             inputGetters.eventsGenerated()[inputGetters.eventID()]
           );
           inputMutations.incEventID();
+          //console.log("addEventsGenerated");
         } /*else if (inputGetters.generationMode() == "ClusterMoving") {
         }*/
 
         // Canvas 1
-        this.canPart.refreshCanvas1(
-          ctx1,
+        this.canvasInput.refreshCanvas(
           eventGetters.intensityMin(),
           eventGetters.incRadius(),
           eventGetters.incIntensity()
         );
 
         // Canvas 2
-        this.canPart.clearCanvas(ctx2);
-        Utils.filterCanvas(
-          ctx1,
-          ctx2,
-          this.canvasWidth,
-          this.canvasHeight,
-          eventGetters.filterThreshold()
-        );
-        var eventsFiltered = this.canPart.filterEvents(
-          eventGetters.filterThreshold()
-        );
+        var imgData = this.canvasInput.getImageData();
+        var eventList = this.canvasInput.getEventList();
+        /*if (
+          eventList.length > 0 &&
+          inputGetters.generationMode() == "Cluster"
+        ) {
+          console.log("eventList.length", eventList.length);
+          console.log(
+            "inputGetters.eventsGenerated()",
+            inputGetters.eventsGenerated()
+          );
+        }*/
 
-        var dataset = Cluster.createDataset(eventsFiltered);
-        var clusters = dbscan.run(
-          dataset,
+        this.canvasCluster.refreshCanvas(
+          imgData,
+          eventList,
+          eventGetters.filterThreshold(),
+          dbscan,
           eventGetters.neighborhoodRadius(),
-          eventGetters.nbMinPoints()
-        );
-        eventsFiltered = this.canPart.setClustersEvents(clusters);
-        var clusterColors = Cluster.buildClusterColors(
-          clusters.length,
-          eventsFiltered,
+          eventGetters.nbMinPoints(),
           eventsFiltered_sav,
           clusterColors_sav
         );
-        this.canPart.renderFilteredEvents(clusterColors);
 
         // Canvas 3
-        CanvasConvexHGS.drawConvexHullClusters(
-          ctx3,
-          eventsFiltered,
-          clusters.length
+        var eventFilteredList = this.canvasCluster.getEventFilteredList();
+        var clusterLength = this.canvasCluster.getClusterLength();
+        this.canvasConvexHGS.drawConvexHullClusters(
+          eventFilteredList,
+          clusterLength
         );
 
         // Save the n-1 data events
-        eventsFiltered_sav = [...eventsFiltered];
-        clusterColors_sav = [...clusterColors];
+        eventsFiltered_sav = [...eventFilteredList];
+        var clusterColorList = this.canvasCluster.getClusterColorList();
+        clusterColors_sav = [...clusterColorList];
 
         // this function will run endlessly with requestAnimationFrame
         requestAnimationFrame(draw);

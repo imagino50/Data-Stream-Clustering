@@ -1,4 +1,5 @@
 import ConvexHGS from "@/convexHGS.js";
+import Clustering from "@/clustering.js";
 
 /*=============================================================================*/
 /* Class Canvas ConvexHGS
@@ -23,20 +24,22 @@ export default class CanvasConvexHGS {
     canvas.width = this.canvasWidth;
     canvas.height = this.canvasHeight;
     // lighter creates bright highlight points as the events overlap each other
-    this.ctx.globalCompositeOperation = "lighter";
+    //this.ctx.globalCompositeOperation = "lighter";
   }
 
   /*=============================================================================*/
   /* Main function : Compute and draw convex hull areas
   /*=============================================================================*/
-  drawConvexHullClusters(eventList, nbClusters) {
+  drawConvexHullClusters(eventList, clusterColorList, nbClusters) {
     for (let i = 0; i < nbClusters; i++) {
       var hullPoints = this.computeConvexHullPoints(
         eventList.filter(event => event.clusterId == i)
       );
+      var colorKey = clusterColorList[i];
+      var colorValueCluster = Clustering.ColorsPalette[colorKey];
 
       //console.log("hullPoints", hullPoints);
-      this.drawConvexHullPoints(this.ctx, hullPoints);
+      this.drawConvexHullPoints(hullPoints, colorValueCluster);
     }
   }
 
@@ -61,18 +64,18 @@ export default class CanvasConvexHGS {
   /*=============================================================================*/
   /* Draw a convex hull area
   /*=============================================================================*/
-  drawConvexHullPoints(ctx, hullPoints) {
+  drawConvexHullPoints(hullPoints, colorValueCluster) {
     if (hullPoints && hullPoints.length > 0) {
-      ctx.beginPath();
-      ctx.moveTo(hullPoints[0].x, hullPoints[0].y);
+      this.ctx.beginPath();
+      this.ctx.moveTo(hullPoints[0].x, hullPoints[0].y);
       for (let i = 1; i < hullPoints.length; i++) {
-        ctx.lineTo(hullPoints[i].x, hullPoints[i].y);
+        this.ctx.lineTo(hullPoints[i].x, hullPoints[i].y);
       }
-      ctx.closePath();
-      ctx.fillStyle = "rgba(200, 0, 0, 0.2)";
-      ctx.strokeStyle = "rgba(0, 0, 0, 0.5)";
-      ctx.fill();
-      ctx.stroke();
+      this.ctx.closePath();
+      //  this.ctx.fillStyle = "rgba(200, 0, 0, 0.2)";
+      // this.ctx.fill();
+      this.ctx.strokeStyle = colorValueCluster; //"rgba(200, 0, 0, 0.5)"; //
+      this.ctx.stroke();
       /*for (let i = 0; i < hullPoints.length; i++) {
         this.dot(ctx, hullPoints[i], "rgba(200, 0, 0, 0.8)");
       }*/
@@ -82,13 +85,13 @@ export default class CanvasConvexHGS {
   /*=============================================================================*/
   /* Draw dot used for the border
   /*=============================================================================*/
-  static dot(ctx, point, style) {
-    ctx.save();
-    ctx.fillStyle = style;
-    ctx.beginPath();
-    ctx.arc(point.x, point.y, 2, 0, Math.PI * 2, true);
-    ctx.closePath();
-    ctx.fill();
-    ctx.restore();
+  dot(point, style) {
+    this.ctx.save();
+    this.ctx.fillStyle = style;
+    this.ctx.beginPath();
+    this.ctx.arc(point.x, point.y, 2, 0, Math.PI * 2, true);
+    this.ctx.closePath();
+    this.ctx.fill();
+    this.ctx.restore();
   }
 }

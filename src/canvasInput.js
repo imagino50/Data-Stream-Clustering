@@ -60,7 +60,7 @@ export default class CanvasInput {
       inputMutations.incEventID();
       //console.log("addEventsGenerated");
     } else if (generationMode == "ClusterMoving") {
-      var noiseRate = 0;
+      var noiseRate = 20;
       var max_x_stdev = 10;
       var max_y_stdev = 10;
       var event = this.inputGenerator.generateEvent(

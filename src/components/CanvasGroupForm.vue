@@ -148,15 +148,16 @@ export default {
 
         // Canvas 3 : canvasConvexHGS
         var eventFilteredList = this.canvasCluster.getEventFilteredList();
+        var clusterColorList = this.canvasCluster.getClusterColorList();
         var clusterLength = this.canvasCluster.getClusterLength();
         this.canvasConvexHGS.drawConvexHullClusters(
           eventFilteredList,
+          clusterColorList,
           clusterLength
         );
 
         // Save the n-1 data events
         eventsFiltered_sav = [...eventFilteredList];
-        var clusterColorList = this.canvasCluster.getClusterColorList();
         clusterColors_sav = [...clusterColorList];
 
         // this function will run endlessly with requestAnimationFrame

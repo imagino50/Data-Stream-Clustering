@@ -1,5 +1,6 @@
 import Event from "@/event.js";
 import Utils from "@/utils.js";
+import { inputMutations } from "@/store/inputSettingsStore.js";
 
 /*=============================================================================*/
 /* Class Canvas Input Events
@@ -30,6 +31,28 @@ export default class CanvasInput {
   }
 
   /*=============================================================================*/
+  /* Main function : Add an event randomly or from dataset to Canvas
+  /*=============================================================================*/
+  addEventFromSelection(
+    generationMode,
+    eventsGenerated,
+    eventID,
+    centerIntensity
+  ) {
+    if (generationMode == "Random") {
+      this.createRandomEvent(centerIntensity);
+    } else if (
+      generationMode == "Cluster" &&
+      eventID < eventsGenerated.length
+    ) {
+      this.addEvent(eventsGenerated[eventID]);
+      inputMutations.incEventID();
+      //console.log("addEventsGenerated");
+    } /*else if (inputGetters.generationMode() == "ClusterMoving") {
+  }*/
+  }
+
+  /*=============================================================================*/
   /* Main function : Render events on canvas
   /*=============================================================================*/
   refreshCanvas(intensityMin, incRadius, incIntensity) {
@@ -37,20 +60,6 @@ export default class CanvasInput {
     this.removeWeakEvents(intensityMin);
     this.updateEventsShape(incRadius, incIntensity);
     this.renderEvents();
-  }
-
-  /*=============================================================================*/
-  /* Return EventList
-  /*=============================================================================*/
-  getEventList() {
-    return this.eventList;
-  }
-
-  /*=============================================================================*/
-  /* Return ImageData
-  /*=============================================================================*/
-  getImageData() {
-    return this.ctx.getImageData(0, 0, this.canvasWidth, this.canvasHeight);
   }
 
   /*=============================================================================*/
@@ -67,13 +76,6 @@ export default class CanvasInput {
     this.eventList = this.eventList.filter(function(item) {
       return item.intensity > intensityMin;
     });
-  }
-
-  /*=============================================================================*/
-  /* Remove all Events
-  /*=============================================================================*/
-  removeAllEvents() {
-    this.eventList = [];
   }
 
   /*=============================================================================*/
@@ -131,5 +133,26 @@ export default class CanvasInput {
     this.eventList.push(
       new Event(Math.round(x), Math.round(y), centerIntensity)
     );
+  }
+
+  /*=============================================================================*/
+  /* Remove all Events
+  /*=============================================================================*/
+  removeAllEvents() {
+    this.eventList = [];
+  }
+
+  /*=============================================================================*/
+  /* Return EventList
+  /*=============================================================================*/
+  getEventList() {
+    return this.eventList;
+  }
+
+  /*=============================================================================*/
+  /* Return ImageData
+  /*=============================================================================*/
+  getImageData() {
+    return this.ctx.getImageData(0, 0, this.canvasWidth, this.canvasHeight);
   }
 }

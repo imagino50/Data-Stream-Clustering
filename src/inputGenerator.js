@@ -44,7 +44,7 @@ export default class InputGenerator {
     }
   }
 
- /*=============================================================================*/
+  /*=============================================================================*/
   /* Create Event at ramdom position
   /*=============================================================================*/
   createRandomEvent(centerIntensity) {
@@ -56,7 +56,7 @@ export default class InputGenerator {
   }
 
   /*=============================================================================*/
-  /* Create an event clustered
+  /* Create an Event clustered
   /*=============================================================================*/
   createClusteredEvent(cluster, centerIntensity, max_x_stdev, max_y_stdev) {
     return new Event(

@@ -33,7 +33,7 @@
 </template>
 <script>
 import { eventGetters } from "@/store/eventSettingsStore.js";
-import { inputGetters, inputMutations } from "@/store/inputSettingsStore.js";
+import { inputGetters } from "@/store/inputSettingsStore.js";
 import CanvasInput from "@/canvasInput.js";
 import CanvasConvexHGS from "@/canvasConvexHGS.js";
 import CanvasClustering from "@/canvasClustering.js";
@@ -118,28 +118,21 @@ export default {
       clusterColors_sav
     ) {
       var draw = () => {
-        if (inputGetters.generationMode() == "Random") {
-          this.canvasInput.createRandomEvent(eventGetters.centerIntensity());
-        } else if (
-          inputGetters.generationMode() == "Cluster" &&
-          inputGetters.eventID() < inputGetters.eventsGenerated().length
-        ) {
-          this.canvasInput.addEvent(
-            inputGetters.eventsGenerated()[inputGetters.eventID()]
-          );
-          inputMutations.incEventID();
-          //console.log("addEventsGenerated");
-        } /*else if (inputGetters.generationMode() == "ClusterMoving") {
-        }*/
+        // Canvas 1 : canvasInput
+        this.canvasInput.addEventFromSelection(
+          inputGetters.generationMode(),
+          inputGetters.eventsGenerated(),
+          inputGetters.eventID(),
+          eventGetters.centerIntensity()
+        );
 
-        // Canvas 1
         this.canvasInput.refreshCanvas(
           eventGetters.intensityMin(),
           eventGetters.incRadius(),
           eventGetters.incIntensity()
         );
 
-        // Canvas 2
+        // Canvas 2 : canvasCluster
         var imgData = this.canvasInput.getImageData();
         var eventList = this.canvasInput.getEventList();
         this.canvasCluster.refreshCanvas(
@@ -153,7 +146,7 @@ export default {
           clusterColors_sav
         );
 
-        // Canvas 3
+        // Canvas 3 : canvasConvexHGS
         var eventFilteredList = this.canvasCluster.getEventFilteredList();
         var clusterLength = this.canvasCluster.getClusterLength();
         this.canvasConvexHGS.drawConvexHullClusters(

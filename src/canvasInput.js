@@ -12,7 +12,6 @@ export default class CanvasInput {
   /*=============================================================================*/
   constructor(canvas, width, height) {
     this.eventList = [];
-    this.eventFilteredList = [];
     this.ctx = canvas.getContext("2d");
     this.canvasWidth = width;
     this.canvasHeight = height;

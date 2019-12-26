@@ -48,7 +48,7 @@ export default class CanvasClustering {
 
     this.filterEvents(imgData, eventList, filterThreshold);
 
-    this.computeCluster(dbscan, neighborhoodRadius, nbMinPoints);
+    this.computeClusters(dbscan, neighborhoodRadius, nbMinPoints);
 
     this.renderClusters(eventsFiltered_sav, clusterColors_sav);
   }
@@ -88,7 +88,7 @@ export default class CanvasClustering {
   /*=============================================================================*/
   /* Compute clusters from eventFilteredList
   /*=============================================================================*/
-  computeCluster(dbscan, neighborhoodRadius, nbMinPoints) {
+  computeClusters(dbscan, neighborhoodRadius, nbMinPoints) {
     var dataset = Clustering.createDataset(this.eventFilteredList);
     this.clusterList = dbscan.run(dataset, neighborhoodRadius, nbMinPoints);
   }

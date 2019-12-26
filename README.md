@@ -1,8 +1,8 @@
 # Data stream clustering with energy diffusion of event input (intensity spreads and decreases over time). 
 
 - **First Canvas : Events streaming as input** :   
-Generate (random or clustered) events continuously as input.
-Each event intensity decreases while its radius increases over time  
+Generate (random or clustered) events continuously as input.  
+Each event intensity decreases while its radius increases over time.    
 For events which overlap, theirs intensities cumulate each others.   
 - **Second Canvas : Events filtered and clustered** :  
 Hdbscan is applied to detect clusters on real time.

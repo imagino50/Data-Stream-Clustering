@@ -12,7 +12,7 @@ export default class InputGenerator {
     this.width = canvasWidth - marginX;
     this.height = canvasHeight - marginY;
     this.clusterCenterList = this.initClusterCenterList(initialNbClusters);
-    //console.log("this.clusterCenterList", this.clusterCenterList);
+    console.log("this.clusterCenterList", this.clusterCenterList);
   }
 
   /*=============================================================================*/

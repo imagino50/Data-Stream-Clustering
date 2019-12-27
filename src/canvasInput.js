@@ -1,7 +1,6 @@
 import Event from "@/event.js";
 import Utils from "@/utils.js";
 import InputGenerator from "@/inputGenerator.js";
-import { inputMutations } from "@/store/inputSettingsStore.js";
 
 /*=============================================================================*/
 /* Class Canvas Input Events
@@ -10,13 +9,12 @@ export default class CanvasInput {
   /*=============================================================================*/
   /* Constructor
   /*=============================================================================*/
-  constructor(canvas, width, height) {
+  constructor(canvas, width, height, initialNbClusters) {
     this.eventList = [];
     this.ctx = canvas.getContext("2d");
     this.canvasWidth = width;
     this.canvasHeight = height;
     this.initCanvas(canvas);
-    var initialNbClusters = 3;
     var marginX = 30;
     var marginY = 30;
     this.inputGenerator = new InputGenerator(
@@ -45,34 +43,28 @@ export default class CanvasInput {
   /*=============================================================================*/
   addEventFromSelection(
     generationMode,
-    eventsGenerated,
-    eventID,
+    noiseRate,
+    max_x_stdev,
+    max_y_stdev,
+    max_centerX_stdev,
+    max_centerY_stdev,
     centerIntensity
   ) {
     if (generationMode == "Random") {
       this.createRandomEvent(centerIntensity);
-    } else if (
-      generationMode == "Cluster" &&
-      eventID < eventsGenerated.length
-    ) {
-      this.addEvent(eventsGenerated[eventID]);
-      inputMutations.incEventID();
-      //console.log("addEventsGenerated");
-    } else if (generationMode == "ClusterMoving") {
-      var noiseRate = 20;
-      var max_x_stdev = 10;
-      var max_y_stdev = 10;
+    } else if (generationMode == "Cluster") {
       var event = this.inputGenerator.generateEvent(
         noiseRate,
         centerIntensity,
         max_x_stdev,
         max_y_stdev
       );
-      //console.log("generatedEvent", test);
+
       this.addEvent(event);
-      var max_centerX_stdev = 3;
-      var max_centerY_stdev = 3;
-      this.inputGenerator.updateRandomClusterCenter(max_centerX_stdev, max_centerY_stdev);
+      this.inputGenerator.updateRandomClusterCenter(
+        max_centerX_stdev,
+        max_centerY_stdev
+      );
     }
   }
 

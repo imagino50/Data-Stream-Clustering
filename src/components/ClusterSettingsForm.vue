@@ -1,9 +1,9 @@
 <template>
-  <div id="eventSettings-form">
+  <div id="clusterSettings-form">
     <b-list-group>
       <b-list-group-item
         style="padding: 0rem 0.2rem;"
-        v-for="item in eventParams"
+        v-for="item in clusterParams"
         v-bind:key="item.id"
       >
         <div class="form-group p-0">
@@ -20,7 +20,7 @@
             min="0"
             v-bind:max="item.range"
             v-bind:step="item.step"
-            @change="onEventParamsChange()"
+            @change="onClusterParamsChange()"
           />
         </div>
       </b-list-group-item>
@@ -28,35 +28,35 @@
         class="btn btn-primary"
         type="reset"
         value="Reset"
-        @click="onResetEventParams()"
+        @click="onResetClusterParams()"
       />
     </b-list-group>
   </div>
 </template>
 <script>
-import eventJson from "@/json/eventSettings.json";
-import { eventActions } from "@/store/eventSettingsStore.js";
+import clusterJson from "@/json/clusterSettings.json";
+import { clusterActions } from "@/store/clusterSettingsStore.js";
 
 export default {
-  name: "eventSettings-form",
+  name: "clusterSettings-form",
   components: {},
   data() {
-    return { eventParams: eventJson };
+    return { clusterParams: clusterJson };
   },
   methods: {
     /*=============================================================================*/
     /* Events Parameters settings
     /*=============================================================================*/
-    onEventParamsChange() {
-      console.log("onEventParamsChange");
-      eventActions.setValuesFromParams(this.eventParams);
+    onClusterParamsChange() {
+      console.log("onClusterParamsChange");
+      clusterActions.setValuesFromParams(this.clusterParams);
     },
-    onResetEventParams() {
-      console.log("onResetEventParams");
-      for (let i = 0; i < this.eventParams.length; i++) {
-        this.eventParams[i].value = this.eventParams[i].defaultValue;
+    onResetClusterParams() {
+      console.log("onResetClusterParams");
+      for (let i = 0; i < this.clusterParams.length; i++) {
+        this.clusterParams[i].value = this.clusterParams[i].defaultValue;
       }
-      eventActions.setDefaultValues();
+     clusterActions.setDefaultValues();
     }
   }
 };

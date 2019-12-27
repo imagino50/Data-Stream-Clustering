@@ -14,21 +14,17 @@
       </b-col>
       <b-col md="9">
         <CanvasGroup />
-        <b-row class="text-left">
-          <eventSettings />
-        </b-row>
       </b-col>
     </b-row>
   </b-container>
 </template>
 <script>
-import EventSettings from "@/components/EventSettingsForm.vue";
 import InputSettings from "@/components/InputSettingsForm.vue";
 import CanvasGroup from "@/components/CanvasGroupForm.vue";
 
 export default {
   name: "app",
-  components: { EventSettings, InputSettings, CanvasGroup },
+  components: { InputSettings, CanvasGroup },
   data() {
     return {};
   },

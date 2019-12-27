@@ -12,6 +12,9 @@
           Energy diffusion of events.<br />
           Click on the square to add events !
         </p>
+        <div v-bind:style="{width:canvasWidth + 'px'}">
+          <eventSettings />
+        </div>
       </b-col>
       <b-col md="4" class="p-1">
         <canvas id="canvas2" width="canvasWidth" height="canvasHeight"></canvas>
@@ -21,6 +24,9 @@
           Events filtered by 'Intensity threshold filter':
           {{ getFilterThreshold }}
         </p>
+        <div v-bind:style="{width:canvasWidth + 'px'}">
+          <clusterSettings />
+        </div>
       </b-col>
       <b-col md="4" class="p-1">
         <canvas id="canvas3" width="canvasWidth" height="canvasHeight"></canvas>
@@ -32,15 +38,20 @@
   </div>
 </template>
 <script>
-import { eventGetters } from "@/store/eventSettingsStore.js";
-import { inputGetters } from "@/store/inputSettingsStore.js";
+import EventSettings from "@/components/EventSettingsForm.vue";
+import ClusterSettings from "@/components/ClusterSettingsForm.vue";
+
 import CanvasInput from "@/canvasInput.js";
 import CanvasConvexHGS from "@/canvasConvexHGS.js";
 import CanvasClustering from "@/canvasClustering.js";
 
+import { inputGetters } from "@/store/inputSettingsStore.js";
+import { eventGetters } from "@/store/eventSettingsStore.js";
+import { clusterGetters } from "@/store/clusterSettingsStore.js";
+
 export default {
   name: "canvasGroup-form",
-  components: {},
+  components: { EventSettings, ClusterSettings },
   data() {
     return {
       canvasInput: null,
@@ -54,7 +65,7 @@ export default {
   },
   computed: {
     getFilterThreshold() {
-      return eventGetters.filterThreshold();
+      return clusterGetters.filterThreshold();
     }
   },
   mounted() {
@@ -62,7 +73,7 @@ export default {
     var canvas1 = document.getElementById("canvas1");
     var canvas2 = document.getElementById("canvas2");
     var canvas3 = document.getElementById("canvas3");
-    this.setUpCanvas(canvas1, canvas2, canvas3);
+    this.setUpCanvas(canvas1, canvas2, canvas3, inputGetters.nb_clusters());
 
     var eventsFiltered_sav = [];
     var clusterColors_sav = [];
@@ -81,11 +92,12 @@ export default {
     onClickCanvas1(e) {
       this.canvasInput.createEventFromClick(e, eventGetters.centerIntensity());
     },
-    setUpCanvas(canvas1, canvas2, canvas3) {
+    setUpCanvas(canvas1, canvas2, canvas3, nb_clusters) {
       this.canvasInput = new CanvasInput(
         canvas1,
         this.canvasWidth,
-        this.canvasHeight
+        this.canvasHeight,
+        nb_clusters
       );
       this.canvasCluster = new CanvasClustering(
         canvas2,
@@ -97,14 +109,6 @@ export default {
         this.canvasWidth,
         this.canvasHeight
       );
-
-      /*this.InputGenerator(
-        initialNbClusters,
-        canvasWidth,
-        canvasHeight,
-        marginX,
-        marginY
-      );*/
     },
     /*=============================================================================*/
     /* Refresh all Canvas
@@ -121,8 +125,11 @@ export default {
         // Canvas 1 : canvasInput
         this.canvasInput.addEventFromSelection(
           inputGetters.generationMode(),
-          inputGetters.eventsGenerated(),
-          inputGetters.eventID(),
+          inputGetters.noiseRate(),
+          inputGetters.max_x_stdev(),
+          inputGetters.max_y_stdev(),
+          inputGetters.max_centerX_stdev(),
+          inputGetters.max_centerY_stdev(),
           eventGetters.centerIntensity()
         );
 
@@ -138,10 +145,10 @@ export default {
         this.canvasCluster.refreshCanvas(
           imgData,
           eventList,
-          eventGetters.filterThreshold(),
+          clusterGetters.filterThreshold(),
           dbscan,
-          eventGetters.neighborhoodRadius(),
-          eventGetters.nbMinPoints(),
+          clusterGetters.neighborhoodRadius(),
+          clusterGetters.nbMinPoints(),
           eventsFiltered_sav,
           clusterColors_sav
         );

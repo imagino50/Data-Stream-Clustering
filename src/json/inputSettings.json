@@ -1,10 +1,34 @@
 [
     {
-      "id": "num_clusters",
+      "id": "nb_clusters",
       "label": "Nb clusters",
       "value": 3,
       "defaultValue": 3,
       "range": 10,
+      "step": 1
+    },
+    {
+      "id": "noiseRate",
+      "label": "Noise rate",
+      "value": 20,
+      "defaultValue": 20,
+      "range": 100,
+      "step": 1
+    },
+    {
+      "id": "max_centerX_stdev",
+      "label": "Max center x standard deviation",
+      "value": 3,
+      "defaultValue": 3,
+      "range": 50,
+      "step": 1
+    },
+    {
+      "id": "max_centerY_stdev",
+      "label": "Max center y standard deviation",
+      "value": 3,
+      "defaultValue": 3,
+      "range": 50,
       "step": 1
     },
     {
@@ -21,14 +45,6 @@
       "value": 10,
       "defaultValue": 10,
       "range": 50,
-      "step": 1
-    },	
-    {
-      "id": "cluster_size",
-      "label": "Nb events per Cluster",
-      "value": 30,
-      "defaultValue": 30,
-      "range": 100,
       "step": 1
     }
 ]	

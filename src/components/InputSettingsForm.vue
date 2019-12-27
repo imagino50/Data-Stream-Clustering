@@ -18,26 +18,14 @@
             v-model="generationMode"
             name="GenerateMode"
             value="Cluster"
-            >Cluster dataset</b-form-radio
-          >
-          <b-form-radio
-            v-model="generationMode"
-            name="GenerateMode"
-            value="ClusterMoving"
-            >Cluster moving</b-form-radio
+            >Cluster</b-form-radio
           >
         </b-form-radio-group>
       </b-form-group>
       <b-list-group>
-        <input
-          class="btn btn-primary"
-          type="restart"
-          value="Generate 'Cluster dataset'"
-          @click="onReGenerateDataset()"
-        />
         <b-list-group-item
           style="padding: 0rem 0.2rem;"
-          v-for="item in eventsGenParams"
+          v-for="item in inputParams"
           v-bind:key="item.id"
         >
           <div class="form-group p-0">
@@ -69,54 +57,30 @@
   </div>
 </template>
 <script>
-import clusterGenJson from "@/json/inputSettings.json";
-import Utils from "@/utils";
-import { inputGetters, inputMutations } from "@/store/inputSettingsStore.js";
-import { eventGetters } from "@/store/eventSettingsStore.js";
+import inputJson from "@/json/inputSettings.json";
+import { inputMutations, inputActions } from "@/store/inputSettingsStore.js";
 
 export default {
   name: "inputSettings-form",
   components: {},
   data() {
-    return { eventsGenParams: clusterGenJson, generationMode: "Random" };
+    return { inputParams: inputJson, generationMode: "Random" };
   },
   methods: {
-    onResetClusterGenParams() {
-      console.log("onResetClusterGenParams");
-      for (let i = 0; i < this.eventsGenParams.length; i++) {
-        this.eventsGenParams[i].value = this.eventsGenParams[i].defaultValue;
-      }
-      this.createClusteredEvents();
-    },
-    onReGenerateDataset() {
-      console.log("onReGenerateDataset");
-      this.createClusteredEvents();
-    },
-    onClusterGenParamsChange() {
-      console.log("onClusterGenParamsChange");
-      this.createClusteredEvents();
-    },
     onGenerateModeChange() {
       console.log("onGenerateModeChange");
       inputMutations.setGenerationMode(this.generationMode);
-      if (inputGetters.generationMode() == "Cluster") {
-        this.createClusteredEvents();
-      }
     },
-    createClusteredEvents() {
-      inputMutations.setEventID(0);
-      var canvas1 = document.getElementById("canvas1");
-      inputMutations.seteventsGenerated(
-        Utils.generateClusteredEvents(
-          this.eventsGenParams[0].value,
-          canvas1.width,
-          canvas1.height,
-          this.eventsGenParams[1].value,
-          this.eventsGenParams[2].value,
-          this.eventsGenParams[3].value,
-          eventGetters.centerIntensity()
-        )
-      );
+    onClusterGenParamsChange() {
+      console.log("onClusterGenParamsChange");
+      inputActions.setValuesFromParams(this.inputParams);
+    },
+    onResetClusterGenParams() {
+      console.log("onResetClusterGenParams");
+      for (let i = 0; i < this.inputParams.length; i++) {
+        this.inputParams[i].value = this.inputParams[i].defaultValue;
+      }
+      inputActions.setDefaultValues();
     }
   }
 };

@@ -12,7 +12,7 @@
           Energy diffusion of events.<br />
           Click on the square to add events !
         </p>
-        <div v-bind:style="{width:canvasWidth + 'px'}">
+        <div v-bind:style="{ width: canvasWidth + 'px' }">
           <eventSettings />
         </div>
       </b-col>
@@ -24,7 +24,7 @@
           Events filtered by 'Intensity threshold filter':
           {{ getFilterThreshold }}
         </p>
-        <div v-bind:style="{width:canvasWidth + 'px'}">
+        <div v-bind:style="{ width: canvasWidth + 'px' }">
           <clusterSettings />
         </div>
       </b-col>

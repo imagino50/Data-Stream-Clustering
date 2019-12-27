@@ -1,5 +1,5 @@
 [
-    {
+  {
     "id": "filterThreshold",
     "label": "Intensity threshold filter",
     "value": 200,

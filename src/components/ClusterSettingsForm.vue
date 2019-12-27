@@ -56,7 +56,7 @@ export default {
       for (let i = 0; i < this.clusterParams.length; i++) {
         this.clusterParams[i].value = this.clusterParams[i].defaultValue;
       }
-     clusterActions.setDefaultValues();
+      clusterActions.setDefaultValues();
     }
   }
 };

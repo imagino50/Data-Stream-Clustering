@@ -45,7 +45,7 @@ export default {
   },
   methods: {
     /*=============================================================================*/
-    /* Events Parameters settings
+    /* Event Parameters settings
     /*=============================================================================*/
     onEventParamsChange() {
       console.log("onEventParamsChange");

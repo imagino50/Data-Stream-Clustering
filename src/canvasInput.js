@@ -43,6 +43,7 @@ export default class CanvasInput {
   /*=============================================================================*/
   addEventFromSelection(
     generationMode,
+    nb_clusters,
     noiseRate,
     max_x_stdev,
     max_y_stdev,
@@ -59,12 +60,14 @@ export default class CanvasInput {
         max_x_stdev,
         max_y_stdev
       );
-
       this.addEvent(event);
+
       this.inputGenerator.updateRandomClusterCenter(
         max_centerX_stdev,
         max_centerY_stdev
       );
+
+      this.inputGenerator.updateNumberClusters(nb_clusters);
     }
   }
 

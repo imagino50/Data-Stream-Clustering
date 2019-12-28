@@ -1,6 +1,14 @@
 <template>
   <div id="clusterSettings-form">
     <b-list-group>
+      <b-form-checkbox
+        v-model="isImgDataShown"
+        name="check-button"
+        @change.native="onIsImgDataShownChange()"
+        switch
+      >
+        Display filtered image: {{ isImgDataShown }}
+      </b-form-checkbox>
       <b-list-group-item
         style="padding: 0rem 0.2rem;"
         v-for="item in clusterParams"
@@ -35,21 +43,28 @@
 </template>
 <script>
 import clusterJson from "@/json/clusterSettings.json";
-import { clusterActions } from "@/store/clusterSettingsStore.js";
+import {
+  clusterMutations,
+  clusterActions
+} from "@/store/clusterSettingsStore.js";
 
 export default {
   name: "clusterSettings-form",
   components: {},
   data() {
-    return { clusterParams: clusterJson };
+    return { isImgDataShown: false, clusterParams: clusterJson };
   },
   methods: {
     /*=============================================================================*/
-    /* Events Parameters settings
+    /* Cluster Parameters settings
     /*=============================================================================*/
     onClusterParamsChange() {
       console.log("onClusterParamsChange");
       clusterActions.setValuesFromParams(this.clusterParams);
+    },
+    onIsImgDataShownChange() {
+      console.log("onIsImgDataShownChange");
+      clusterMutations.setIsImgDataShown(this.isImgDataShown);
     },
     onResetClusterParams() {
       console.log("onResetClusterParams");

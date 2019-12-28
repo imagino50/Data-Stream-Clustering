@@ -42,8 +42,8 @@ import EventSettings from "@/components/EventSettingsForm.vue";
 import ClusterSettings from "@/components/ClusterSettingsForm.vue";
 
 import CanvasInput from "@/canvasInput.js";
-import CanvasConvexHGS from "@/canvasConvexHGS.js";
 import CanvasClustering from "@/canvasClustering.js";
+import CanvasConvexHGS from "@/canvasConvexHGS.js";
 
 import { inputGetters } from "@/store/inputSettingsStore.js";
 import { eventGetters } from "@/store/eventSettingsStore.js";
@@ -125,6 +125,7 @@ export default {
         // Canvas 1 : canvasInput
         this.canvasInput.addEventFromSelection(
           inputGetters.generationMode(),
+          inputGetters.nb_clusters(),
           inputGetters.noiseRate(),
           inputGetters.max_x_stdev(),
           inputGetters.max_y_stdev(),
@@ -145,6 +146,7 @@ export default {
         this.canvasCluster.refreshCanvas(
           imgData,
           eventList,
+          clusterGetters.isImgDataShown(),
           clusterGetters.filterThreshold(),
           dbscan,
           clusterGetters.neighborhoodRadius(),

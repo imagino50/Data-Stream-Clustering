@@ -41,11 +41,7 @@ export default class Clustering {
     for (let idx = 0; idx < eventsFiltered.length; idx++) {
       let clusterId = eventsFiltered[idx].clusterId;
       if (clusterId != -1) {
-        for (
-          let idx_sav = 0;
-          idx_sav < eventsFiltered_sav.length;
-          idx_sav++
-        ) {
+        for (let idx_sav = 0; idx_sav < eventsFiltered_sav.length; idx_sav++) {
           if (
             eventsFiltered[idx].x == eventsFiltered_sav[idx_sav].x &&
             eventsFiltered[idx].y == eventsFiltered_sav[idx_sav].y &&
@@ -54,31 +50,10 @@ export default class Clustering {
             var colorUsedKey =
               clusterColors_sav[eventsFiltered_sav[idx_sav].clusterId];
 
-            /*console.log(
-                "eventsFiltered_sav[idx_sav].clusterId",
-                eventsFiltered_sav[idx_sav].clusterId
-              );
-              console.log(
-                "colorUsedKey",
-                colorUsedKey
-              );*/
-
-            /*if(fireworksFiltered_sav[idx_sav].cluster >= clusterColors_sav.length)
-              {
-              console.log(
-                "fireworksFiltered_sav[idx_sav].cluster",
-                fireworksFiltered_sav[idx_sav].cluster
-              );
-              console.log(
-                "clusterColors_sav",
-                clusterColors_sav
-              );
-              }*/
-            /*console.log(
-                "colorUsedKey",
-                colorUsedKey
-              );*/
-            clusterColors[clusterId] = colorUsedKey;
+            //In case the cluster detected splits into small clusters, color has to be different from each others.
+            if (clusterColors.includes(colorUsedKey) == false) {
+              clusterColors[clusterId] = colorUsedKey;
+            }
 
             break;
           }

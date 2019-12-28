@@ -5,7 +5,7 @@
         <b-form-radio-group
           id="radio-group-2"
           v-model="generationMode"
-          @change.native="onGenerateModeChange()"
+          @change.native="onInputModeChange()"
           name="radio-sub-component"
         >
           <b-form-radio
@@ -42,7 +42,7 @@
               min="0"
               v-bind:max="item.range"
               v-bind:step="item.step"
-              @change="onClusterGenParamsChange()"
+              @change="onInputParamsChange()"
             />
           </div>
         </b-list-group-item>
@@ -50,7 +50,7 @@
           class="btn btn-primary"
           type="reset"
           value="Reset"
-          @click="onResetClusterGenParams()"
+          @click="onResetInputParams()"
         />
       </b-list-group>
     </b-col>
@@ -67,16 +67,19 @@ export default {
     return { inputParams: inputJson, generationMode: "Random" };
   },
   methods: {
-    onGenerateModeChange() {
-      console.log("onGenerateModeChange");
+    /*=============================================================================*/
+    /* Input Parameters settings
+    /*=============================================================================*/
+    onInputModeChange() {
+      console.log("onInputModeChange");
       inputMutations.setGenerationMode(this.generationMode);
     },
-    onClusterGenParamsChange() {
-      console.log("onClusterGenParamsChange");
+    onInputParamsChange() {
+      console.log("onInputParamsChange");
       inputActions.setValuesFromParams(this.inputParams);
     },
-    onResetClusterGenParams() {
-      console.log("onResetClusterGenParams");
+    onResetInputParams() {
+      console.log("onResetInputParams");
       for (let i = 0; i < this.inputParams.length; i++) {
         this.inputParams[i].value = this.inputParams[i].defaultValue;
       }

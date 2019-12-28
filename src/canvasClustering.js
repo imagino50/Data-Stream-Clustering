@@ -35,6 +35,7 @@ export default class CanvasClustering {
   refreshCanvas(
     imgData,
     eventList,
+    isImgDataShown,
     filterThreshold,
     dbscan,
     neighborhoodRadius,
@@ -44,7 +45,9 @@ export default class CanvasClustering {
   ) {
     this.clearCanvas();
 
-    this.renderImageDataFiltered(imgData, filterThreshold);
+    if (isImgDataShown) {
+      this.renderImageDataFiltered(imgData, filterThreshold);
+    }
 
     this.filterEvents(imgData, eventList, filterThreshold);
 

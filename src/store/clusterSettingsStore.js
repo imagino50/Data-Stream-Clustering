@@ -4,7 +4,8 @@ import clusterJson from "@/json/clusterSettings.json";
 const clusterSettings = Vue.observable({
   filterThreshold: clusterJson[0].value,
   nbMinPoints: clusterJson[1].value,
-  neighborhoodRadius: clusterJson[2].value
+  neighborhoodRadius: clusterJson[2].value,
+  isImgDataShown: false
 });
 
 export const clusterGetters = {
@@ -16,7 +17,11 @@ export const clusterGetters = {
   },
   neighborhoodRadius() {
     return clusterSettings.neighborhoodRadius;
+  },
+  isImgDataShown() {
+    return clusterSettings.isImgDataShown;
   }
+
 };
 
 export const clusterMutations = {
@@ -28,6 +33,9 @@ export const clusterMutations = {
   },
   setNeighborhoodRadius(val) {
     clusterSettings.neighborhoodRadius = val;
+  },
+  setIsImgDataShown(val) {
+    clusterSettings.isImgDataShown = val;
   }
 };
 

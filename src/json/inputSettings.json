@@ -10,8 +10,8 @@
   {
     "id": "noiseRate",
     "label": "Noise rate",
-    "value": 20,
-    "defaultValue": 20,
+    "value": 10,
+    "defaultValue": 10,
     "range": 100,
     "step": 1
   },

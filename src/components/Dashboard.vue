@@ -3,7 +3,7 @@
     <b-row class="text-center">
       <b-col class="bg-dark">
         <h1 class="text-white navbar-brand">
-          Data stream 'Density Clustering' on real time.
+          Data stream 'Density-based Clustering' on real time.
         </h1>
       </b-col>
     </b-row>

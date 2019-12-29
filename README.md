@@ -6,7 +6,7 @@
 Detect 'density-based clustering' according to these 3 conditions :
 - Each 'event' intensity decreases while its radius increases over time.  
 - Each 'event' with a weak intensity are filtered
-- To emphase the 'density clustering', 'events' accumulate theirs intensities when they are closes enough .
+- To emphase the 'density clustering', 'events' accumulate theirs intensities when they are close enough .
 
 ## Steps Process  
 1. Generates 'events' as 2D input : Randomly or from a standard deviation around a moving center. 

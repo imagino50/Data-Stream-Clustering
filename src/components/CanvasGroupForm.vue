@@ -66,7 +66,7 @@ export default {
     };
   },
   mounted() {
-    console.log("mounted");
+    //console.log("mounted");
     var canvas1 = document.getElementById("canvas1");
     var canvas2 = document.getElementById("canvas2");
     var canvas3 = document.getElementById("canvas3");

@@ -48,11 +48,11 @@ export default {
     /* Event Parameters settings
     /*=============================================================================*/
     onEventParamsChange() {
-      console.log("onEventParamsChange");
+      //console.log("onEventParamsChange");
       eventActions.setValuesFromParams(this.eventParams);
     },
     onResetEventParams() {
-      console.log("onResetEventParams");
+      //console.log("onResetEventParams");
       for (let i = 0; i < this.eventParams.length; i++) {
         this.eventParams[i].value = this.eventParams[i].defaultValue;
       }

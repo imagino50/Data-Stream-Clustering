@@ -59,15 +59,15 @@ export default {
     /* Cluster Parameters settings
     /*=============================================================================*/
     onClusterParamsChange() {
-      console.log("onClusterParamsChange");
+      //console.log("onClusterParamsChange");
       clusterActions.setValuesFromParams(this.clusterParams);
     },
     onIsImgDataShownChange() {
-      console.log("onIsImgDataShownChange");
+      //console.log("onIsImgDataShownChange");
       clusterMutations.setIsImgDataShown(this.isImgDataShown);
     },
     onResetClusterParams() {
-      console.log("onResetClusterParams");
+      //console.log("onResetClusterParams");
       for (let i = 0; i < this.clusterParams.length; i++) {
         this.clusterParams[i].value = this.clusterParams[i].defaultValue;
       }

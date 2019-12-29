@@ -19,7 +19,7 @@ export default {
   },
   methods: {
     onResetCanvas() {
-      console.log("onResetCanvas");
+      //console.log("onResetCanvas");
       var canvas3 = document.getElementById("canvas3");
       var ctx = canvas3.getContext("2d");
       ctx.clearRect(0, 0, canvas3.width, canvas3.height);

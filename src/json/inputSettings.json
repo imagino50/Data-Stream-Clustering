@@ -23,7 +23,7 @@
     "value": 3,
     "defaultValue": 3,
     "min": 0,
-    "max": 50,
+    "max": 30,
     "step": 1
   },
   {
@@ -32,7 +32,7 @@
     "value": 3,
     "defaultValue": 3,
     "min": 0,
-    "max": 50,
+    "max": 30,
     "step": 1
   },
   {

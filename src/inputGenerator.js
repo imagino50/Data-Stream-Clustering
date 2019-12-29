@@ -12,7 +12,7 @@ export default class InputGenerator {
     this.width = canvasWidth - marginX;
     this.height = canvasHeight - marginY;
     this.initClusterCenterList(initialNbClusters);
-    console.log("this.clusterCenterList", this.clusterCenterList);
+    //console.log("this.clusterCenterList", this.clusterCenterList);
   }
 
   /*=============================================================================*/
@@ -29,27 +29,24 @@ export default class InputGenerator {
   /* Update a center of a cluster choosed randomly
   /*=============================================================================*/
   updateRandomClusterCenter(max_centerX_stdev, max_centerY_stdev) {
-    if(this.clusterCenterList.length == 0)
-    {
-      return;
-    }
-    
-    var clusterId = Utils.getRandomInt(0, this.clusterCenterList.length);
+    if (this.clusterCenterList.length != 0) {
+      var clusterId = Utils.getRandomInt(0, this.clusterCenterList.length);
 
-    var newPosX = Utils.rnd(
-      this.clusterCenterList[clusterId].x,
-      max_centerX_stdev
-    );
-    if (newPosX > 0 && newPosX < this.width) {
-      this.clusterCenterList[clusterId].x = newPosX;
-    }
+      var newPosX = Utils.rnd(
+        this.clusterCenterList[clusterId].x,
+        max_centerX_stdev
+      );
+      if (newPosX > 0 && newPosX < this.width) {
+        this.clusterCenterList[clusterId].x = newPosX;
+      }
 
-    var newPosY = Utils.rnd(
-      this.clusterCenterList[clusterId].y,
-      max_centerY_stdev
-    );
-    if (newPosY > 0 && newPosY < this.height) {
-      this.clusterCenterList[clusterId].y = newPosY;
+      var newPosY = Utils.rnd(
+        this.clusterCenterList[clusterId].y,
+        max_centerY_stdev
+      );
+      if (newPosY > 0 && newPosY < this.height) {
+        this.clusterCenterList[clusterId].y = newPosY;
+      }
     }
   }
 

@@ -21,7 +21,6 @@ export const clusterGetters = {
   isImgDataShown() {
     return clusterSettings.isImgDataShown;
   }
-
 };
 
 export const clusterMutations = {

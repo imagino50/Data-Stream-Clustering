@@ -1,4 +1,4 @@
-# Data stream 'density clustering' on real time 
+# Data stream 'Density Clustering' on real time 
 
 ![alt text](https://github.com/imagino50/ParticlesProject/blob/master/public/image.png   "Home page")
 
@@ -6,7 +6,7 @@
 Detect 'density clusters' according to these 3 conditions :
 - Each 'event' intensity decreases while its radius increases over time.  
 - Each 'event' with a weak intensity are filtered
-- 'events' accumulate theirs intensities when they are closes enough to emphase the 'density clustering'.
+- To emphase the 'density clustering', 'events' accumulate theirs intensities when they are closes enough .
 
 # Steps Process
 1. Generates 'events' as 2D input : Randomly or from a standard deviation around a moving center. 

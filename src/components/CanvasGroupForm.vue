@@ -21,8 +21,6 @@
         <p>
           Clustering of filtered events (1 cluster per color).<br />
           White circle around event is noise.<br />
-          Events filtered by 'Intensity threshold filter':
-          {{ getFilterThreshold }}
         </p>
         <div v-bind:style="{ width: canvasWidth + 'px' }">
           <clusterSettings />
@@ -33,6 +31,9 @@
         <p>
           ConvexHullGrahamScan of clusters.
         </p>
+        <div v-bind:style="{ width: canvasWidth + 'px' }">
+          <convexHgsSettings />
+        </div>
       </b-col>
     </b-row>
   </div>
@@ -40,6 +41,7 @@
 <script>
 import EventSettings from "@/components/EventSettingsForm.vue";
 import ClusterSettings from "@/components/ClusterSettingsForm.vue";
+import ConvexHgsSettings from "@/components/ConvexHgsSettingsForm.vue";
 
 import CanvasInput from "@/canvasInput.js";
 import CanvasClustering from "@/canvasClustering.js";
@@ -51,7 +53,7 @@ import { clusterGetters } from "@/store/clusterSettingsStore.js";
 
 export default {
   name: "canvasGroup-form",
-  components: { EventSettings, ClusterSettings },
+  components: { EventSettings, ClusterSettings, ConvexHgsSettings },
   data() {
     return {
       canvasInput: null,
@@ -62,11 +64,6 @@ export default {
       marginX: 30,
       marginY: 30
     };
-  },
-  computed: {
-    getFilterThreshold() {
-      return clusterGetters.filterThreshold();
-    }
   },
   mounted() {
     console.log("mounted");

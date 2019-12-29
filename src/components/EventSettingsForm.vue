@@ -17,8 +17,8 @@
             type="range"
             class="form-control-range form-control-sm"
             v-model="item.value"
-            min="0"
-            v-bind:max="item.range"
+            v-bind:min="item.min"
+            v-bind:max="item.max"
             v-bind:step="item.step"
             @change="onEventParamsChange()"
           />

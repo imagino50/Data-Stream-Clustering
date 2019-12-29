@@ -4,7 +4,8 @@
     "label": "Event initial intensity",
     "value": 150,
     "defaultValue": 150,
-    "range": 250,
+    "min": 0,
+    "max": 250,
     "step": 1
   },
   {
@@ -12,7 +13,8 @@
     "label": "Intensity threshold for the display",
     "value": 5,
     "defaultValue": 5,
-    "range": 250,
+    "min": 0,
+    "max": 250,
     "step": 1
   },
   {
@@ -20,7 +22,8 @@
     "label": "Radius increasing speed",
     "value": 0.2,
     "defaultValue": 0.2,
-    "range": 1,
+    "min": 0,
+    "max": 1,
     "step": 0.05
   },
   {
@@ -28,7 +31,8 @@
     "label": "Intensity decreasing speed",
     "value": 1,
     "defaultValue": 1,
-    "range": 10,
+    "min": 0,
+    "max": 10,
     "step": 0.1
   }
 ]

@@ -30,3 +30,6 @@ http://localhost:8080/
 - Vue.observable as a State Store
 - density-clustering
 - BootstrapVue
+
+## Deployed on Netlify
+[![Netlify Status](https://api.netlify.com/api/v1/badges/7519058e-538b-46ec-afb2-345c220f5d9d/deploy-status)](https://app.netlify.com/sites/density-clustering/deploys)

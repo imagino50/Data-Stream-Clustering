@@ -57,14 +57,14 @@ export default class InputGenerator {
   /* Update the numbers of clusters
   /*=============================================================================*/
   updateNumberClusters(nb_clusters) {
-    var current_nb_cluster = this.clusterCenterList.length;
-    if (current_nb_cluster < nb_clusters) {
-      for (let i = 0; i < nb_clusters - current_nb_cluster; i++) {
+    var current_nb_clusters = this.clusterCenterList.length;
+    if (current_nb_clusters < nb_clusters) {
+      for (let i = 0; i < nb_clusters - current_nb_clusters; i++) {
         //console.log("addClusterCenter");
         this.addClusterCenter();
       }
-    } else if (current_nb_cluster > nb_clusters) {
-      for (let i = 0; i < current_nb_cluster - nb_clusters; i++) {
+    } else if (current_nb_clusters > nb_clusters) {
+      for (let i = 0; i < current_nb_clusters - nb_clusters; i++) {
         this.clusterCenterList.shift();
       }
     }

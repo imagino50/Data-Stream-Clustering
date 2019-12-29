@@ -1,4 +1,4 @@
-# Data stream 'Density-based Clustering' on real time   
+# Data stream 'Density-based Clustering' in real time   
 
 ![alt text](https://github.com/imagino50/ParticlesProject/blob/master/public/image.png   "Home page")
 

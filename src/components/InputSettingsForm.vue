@@ -18,11 +18,11 @@
             v-model="generationMode"
             name="GenerateMode"
             value="Cluster"
-            >Cluster</b-form-radio
+            >Customize</b-form-radio
           >
         </b-form-radio-group>
       </b-form-group>
-      <b-list-group>
+      <b-list-group v-if="generationMode === 'Cluster'">
         <b-list-group-item
           style="padding: 0rem 0.2rem;"
           v-for="item in inputParams"

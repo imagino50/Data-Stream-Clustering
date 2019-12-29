@@ -9,8 +9,7 @@
           @click="onClickCanvas1($event)"
         ></canvas>
         <p>
-          Energy diffusion of events.<br />
-          Click on the square to add events !
+          Click on the canvas to add events !
         </p>
         <div v-bind:style="{ width: canvasWidth + 'px' }">
           <eventSettings />
@@ -19,8 +18,7 @@
       <b-col md="4" class="p-1">
         <canvas id="canvas2" width="canvasWidth" height="canvasHeight"></canvas>
         <p>
-          Clustering of filtered events (1 cluster per color).<br />
-          White circle around event is noise.<br />
+          1 color per cluster. (White circles are noises)
         </p>
         <div v-bind:style="{ width: canvasWidth + 'px' }">
           <clusterSettings />
@@ -29,7 +27,7 @@
       <b-col md="4" class="p-1">
         <canvas id="canvas3" width="canvasWidth" height="canvasHeight"></canvas>
         <p>
-          ConvexHullGrahamScan of clusters.
+          Convex Hull (GrahamScan) of clusters.
         </p>
         <div v-bind:style="{ width: canvasWidth + 'px' }">
           <convexHgsSettings />

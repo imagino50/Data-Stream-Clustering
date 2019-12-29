@@ -16,6 +16,15 @@ Detect 'density-based clustering' according to these 3 conditions :
 
 ## How to run  
 ```
+https://density-clustering.netlify.com/
+```
+
+Or
+
+```
+git clone https://github.com/imagino50/Data-Stream-Clustering.git
+```
+```
 npm install
 ```
 ```

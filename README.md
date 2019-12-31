@@ -9,8 +9,8 @@ Detect 'density-based clustering' of a continuous (infinite) stream of 'Events'.
 The classification of these 'events' is done accordingly to these 4 conditions :
 - Events are sent one by one to the stream input
 - Each event intensity decreases while its radius increases over time.  
+- To emphase the 'density-based clustering', events **accumulate theirs intensities when they are close enough**.
 - Events with weak intensity are filtered
-- To emphase the 'density-based clustering', events accumulate theirs intensities when they are close enough.
 
 ## Steps Process  
 1. Generates continously 'events' as 2D input : Randomly or from a standard deviation around a moving center. 

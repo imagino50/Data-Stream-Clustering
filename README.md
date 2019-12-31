@@ -20,7 +20,7 @@ The classification of these 'events' is done accordingly to these 4 conditions :
 
 ## How to run  
 ```
-https://density-clustering.netlify.com/
+https://density-clustering.netlify.com
 ```
 
 Or
@@ -42,7 +42,7 @@ http://localhost:8080/
 - Vue js
 - Vue.observable as a State Store
 - JSON files for the default settings
-- 'density-clustering' librairy
+- 'density-clustering' library
 - BootstrapVue
 
 ## Deployed on Netlify

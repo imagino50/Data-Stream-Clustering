@@ -12,7 +12,6 @@ export default class InputGenerator {
     this.width = canvasWidth - marginX;
     this.height = canvasHeight - marginY;
     this.initClusterCenterList(initialNbClusters);
-    //console.log("this.clusterCenterList", this.clusterCenterList);
   }
 
   /*=============================================================================*/
@@ -57,7 +56,6 @@ export default class InputGenerator {
     var current_nb_clusters = this.clusterCenterList.length;
     if (current_nb_clusters < nb_clusters) {
       for (let i = 0; i < nb_clusters - current_nb_clusters; i++) {
-        //console.log("addClusterCenter");
         this.addClusterCenter();
       }
     } else if (current_nb_clusters > nb_clusters) {
@@ -73,11 +71,9 @@ export default class InputGenerator {
   generateEvent(noiseRate, centerIntensity, max_x_stdev, max_y_stdev) {
     var rand = Utils.getRandomInt(0, 101);
     if (rand < noiseRate) {
-      //console.log("Random");
       return this.createRandomEvent(centerIntensity);
     } else if (this.clusterCenterList.length > 0) {
       var clusterId = Utils.getRandomInt(0, this.clusterCenterList.length);
-      //console.log("clusterId", clusterId);
       return this.createClusteredEvent(
         this.clusterCenterList[clusterId],
         centerIntensity,

@@ -38,7 +38,6 @@ export default class CanvasConvexHGS {
       var colorKey = clusterColorList[i];
       var colorValueCluster = Clustering.ColorsPalette[colorKey];
 
-      //console.log("hullPoints", hullPoints);
       this.drawConvexHullPoints(hullPoints, colorValueCluster);
     }
   }

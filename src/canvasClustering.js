@@ -123,7 +123,6 @@ export default class CanvasClustering {
         ];
         colorValue = Clustering.ColorsPalette[colorKey];
       }
-      //console.log("colorValue", colorValue);
       this.eventFilteredList[i].drawColoredCircle(
         colorValue,
         this.ctx,
@@ -163,9 +162,6 @@ export default class CanvasClustering {
         this.eventFilteredList[index].setCluster(i);
       }
     }
-    /*if (clusters.length > 2) {
-      console.log("this.eventFilteredList", this.eventFilteredList, clusters);
-    }*/
     return this.eventFilteredList;
   }
 

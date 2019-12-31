@@ -71,15 +71,12 @@ export default {
     /* Input Parameters settings
     /*=============================================================================*/
     onInputModeChange() {
-      //console.log("onInputModeChange");
       inputMutations.setGenerationMode(this.generationMode);
     },
     onInputParamsChange() {
-      //console.log("onInputParamsChange");
       inputActions.setValuesFromParams(this.inputParams);
     },
     onResetInputParams() {
-      //console.log("onResetInputParams");
       for (let i = 0; i < this.inputParams.length; i++) {
         this.inputParams[i].value = this.inputParams[i].defaultValue;
       }

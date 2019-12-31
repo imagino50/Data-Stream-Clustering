@@ -101,14 +101,9 @@ export default class Clustering {
       fireworksFiltered_sav,
       clusterColors_sav
     );
-    /*if (nbClusters > 0) {
-      console.log("recoverClusterColors", clusterColors);
-    }*/
 
     clusterColors = this.setColorsNewCluster(clusterColors);
-    /*if (nbClusters > 0) {
-      console.log("setClusterColors", clusterColors);
-    }*/
+
     return clusterColors;
   }
 

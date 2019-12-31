@@ -3,14 +3,14 @@
 ![alt text](https://github.com/imagino50/ParticlesProject/blob/master/public/image.png   "Home page")
 
 ## Project purpose  
-Detect 'density-based clustering' of a continuous (infinite) stream of 'events'.  
+Detect 'density-based clustering' of a continuous (infinite) stream of 'Events'.  
 'Event' attributes : posX, posY, intensity, radius, clusterId.
 
 The classification of these 'events' is done accordingly to these 4 conditions :
 - Events are sent one by one to the stream input
-- Each Event intensity decreases while its radius increases over time.  
+- Each event intensity decreases while its radius increases over time.  
 - Events with weak intensity are filtered
-- To emphase the 'density-based clustering', Events accumulate theirs intensities when they are close enough.
+- To emphase the 'density-based clustering', events accumulate theirs intensities when they are close enough.
 
 ## Steps Process  
 1. Generates continously 'events' as 2D input : Randomly or from a standard deviation around a moving center. 

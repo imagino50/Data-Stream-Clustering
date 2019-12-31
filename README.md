@@ -37,7 +37,8 @@ http://localhost:8080/
 ## Dependency
 - Vue js
 - Vue.observable as a State Store
-- density-clustering
+- JSON files for the default settings
+- 'density-clustering' librairy
 - BootstrapVue
 
 ## Deployed on Netlify

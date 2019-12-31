@@ -3,16 +3,20 @@
 ![alt text](https://github.com/imagino50/ParticlesProject/blob/master/public/image.png   "Home page")
 
 ## Project purpose  
-Detect 'density-based clustering' according to these 3 conditions :
-- Each 'event' intensity decreases while its radius increases over time.  
-- Each 'event' with a weak intensity are filtered
-- To emphase the 'density clustering', 'events' accumulate theirs intensities when they are close enough .
+Detect 'density-based clustering' of a continuous (infinite) stream of 'events'.
+'Event' attributes : posX, posY, intensity, radius, clusterId.
+
+The classification of these 'events' is done accordingly to these 4 conditions :
+- Events are sent one by one to the stream input
+- Each Event intensity decreases while its radius increases over time.  
+- Events with weak intensity are filtered
+- To emphase the 'density-based clustering', Events accumulate theirs intensities when they are close enough.
 
 ## Steps Process  
-1. Generates 'events' as 2D input : Randomly or from a standard deviation around a moving center. 
-2. Draws 'events' on the first Canvas.
-3. Draws colored 'events' according to the Hdbscan clustering on the second Canvas.
-4. Draws ConvexHullGrahamScan clusters shapes on the third Canvas.
+1. Generates continously 'events' as 2D input : Randomly or from a standard deviation around a moving center. 
+2. Draws and refresh 'events' on the first Canvas.
+3. Draws colored 'events' according to the density-based clustering on the second Canvas.
+4. Draws ConvexHull (GrahamScan) clusters shapes on the third Canvas.
 
 ## How to run  
 ```

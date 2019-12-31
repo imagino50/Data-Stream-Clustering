@@ -3,7 +3,7 @@
 ![alt text](https://github.com/imagino50/ParticlesProject/blob/master/public/image.png   "Home page")
 
 ## Project purpose  
-Detect 'density-based clustering' of a continuous (infinite) stream of 'events'.
+Detect 'density-based clustering' of a continuous (infinite) stream of 'events'.  
 'Event' attributes : posX, posY, intensity, radius, clusterId.
 
 The classification of these 'events' is done accordingly to these 4 conditions :

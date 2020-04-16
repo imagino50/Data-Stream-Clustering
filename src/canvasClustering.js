@@ -96,18 +96,53 @@ export default class CanvasClustering {
     this.clusterList = dbscan.run(dataset, neighborhoodRadius, nbMinPoints);
   }
 
+/* 
+Input :
+  var dataset = [
+    [1,1],[0,1],[1,0],
+    [10,10],[10,13],[13,13],
+    [54,54],[55,55],[89,89],[57,55]
+];
+
+Result :
+[
+  [0,1,2],
+  [3,4,5],
+  [6,7,9],
+  [8]
+] */
+
   /*=============================================================================*/
   /* Render filetred and clustered events on canvas2
   /*=============================================================================*/
   renderClusters(eventsFiltered_sav, clusterColors_sav) {
     this.setClustersEvents();
+
     this.clusterColorList = Clustering.buildClusterColors(
       this.clusterList.length,
       this.eventFilteredList,
       eventsFiltered_sav,
       clusterColors_sav
     );
+
     this.renderFilteredEvents();
+  }
+
+  /*=============================================================================*/
+  /* Set the cluster attrubibute of Filtered Events 
+  /*=============================================================================*/
+  setClustersEvents() {
+    // Before, reset clusterId of all events
+    this.eventFilteredList.map(event => (event.clusterId = -1));
+
+    for (let i = 0; i < this.clusterList.length; i++) {
+      let cluster = this.clusterList[i];
+      for (let j = 0; j < cluster.length; j++) {
+        let index = cluster[j];
+        this.eventFilteredList[index].setCluster(i);
+      }
+    }
+    return this.eventFilteredList;
   }
 
   /*=============================================================================*/
@@ -148,22 +183,7 @@ export default class CanvasClustering {
     return imgData;
   }
 
-  /*=============================================================================*/
-  /* Set clusters of Filtered Events 
-  /*=============================================================================*/
-  setClustersEvents() {
-    // reset clusterId of all events
-    this.eventFilteredList.map(event => (event.clusterId = -1));
 
-    for (let i = 0; i < this.clusterList.length; i++) {
-      let cluster = this.clusterList[i];
-      for (let j = 0; j < cluster.length; j++) {
-        let index = cluster[j];
-        this.eventFilteredList[index].setCluster(i);
-      }
-    }
-    return this.eventFilteredList;
-  }
 
   /*=============================================================================*/
   /* Return clusterColorList

@@ -71,6 +71,7 @@ export default {
 
     var eventsFiltered_sav = [];
     var clusterColors_sav = [];
+    // https://www.npmjs.com/package/density-clustering
     var clustering = require("density-clustering");
     var dbscan = new clustering.DBSCAN();
     this.startDrawing(
@@ -136,10 +137,10 @@ export default {
 
         // Canvas 2 : canvasCluster
         var imgData = this.canvasInput.getImageData();
-        var eventList = this.canvasInput.getEventList();
+        var events = this.canvasInput.getEventList();
         this.canvasCluster.refreshCanvas(
           imgData,
-          eventList,
+          events,
           clusterGetters.isImgDataShown(),
           clusterGetters.filterThreshold(),
           dbscan,
@@ -150,18 +151,18 @@ export default {
         );
 
         // Canvas 3 : canvasConvexHGS
-        var eventFilteredList = this.canvasCluster.getEventFilteredList();
-        var clusterColorList = this.canvasCluster.getClusterColorList();
+        var eventsFiltered = this.canvasCluster.getEventFilteredList();
+        var clustersColors = this.canvasCluster.getClusterColorList();
         var clusterLength = this.canvasCluster.getClusterLength();
         this.canvasConvexHGS.drawConvexHullClusters(
-          eventFilteredList,
-          clusterColorList,
+          eventsFiltered,
+          clustersColors,
           clusterLength
         );
 
         // Save the n-1 data events
-        eventsFiltered_sav = [...eventFilteredList];
-        clusterColors_sav = [...clusterColorList];
+        eventsFiltered_sav = [...eventsFiltered];
+        clusterColors_sav = [...clustersColors];
 
         // this function will run endlessly with requestAnimationFrame
         requestAnimationFrame(draw);

@@ -20,7 +20,7 @@ The classification of these 'events' is done accordingly to these 4 conditions :
 
 ## How to run  
 ```
-https://density-clustering.netlify.com
+https://density-clustering.netlify.app/
 ```
 
 Or

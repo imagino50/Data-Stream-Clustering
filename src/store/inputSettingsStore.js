@@ -1,7 +1,7 @@
-import Vue from "vue";
+import { reactive } from "vue";
 import inputJson from "@/json/inputSettings.json";
 
-const inputSettings = Vue.observable({
+const inputSettings = reactive({
   generationMode: "Random",
   nb_clusters: inputJson[0].value,
   noiseRate: inputJson[1].value,
@@ -61,7 +61,6 @@ export const inputMutations = {
 
 export const inputActions = {
   setDefaultValues() {
-    //inputMutations.setGenerationMode("Random");
     inputMutations.setNb_clusters(inputJson[0].defaultValue);
     inputMutations.setNoiseRate(inputJson[1].defaultValue);
     inputMutations.setMax_centerX_stdev(inputJson[2].defaultValue);

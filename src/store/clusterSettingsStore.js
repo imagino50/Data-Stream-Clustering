@@ -1,7 +1,7 @@
-import Vue from "vue";
+import { reactive } from "vue";
 import clusterJson from "@/json/clusterSettings.json";
 
-const clusterSettings = Vue.observable({
+const clusterSettings = reactive({
   filterThreshold: clusterJson[0].value,
   nbMinPoints: clusterJson[1].value,
   neighborhoodRadius: clusterJson[2].value,

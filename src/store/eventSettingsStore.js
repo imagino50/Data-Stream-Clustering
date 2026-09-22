@@ -1,7 +1,7 @@
-import Vue from "vue";
+import { reactive } from "vue";
 import eventJson from "@/json/eventSettings.json";
 
-const eventSettings = Vue.observable({
+const eventSettings = reactive({
   centerIntensity: eventJson[0].value,
   intensityMin: eventJson[1].value,
   incRadius: eventJson[2].value,
